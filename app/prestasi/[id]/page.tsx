@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
-import { ArrowLeft, Award, Calendar, MapPin } from 'lucide-react';
+import { ArrowLeft, Award, Calendar, MapPin, GraduationCap } from 'lucide-react';
 import { KATEGORI_PRESTASI_COLOR, type Prestasi } from '@/lib/prestasi';
 
 const NAVY = '#0A1628';
@@ -73,9 +73,25 @@ export default function DetailPrestasiPage({ params }: { params: Promise<{ id: s
               ) : null}
             </div>
 
-            <h1 className="font-display" style={{ fontSize: 34, color: NAVY, lineHeight: 1.3, marginBottom: 26 }}>
+            <h1 className="font-display" style={{ fontSize: 34, color: NAVY, lineHeight: 1.3, marginBottom: data.anggota.length ? 16 : 26 }}>
               {data.nama}
             </h1>
+
+            {data.anggota.length > 0 && (
+              <div style={{ marginBottom: 26 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: GOLD, fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 10 }}>
+                  <GraduationCap size={16} /> Diraih Oleh
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {data.anggota.map((a, i) => (
+                    <li key={i} style={{ fontSize: 15, color: NAVY }}>
+                      <strong>{a.nama}</strong>
+                      {a.kelas && <span style={{ color: GRAY }}> — {a.kelas}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#FBF4E4', border: `1px solid ${BORDER}`, borderRadius: 12, padding: '16px 20px', marginBottom: data.deskripsi ? 32 : 0 }}>
               <Award color={GOLD} size={22} />

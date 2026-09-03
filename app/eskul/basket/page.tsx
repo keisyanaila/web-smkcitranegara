@@ -180,6 +180,11 @@ export default function BasketPage() {
           object-position: center 20%;
           filter: saturate(1.1) contrast(1.05);
         }
+        /* desktop: foto lebih pendek (crop tidak seketat = tidak terlalu ngezoom) + turun */
+        @media (min-width: 900px) {
+          .psk-hero-img { height: min(58vh, 480px); }
+          .psk-hero-img img { object-position: center 66%; }
+        }
         .psk-hero-overlay {
           position: absolute;
           inset: 0;

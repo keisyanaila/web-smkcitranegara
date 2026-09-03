@@ -8,7 +8,10 @@ export type Field =
   | { name: string; label: string; type: 'textarea'; required?: boolean; placeholder?: string; help?: string; rows?: number }
   | { name: string; label: string; type: 'select'; options: string[]; help?: string }
   | { name: string; label: string; type: 'image'; help?: string }
-  | { name: string; label: string; type: 'checkbox'; help?: string };
+  | { name: string; label: string; type: 'checkbox'; help?: string }
+  | { name: string; label: string; type: 'people'; help?: string };
+
+type Person = { nama: string; kelas: string };
 
 interface Props {
   title: string;
@@ -177,6 +180,46 @@ export default function ResourceManager({
                   />
                   <span>Tampilkan di situs</span>
                 </label>
+              ) : f.type === 'people' ? (
+                (() => {
+                  const people: Person[] = Array.isArray(form[f.name]) ? (form[f.name] as Person[]) : [];
+                  const setPeople = (arr: Person[]) => setField(f.name, arr);
+                  return (
+                    <div>
+                      {people.map((p, i) => (
+                        <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                          <input
+                            style={{ flex: 2 }}
+                            placeholder="Nama siswa"
+                            value={p.nama}
+                            onChange={(e) => setPeople(people.map((x, j) => (j === i ? { ...x, nama: e.target.value } : x)))}
+                          />
+                          <input
+                            style={{ flex: 1 }}
+                            placeholder="Kelas (mis. XI PPLG 1)"
+                            value={p.kelas}
+                            onChange={(e) => setPeople(people.map((x, j) => (j === i ? { ...x, kelas: e.target.value } : x)))}
+                          />
+                          <button
+                            type="button"
+                            className="adm-btn adm-btn-danger"
+                            style={{ flexShrink: 0, padding: '6px 12px' }}
+                            onClick={() => setPeople(people.filter((_, j) => j !== i))}
+                          >
+                            Hapus
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        className="adm-btn adm-btn-ghost"
+                        onClick={() => setPeople([...people, { nama: '', kelas: '' }])}
+                      >
+                        + Tambah siswa
+                      </button>
+                    </div>
+                  );
+                })()
               ) : (
                 <div className="adm-img-field">
                   {form[f.name] ? (
@@ -244,7 +287,9 @@ export default function ResourceManager({
                       <td key={c.name}>
                         {c.name === 'published'
                           ? (row[c.name] === false ? <span className="adm-tag adm-tag-off">Draft</span> : <span className="adm-tag adm-tag-on">Tayang</span>)
-                          : String(row[c.name] ?? '')}
+                          : Array.isArray(row[c.name])
+                            ? (row[c.name] as Person[]).map((p) => [p.nama, p.kelas].filter(Boolean).join(' — ')).filter(Boolean).join(', ') || '—'
+                            : String(row[c.name] ?? '')}
                       </td>
                     ))}
                     <td className="adm-row-actions">

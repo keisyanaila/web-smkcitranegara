@@ -37,7 +37,7 @@ const MASKOT = [
 // SHOW_ONCE = false -> splash tampil tiap kali halaman di-refresh (dipakai buat ngetes desain).
 const SHOW_ONCE = true;
 const SPLASH_KEY = "citra-negara-splash-shown";
-const DEFAULT_DURATION = 1;
+const DEFAULT_DURATION = 4500;
 const DEFAULT_FADE_OUT = 700; // harus match transition di .splash (CSS)
 
 // Guard 1x per page-load. Penting untuk React Strict Mode (next dev) yang menjalankan

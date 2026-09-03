@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { adminGuard, requireDb } from '@/lib/apiGuard';
+import { serializeAnggota } from '@/lib/prestasi';
 
 export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const guard = await adminGuard();
@@ -17,6 +18,7 @@ export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }
       tahun = ${p.tahun || ''},
       kategori = ${p.kategori || 'Akademik'},
       tingkat = ${p.tingkat || ''},
+      anggota = ${serializeAnggota(p.anggota)},
       foto = ${p.foto || ''},
       deskripsi = ${p.deskripsi || ''},
       published = ${p.published !== false},

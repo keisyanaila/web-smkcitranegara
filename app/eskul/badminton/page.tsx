@@ -161,6 +161,7 @@ export default function BadmintonPage() {
         .bdm-hero { position: relative; overflow: hidden; background: var(--bdm-green-deep); }
         .bdm-hero-img { position: relative; width: 100%; height: min(72vh, 620px); }
         .bdm-hero-img img { object-fit: cover; object-position: center 30%; filter: saturate(1.05) brightness(0.82); }
+        @media (min-width: 900px) { .bdm-hero-img img { object-position: center 48%; } }
         .bdm-hero-overlay {
           position: absolute; inset: 0;
           background:

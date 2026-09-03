@@ -146,7 +146,24 @@ export default function PrestasiPage() {
                   }}>
                     <Award size={18} color="#0A1628" />
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', lineHeight: 1.5 }}>{p.nama}</div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', lineHeight: 1.5 }}>{p.nama}</div>
+                    {p.anggota.length > 0 && (() => {
+                      const namaList = p.anggota.map((a) => a.nama).filter(Boolean);
+                      const kelasList = Array.from(new Set(p.anggota.map((a) => a.kelas).filter(Boolean)));
+                      return (
+                        <div style={{ marginTop: 6, fontSize: 12, color: '#6B7280', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          {namaList.length > 0 && (
+                            <span style={{ fontWeight: 600, color: '#C8973A' }}>
+                              {namaList.slice(0, 2).join(', ')}{namaList.length > 2 ? ` +${namaList.length - 2}` : ''}
+                            </span>
+                          )}
+                          {namaList.length > 0 && kelasList.length > 0 && <span style={{ color: '#D1D5DB' }}>·</span>}
+                          {kelasList.length > 0 && <span>{kelasList.join(', ')}</span>}
+                        </div>
+                      );
+                    })()}
+                  </div>
                 </div>
               </Link>
             ))}

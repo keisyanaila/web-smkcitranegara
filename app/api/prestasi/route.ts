@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
-import { getPrestasiFallback } from '@/lib/prestasi';
+import { getPrestasiFallback, parseAnggota } from '@/lib/prestasi';
 
 export async function GET() {
   if (sql) {
     try {
       const rows = await sql`
-        select id, nama, tahun, kategori, tingkat, foto, deskripsi
+        select id, nama, tahun, kategori, tingkat, anggota, foto, deskripsi
         from prestasi
         where published = true
         order by created_at desc
@@ -18,6 +18,7 @@ export async function GET() {
           tahun: r.tahun,
           kategori: r.kategori,
           tingkat: r.tingkat,
+          anggota: parseAnggota(r.anggota),
           foto: r.foto,
           deskripsi: r.deskripsi,
           href: `/prestasi/${r.id}`,

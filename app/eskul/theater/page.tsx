@@ -29,24 +29,20 @@ const SCENE = [
 
 const MARQUEE = ['NOW PLAYING', 'TEATER SMK CITRA NEGARA', 'ACT I · SCENE I', 'BEHIND THE CURTAIN', 'STANDING OVATION', 'ENCORE!'];
 
-const MOOD = {
-  comedy: {
-    face: '😂', label: 'COMEDY', warna: '#F5A524',
-    quote: '“Panggung mengajarkan kami tertawa pada diri sendiri sebelum membuat orang lain tertawa.”',
-  },
-  tragedy: {
-    face: '😢', label: 'TRAGEDY', warna: '#7C5CFF',
-    quote: '“Di balik air mata di atas panggung, ada latihan tak kenal lelah di baliknya.”',
-  },
-} as const;
-type Mask = keyof typeof MOOD;
+const EMOSI = [
+  { face: '😄', label: 'SENANG', warna: '#F5A524', quote: '“Tawa penonton adalah upah termahal buat pemain di atas panggung.”' },
+  { face: '😠', label: 'MARAH', warna: '#E4572E', quote: '“Amarah yang jujur di panggung lahir dari latihan mengenal emosi sendiri.”' },
+  { face: '😢', label: 'SEDIH', warna: '#4F86C6', quote: '“Air mata yang meyakinkan butuh keberanian untuk benar-benar merasakannya.”' },
+  { face: '😨', label: 'TAKUT', warna: '#7C5CFF', quote: '“Rasa gugup itu wajar — kami ubah jadi energi begitu lampu menyala.”' },
+  { face: '😲', label: 'TERKEJUT', warna: '#2EC4B6', quote: '“Momen kejut yang pas bikin cerita hidup dan penonton terpaku.”' },
+];
 
 export default function TheaterPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [actGone, setActGone] = useState(false);
-  const [mask, setMask] = useState<Mask>('comedy');
+  const [emo, setEmo] = useState(0);
   const [claps, setClaps] = useState<{ id: number; x: number }[]>([]);
   const [clapCount, setClapCount] = useState(0);
   const clapId = useRef(0);
@@ -148,6 +144,7 @@ export default function TheaterPage() {
         .thr-hero { position:relative; overflow:hidden; background:#1A0710; --sx:62%; --sy:44%; }
         .thr-hero-img { position:relative; width:100%; height:min(78vh,660px); }
         .thr-hero-img img { object-fit:cover; object-position:center 28%; filter:brightness(.82) saturate(1.1) contrast(1.04); }
+        @media (min-width:900px){ .thr-hero-img img { object-position:center 62%; } }
         /* dim panggung + lubang cahaya ikut kursor */
         .thr-stage-dim { position:absolute; inset:0; z-index:3; pointer-events:none;
           background:radial-gradient(circle 260px at var(--sx) var(--sy), rgba(8,3,6,0) 0%, rgba(8,3,6,0) 34%, rgba(8,3,6,.78) 80%);
@@ -200,17 +197,19 @@ export default function TheaterPage() {
         /* ============ MASK FLIP ============ */
         .thr-mask-wrap { display:grid; grid-template-columns:auto 1fr; gap:clamp(24px,5vw,56px); align-items:center; }
         @media (max-width:760px){ .thr-mask-wrap{ grid-template-columns:1fr; text-align:center; } }
-        .thr-mask { width:clamp(160px,26vw,230px); aspect-ratio:1; border:none; background:none; cursor:pointer; perspective:1000px; padding:0; justify-self:center; }
-        .thr-mask-inner { position:relative; width:100%; height:100%; transition:transform .7s cubic-bezier(.4,.1,.2,1); transform-style:preserve-3d; }
-        .thr-mask.tragedy .thr-mask-inner { transform:rotateY(180deg); }
-        .thr-mask-face { position:absolute; inset:0; display:grid; place-items:center; border-radius:50%; backface-visibility:hidden;
-          font-size:clamp(80px,14vw,120px); box-shadow:0 30px 60px rgba(160,70,90,.22); border:3px solid #fff; }
-        .thr-mask-face.front { background:radial-gradient(circle at 35% 30%,#FFE7B0,#F5A524); }
-        .thr-mask-face.back { background:radial-gradient(circle at 35% 30%,#CFC2FF,#7C5CFF); transform:rotateY(180deg); }
-        .thr-mask:hover .thr-mask-inner { transform:rotateY(0) scale(1.04); }
-        .thr-mask.tragedy:hover .thr-mask-inner { transform:rotateY(180deg) scale(1.04); }
+        .thr-face { width:clamp(160px,26vw,230px); aspect-ratio:1; border:3px solid #fff; cursor:pointer; padding:0; justify-self:center;
+          border-radius:50%; display:grid; place-items:center; font-size:clamp(84px,14vw,128px);
+          box-shadow:0 30px 60px rgba(160,70,90,.22); animation:thrFacePop .45s cubic-bezier(.34,1.6,.64,1);
+          transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
+        .thr-face:hover { transform:scale(1.05) rotate(-3deg); }
+        .thr-face:active { transform:scale(.92); }
+        @keyframes thrFacePop { 0%{transform:scale(.65) rotate(-14deg)} 60%{transform:scale(1.12) rotate(5deg)} 100%{transform:scale(1)} }
         .thr-mood-tag { display:inline-flex; align-items:center; gap:8px; font-family:'Barlow Condensed',sans-serif; font-weight:800; letter-spacing:3px; font-size:13px; text-transform:uppercase; padding:6px 14px; border-radius:999px; color:#fff; transition:background .4s; }
         .thr-mood-quote { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(20px,2.6vw,30px); color:#6A2945; line-height:1.5; margin:16px 0 10px; }
+        .thr-emo-dots { display:flex; gap:8px; margin:4px 0 12px; }
+        @media (max-width:760px){ .thr-emo-dots{ justify-content:center; } }
+        .thr-emo-dots span { width:8px; height:8px; border-radius:50%; background:rgba(106,41,69,.22); transition:all .3s; }
+        .thr-emo-dots span.on { background:#FF4F81; transform:scale(1.35); box-shadow:0 0 10px rgba(255,79,129,.6); }
         .thr-mood-hint { font-size:12px; color:rgba(90,48,64,.5); letter-spacing:1px; }
 
         /* ============ SCENE RUNDOWN ============ */
@@ -350,27 +349,31 @@ export default function TheaterPage() {
             ))}
           </div>
 
-          {/* MASK MOOD */}
+          {/* EMOSI DASAR */}
           <section className="thr-section">
-            <div className="thr-label thr-reveal">Dua Wajah Panggung</div>
-            <h2 className="thr-heading thr-reveal">Comedy &amp; Tragedy</h2>
+            <div className="thr-label thr-reveal">Bahasa Panggung</div>
+            <h2 className="thr-heading thr-reveal">Lima Emosi Dasar</h2>
             <div className="thr-mask-wrap">
               <button
-                className={`thr-mask ${mask}`}
-                onClick={() => setMask((m) => (m === 'comedy' ? 'tragedy' : 'comedy'))}
-                aria-label="Balik topeng"
+                key={emo}
+                className="thr-face"
+                style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), ${EMOSI[emo].warna})` }}
+                onClick={() => setEmo((e) => (e + 1) % EMOSI.length)}
+                aria-label={`Emosi: ${EMOSI[emo].label}. Ketuk untuk ganti`}
               >
-                <div className="thr-mask-inner">
-                  <div className="thr-mask-face front">{MOOD.comedy.face}</div>
-                  <div className="thr-mask-face back">{MOOD.tragedy.face}</div>
-                </div>
+                {EMOSI[emo].face}
               </button>
               <div className="thr-reveal">
-                <span className="thr-mood-tag" style={{ background: MOOD[mask].warna }}>
-                  {MOOD[mask].face} {MOOD[mask].label}
+                <span className="thr-mood-tag" style={{ background: EMOSI[emo].warna }}>
+                  {EMOSI[emo].face} {EMOSI[emo].label}
                 </span>
-                <p className="thr-mood-quote">{MOOD[mask].quote}</p>
-                <span className="thr-mood-hint">— ketuk topeng untuk membaliknya —</span>
+                <p className="thr-mood-quote">{EMOSI[emo].quote}</p>
+                <div className="thr-emo-dots" aria-hidden="true">
+                  {EMOSI.map((_, i) => (
+                    <span key={i} className={i === emo ? 'on' : ''} />
+                  ))}
+                </div>
+                <span className="thr-mood-hint">— ketuk wajahnya untuk mengganti emosi —</span>
               </div>
             </div>
           </section>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
-import { getPrestasiByIdFallback } from '@/lib/prestasi';
+import { getPrestasiByIdFallback, parseAnggota } from '@/lib/prestasi';
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
@@ -9,7 +9,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   if (sql) {
     try {
       const rows = await sql`
-        select id, nama, tahun, kategori, tingkat, foto, deskripsi
+        select id, nama, tahun, kategori, tingkat, anggota, foto, deskripsi
         from prestasi
         where id = ${id} and published = true
         limit 1
@@ -24,6 +24,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
         tahun: r.tahun,
         kategori: r.kategori,
         tingkat: r.tingkat,
+        anggota: parseAnggota(r.anggota),
         foto: r.foto,
         deskripsi: r.deskripsi,
         href: `/prestasi/${r.id}`,

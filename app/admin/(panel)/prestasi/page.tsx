@@ -4,6 +4,7 @@ import ResourceManager, { Field } from '@/components/admin/ResourceManager';
 
 const fields: Field[] = [
   { name: 'nama', label: 'Nama prestasi', type: 'text', required: true, placeholder: 'JUARA 1 Lomba ...' },
+  { name: 'anggota', label: 'Siswa berprestasi', type: 'people', help: 'Tambah satu baris per siswa (nama + kelas). Untuk prestasi tim, boleh 1 baris berisi nama tim.' },
   { name: 'tahun', label: 'Tahun', type: 'text', placeholder: '2027' },
   { name: 'kategori', label: 'Kategori', type: 'select', options: ['Olahraga', 'Olahraga Elektronik', 'Seni', 'Akademik', 'Organisasi'] },
   { name: 'tingkat', label: 'Tingkat', type: 'text', placeholder: 'Nasional / Provinsi / Kota / Sekolah' },
@@ -14,8 +15,8 @@ const fields: Field[] = [
 
 const columns = [
   { name: 'nama', label: 'Nama' },
+  { name: 'anggota', label: 'Siswa / Kelas' },
   { name: 'kategori', label: 'Kategori' },
-  { name: 'tahun', label: 'Tahun' },
   { name: 'published', label: 'Status' },
 ];
 
@@ -28,7 +29,7 @@ export default function AdminPrestasiPage() {
       fields={fields}
       columns={columns}
       emptyRow={{
-        nama: '', tahun: String(new Date().getFullYear()), kategori: 'Akademik',
+        nama: '', anggota: [], tahun: String(new Date().getFullYear()), kategori: 'Akademik',
         tingkat: '', foto: '', deskripsi: '', published: true,
       }}
     />

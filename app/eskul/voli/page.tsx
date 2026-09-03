@@ -43,6 +43,17 @@ const KEGIATAN = [
   { no: '06', nama: 'Strategi & Taktik',              detail: 'Formasi serangan dan pertahanan tim.' },
 ];
 
+const TEKNIK = [
+  { nama: 'Servis',  tip: 'Pukulan pembuka dari garis belakang untuk memulai reli.' },
+  { nama: 'Passing', tip: 'Menerima dan mengarahkan bola dengan lengan bawah (bump).' },
+  { nama: 'Set',     tip: 'Umpan lambung akurat dari tosser untuk disambut smasher.' },
+  { nama: 'Smash',   tip: 'Serangan keras dari atas net — poin utama tim.' },
+  { nama: 'Block',   tip: 'Membendung smash lawan di depan net dengan lompatan.' },
+  { nama: 'Dig',     tip: 'Penyelamatan bola rendah dan cepat sebelum menyentuh lantai.' },
+];
+
+const MARQUEE = ['SERVE!', 'BUMP · SET · SPIKE', 'DIG IT', 'ACE!', 'BLOCK PARTY', 'GAME POINT', 'RALLY ON'];
+
 /* ── glyph bola voli, motif berulang di halaman ini ── */
 function VolleyBall({ size = 56, className = '' }: { size?: number; className?: string }) {
   return (
@@ -117,14 +128,15 @@ function StatCounter({
 
 /* ── bungkus reveal-on-scroll generik dengan delay bertahap ── */
 function Reveal({
-  children, delay = 0, className = '',
-}: { children: React.ReactNode; delay?: number; className?: string }) {
+  children, delay = 0, className = '', ...rest
+}: { children: React.ReactNode; delay?: number; className?: string } & React.HTMLAttributes<HTMLDivElement>) {
   const [ref, inView] = useInView<HTMLDivElement>();
   return (
     <div
       ref={ref}
       className={`vli-reveal ${inView ? 'vli-reveal-in' : ''} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
+      {...rest}
     >
       {children}
     </div>
@@ -132,12 +144,39 @@ function Reveal({
 }
 
 export default function VoliPage() {
+  const heroRef = useRef<HTMLElement | null>(null);
   const [statsRef, statsInView] = useInView<HTMLDivElement>(0.4);
   const [smashHit, setSmashHit] = useState(false);
+  const [smashCount, setSmashCount] = useState(0);
+  const [balls, setBalls] = useState<{ id: number; x: number }[]>([]);
+  const ballId = useRef(0);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || !window.matchMedia('(pointer: fine)').matches) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--sx', `${((e.clientX - r.left) / r.width) * 100}%`);
+        el.style.setProperty('--sy', `${((e.clientY - r.top) / r.height) * 100}%`);
+      });
+    };
+    el.addEventListener('mousemove', onMove);
+    return () => { el.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
+  }, []);
 
   const handleSmash = () => {
     setSmashHit(true);
     setTimeout(() => setSmashHit(false), 650);
+    setSmashCount((c) => c + 1);
+    const burst = Array.from({ length: 3 }).map(() => {
+      const id = ++ballId.current;
+      return { id, x: 50 + (Math.random() * 50 - 25) };
+    });
+    setBalls((p) => [...p, ...burst]);
+    burst.forEach((b) => setTimeout(() => setBalls((p) => p.filter((x) => x.id !== b.id)), 1100));
   };
 
   return (
@@ -171,13 +210,27 @@ export default function VoliPage() {
         }
 
         /* ══ hero ══ */
-        .vli-hero { position: relative; overflow: hidden; background: var(--vli-paper); }
-        .vli-hero-img { position: relative; width: 100%; height: min(70vh, 600px); }
+        .vli-hero { position: relative; overflow: hidden; background: var(--vli-accent-deep); --sx: 60%; --sy: 40%; }
+        .vli-hero-img { position: relative; width: 100%; height: min(74vh, 620px); }
         .vli-hero-img img {
           object-fit: cover;
           object-position: center top;
           filter: saturate(1.05) contrast(1.05);
         }
+        /* desktop: foto turun sedikit */
+        @media (min-width: 900px) { .vli-hero-img img { object-position: center 34%; } }
+        /* sorot lampu ikut kursor */
+        .vli-hero-spot { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: screen;
+          background: radial-gradient(circle 230px at var(--sx) var(--sy), rgba(232,90,58,0.28), transparent 70%); }
+        @media (pointer: coarse) { .vli-hero-spot { display: none; } }
+        /* garis lapangan menyapu masuk */
+        .vli-court-lines { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+        .vli-court-lines span { position: absolute; left: 0; right: 0; height: 2px; background: rgba(255,255,255,0.2);
+          transform: scaleX(0); transform-origin: left; animation: vliLine 0.9s cubic-bezier(.2,.8,.2,1) forwards; }
+        .vli-court-lines span:nth-child(1) { top: 34%; animation-delay: .1s; }
+        .vli-court-lines span:nth-child(2) { top: 50%; height: 3px; background: rgba(255,197,61,0.5); animation-delay: .25s; }
+        .vli-court-lines span:nth-child(3) { top: 66%; animation-delay: .4s; }
+        @keyframes vliLine { to { transform: scaleX(1); } }
         .vli-hero-overlay {
           position: absolute; inset: 0;
           background:
@@ -252,6 +305,15 @@ export default function VoliPage() {
         .vli-reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .vli-reveal-in { opacity: 1; transform: translateY(0); }
 
+        /* ══ marquee istilah voli ══ */
+        .vli-marquee { background: var(--vli-accent-deep); border-top: 3px solid var(--vli-accent); border-bottom: 3px solid var(--vli-gold); overflow: hidden; }
+        .vli-marquee-track { display: flex; width: max-content; gap: 42px; padding: 13px 0; animation: vliMarquee 20s linear infinite; }
+        .vli-marquee-track span { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; letter-spacing: 3px;
+          text-transform: uppercase; font-size: 14px; color: #FFE9D0; display: inline-flex; align-items: center; gap: 42px; white-space: nowrap; }
+        .vli-marquee-track span::after { content: '🏐'; }
+        .vli-marquee:hover .vli-marquee-track { animation-play-state: paused; }
+        @keyframes vliMarquee { to { transform: translateX(-50%); } }
+
         /* ══ stats (scoreboard gelap, kontras dengan halaman terang) ══ */
         .vli-scoreboard { background: var(--vli-accent-deep); }
         .vli-stats { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -289,12 +351,18 @@ export default function VoliPage() {
         .vli-tujuan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
         @media (max-width: 768px) { .vli-tujuan-grid { grid-template-columns: 1fr; } }
         .vli-tujuan-card {
+          --mx: 50%; --my: 0%;
           background: var(--vli-paper-2); padding: 36px 28px;
           border: 1px solid rgba(232,90,58,0.14); border-radius: 16px;
           box-shadow: 0 4px 16px rgba(36,16,9,0.05);
           transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
           position: relative; overflow: hidden;
         }
+        .vli-tujuan-card::before {
+          content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
+          background: radial-gradient(260px circle at var(--mx) var(--my), rgba(232,90,58,0.16), transparent 70%);
+        }
+        .vli-tujuan-card:hover::before { opacity: 1; }
         .vli-tujuan-card::after {
           content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
           background: linear-gradient(90deg, var(--vli-accent), var(--vli-gold));
@@ -363,6 +431,7 @@ export default function VoliPage() {
 
         /* ══ join / cta — ketuk bola buat "smash" ══ */
         .vli-join {
+          position: relative; overflow: hidden;
           text-align: center; padding: clamp(64px, 9vw, 100px) clamp(24px, 6vw, 80px);
           background: radial-gradient(60% 80% at 50% 0%, rgba(232,90,58,0.1), transparent 70%);
         }
@@ -403,6 +472,30 @@ export default function VoliPage() {
           0%   { opacity: 0.8; transform: scale(0.6); }
           100% { opacity: 0; transform: scale(1.9); }
         }
+        .vli-join-count { display: block; margin-top: 14px; font-family: 'Space Mono', monospace; font-size: 12px;
+          letter-spacing: 2px; text-transform: uppercase; color: rgba(36,16,9,0.5); }
+        .vli-smash-fly { position: absolute; bottom: 34%; font-size: 26px; pointer-events: none;
+          animation: vliSmashFly 1.1s cubic-bezier(.2,.7,.2,1) forwards; }
+        @keyframes vliSmashFly {
+          0%   { opacity: 0; transform: translateY(0) scale(.5) rotate(0); }
+          15%  { opacity: 1; }
+          100% { opacity: 0; transform: translateY(-200px) scale(1.1) rotate(320deg); }
+        }
+
+        /* ══ 6 teknik dasar — kartu flip ══ */
+        .vli-teknik-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        @media (max-width: 720px) { .vli-teknik-grid { grid-template-columns: repeat(2, 1fr); } }
+        .vli-teknik { position: relative; aspect-ratio: 3 / 2; perspective: 900px; }
+        .vli-teknik-inner { position: absolute; inset: 0; transition: transform 0.55s cubic-bezier(.4,.1,.2,1); transform-style: preserve-3d; }
+        .vli-teknik:hover .vli-teknik-inner, .vli-teknik:focus-within .vli-teknik-inner { transform: rotateX(180deg); }
+        .vli-teknik-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 14px;
+          display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px;
+          border: 1px solid rgba(232,90,58,0.18); }
+        .vli-teknik-front { background: var(--vli-paper-2); }
+        .vli-teknik-front span { font-family: 'Bebas Neue', sans-serif; font-size: clamp(24px,3.4vw,34px);
+          color: var(--vli-ink); letter-spacing: 1.5px; }
+        .vli-teknik-back { background: linear-gradient(150deg, var(--vli-accent), #C2410C); color: #fff; transform: rotateX(180deg);
+          font-size: 13px; line-height: 1.6; font-weight: 500; }
       `}</style>
 
       <div className="vli-root">
@@ -410,9 +503,11 @@ export default function VoliPage() {
 
         <main>
           {/* ── Hero ── */}
-          <section className="vli-hero">
+          <section className="vli-hero" ref={heroRef}>
             <div className="vli-hero-img">
               <Image src="/images/eskul/eskulvoli.png" alt="Voli SMK Citra Negara" fill priority sizes="100vw" />
+              <div className="vli-court-lines" aria-hidden="true"><span /><span /><span /></div>
+              <div className="vli-hero-spot" />
               <div className="vli-hero-overlay" />
             </div>
             <div className="vli-hero-content">
@@ -445,6 +540,13 @@ export default function VoliPage() {
             </div>
           </section>
 
+          {/* ── Marquee ── */}
+          <div className="vli-marquee" aria-hidden="true">
+            <div className="vli-marquee-track">
+              {[...MARQUEE, ...MARQUEE].map((m, i) => <span key={i}>{m}</span>)}
+            </div>
+          </div>
+
           {/* ── Stats ── */}
           <div className="vli-scoreboard">
             <div className="vli-stats" ref={statsRef}>
@@ -460,10 +562,35 @@ export default function VoliPage() {
             <Reveal delay={60}><h2 className="vli-section-heading">TUJUAN KAMI</h2></Reveal>
             <div className="vli-tujuan-grid">
               {TUJUAN.map((t, i) => (
-                <Reveal key={t.judul} delay={i * 120} className="vli-tujuan-card">
+                <Reveal
+                  key={t.judul}
+                  delay={i * 120}
+                  className="vli-tujuan-card"
+                  onMouseMove={(e) => {
+                    const r = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+                    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+                  }}
+                >
                   <span className="vli-tujuan-icon" aria-hidden="true">{t.icon}</span>
                   <div className="vli-tujuan-title">{t.judul}</div>
                   <p className="vli-tujuan-desc">{t.deskripsi}</p>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+
+          {/* ── 6 Teknik Dasar ── */}
+          <section className="vli-section" style={{ paddingTop: 'clamp(20px, 3vw, 40px)' }}>
+            <Reveal><div className="vli-section-label">Kamus Lapangan</div></Reveal>
+            <Reveal delay={60}><h2 className="vli-section-heading">6 TEKNIK DASAR</h2></Reveal>
+            <div className="vli-teknik-grid">
+              {TEKNIK.map((tk, i) => (
+                <Reveal key={tk.nama} delay={i * 70} className="vli-teknik">
+                  <div className="vli-teknik-inner" tabIndex={0}>
+                    <div className="vli-teknik-face vli-teknik-front"><span>{tk.nama}</span></div>
+                    <div className="vli-teknik-face vli-teknik-back">{tk.tip}</div>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -518,6 +645,10 @@ export default function VoliPage() {
               </span>
               <span className="vli-join-hint">coba ketuk buat smash</span>
             </button>
+            <span className="vli-join-count">{smashCount > 0 ? `${smashCount} smash` : 'belum ada smash'}</span>
+            {balls.map((b) => (
+              <span key={b.id} className="vli-smash-fly" style={{ left: `${b.x}%` }}>🏐</span>
+            ))}
           </section>
         </main>
 

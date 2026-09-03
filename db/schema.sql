@@ -32,10 +32,11 @@ create index if not exists berita_tanggal_idx on berita (tanggal desc);
 -- ── Prestasi ──
 create table if not exists prestasi (
   id          uuid primary key default gen_random_uuid(),
-  nama        text        not null,
+  nama        text        not null,                  -- nama prestasi, mis. "JUARA 1 ..."
   tahun       text        not null default '',
   kategori    text        not null default 'Akademik',
   tingkat     text        not null default '',       -- mis. "Nasional", "Provinsi"
+  anggota     text        not null default '[]',     -- JSON: [{"nama":"...","kelas":"..."}]
   foto        text        not null default '',
   deskripsi   text        not null default '',
   published   boolean     not null default true,
@@ -43,3 +44,6 @@ create table if not exists prestasi (
   updated_at  timestamptz not null default now()
 );
 create index if not exists prestasi_created_idx on prestasi (created_at desc);
+
+-- Kalau tabel prestasi sudah ada dari sebelumnya, tambahkan kolom baru (aman diulang):
+alter table prestasi add column if not exists anggota text not null default '[]';
