@@ -52,7 +52,7 @@ const ROTATING_WORDS = ['Cerah', 'Gemilang', 'Kompetitif', 'Mendunia'];
 /* ---------- helpers & small components ---------- */
 
 function useInView(threshold = 0.15) {
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -69,17 +69,17 @@ function useInView(threshold = 0.15) {
     obs.observe(el);
     return () => obs.disconnect();
   }, [threshold]);
-  return [ref, inView];
+  return [ref, inView] as const;
 }
 
 function useMagnetic(strength = 16) {
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!window.matchMedia('(pointer: fine)').matches) return;
-    const onMove = (e) => {
+    const onMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
@@ -96,21 +96,21 @@ function useMagnetic(strength = 16) {
   return ref;
 }
 
-function parseStatValue(value) {
+function parseStatValue(value: string) {
   const match = value.match(/^([\d.]+)(.*)$/);
   if (!match) return { target: 0, suffix: value };
   return { target: parseInt(match[1].replace(/\./g, ''), 10), suffix: match[2] };
 }
 
-function StatCounter({ value, inView }) {
+function StatCounter({ value, inView }: { value: string; inView: boolean }) {
   const { target, suffix } = parseStatValue(value);
   const [display, setDisplay] = useState(0);
   useEffect(() => {
     if (!inView) return;
-    let frame;
+    let frame = 0;
     const duration = 1400;
     const start = performance.now();
-    const tick = (now) => {
+    const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setDisplay(Math.round(eased * target));
@@ -153,21 +153,22 @@ function ScrollProgressBar() {
 }
 
 function CustomCursor() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
+  const dotRef = useRef<any>(null);
+  const ringRef = useRef<any>(null);
   useEffect(() => {
     const isFine = window.matchMedia('(pointer: fine)').matches;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!isFine || reduced) return;
     document.body.classList.add('custom-cursor-active');
     let ringX = 0, ringY = 0, mouseX = 0, mouseY = 0;
-    const move = (e) => {
+    const move = (e: MouseEvent) => {
       mouseX = e.clientX; mouseY = e.clientY;
       if (dotRef.current) dotRef.current.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-      const interactive = e.target.closest && e.target.closest('a, button, [role="button"]');
+      const target = e.target as HTMLElement | null;
+      const interactive = target?.closest?.('a, button, [role="button"]');
       if (ringRef.current) ringRef.current.classList.toggle('cursor-ring-hover', !!interactive);
     };
-    let raf;
+    let raf = 0;
     const loop = () => {
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
@@ -190,7 +191,7 @@ function CustomCursor() {
   );
 }
 
-function handleTilt(e) {
+function handleTilt(e: React.MouseEvent<HTMLElement>) {
   const card = e.currentTarget;
   const rect = card.getBoundingClientRect();
   const x = e.clientX - rect.left;
@@ -201,11 +202,11 @@ function handleTilt(e) {
   card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
   card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
 }
-function resetTilt(e) {
+function resetTilt(e: React.MouseEvent<HTMLElement>) {
   e.currentTarget.style.transform = '';
 }
 
-function JurusanCard({ j, index }) {
+function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number }) {
   const [ref, inView] = useInView(0.2);
   return (
     <Link
@@ -237,7 +238,7 @@ function JurusanCard({ j, index }) {
   );
 }
 
-function FacilityPill({ text, Icon, index }) {
+function FacilityPill({ text, Icon, index }: { text: string; Icon: React.ElementType; index: number }) {
   const [ref, inView] = useInView(0.2);
   return (
     <div ref={ref} className={`facility-pill reveal ${inView ? 'in-view' : ''}`} style={{ transitionDelay: inView ? `${index * 60}ms` : '0ms' }}>
@@ -247,7 +248,7 @@ function FacilityPill({ text, Icon, index }) {
   );
 }
 
-function FacilityStatCard({ item, index }) {
+function FacilityStatCard({ item, index }: { item: (typeof FASILITAS_STATS)[number]; index: number }) {
   const [ref, inView] = useInView(0.2);
   const Icon = item.icon;
   const isGold = item.bg === '#C8973A';
@@ -268,16 +269,16 @@ function FacilityStatCard({ item, index }) {
 /* ---------- page ---------- */
 
 export default function HomePage() {
-  const heroRef = useRef(null);
-  const blobWrap1Ref = useRef(null);
-  const blobWrap2Ref = useRef(null);
+  const heroRef = useRef<any>(null);
+  const blobWrap1Ref = useRef<any>(null);
+  const blobWrap2Ref = useRef<any>(null);
   const [statsRef, statsInView] = useInView(0.4);
   const magneticHero = useMagnetic();
   const magneticTimeline = useMagnetic();
   const magneticCta = useMagnetic();
   const { list: gelombangList, fokus: gelombangFokus } = useSpmbGelombang();
 
-  function handleHeroMove(e) {
+  function handleHeroMove(e: React.MouseEvent<HTMLElement>) {
     const el = heroRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
