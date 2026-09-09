@@ -216,7 +216,7 @@ export default function Footer() {
             © 2026 SMK Citra Negara. All rights reserved.
           </p>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-           ©2026 NeyYoniChan | rights reserved, no negotiations
+            ©2026 Developed by Keisya Naila Azmika. Respect the code
           </p>
         </div>
       </div>
