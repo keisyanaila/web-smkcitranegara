@@ -6,48 +6,121 @@ import Footer from '@/components/layout/Footersmk';
 import SplashWelcome from '@/components/SplashWelcome';
 import {
   ArrowRight, Monitor, Wifi, BookOpen, Presentation, Camera, Coffee,
-  Trophy, Printer, Landmark, Users, Sparkles, CalendarDays, Check,
+  Trophy, Printer, Landmark, Users, Sparkles, CalendarDays, Check, Globe2,
 } from 'lucide-react';
-import { GELOMBANG, TAHUN_AJARAN, STATUS_LABEL, useSpmbGelombang } from '@/lib/spmb';
+import { GELOMBANG, TAHUN_AJARAN, STATUS_LABEL, STATUS_LABEL_EN, formatTanggalRange, useSpmbGelombang } from '@/lib/spmb';
+import { useLang } from '@/lib/i18n';
+
+// Teks dua bahasa: `id` = Indonesia, `en` = English
+type Teks = { id: string; en: string };
 
 const JURUSAN = [
-  { href: '/jurusan/pplg', img: '/images/logopplg.png', kode: 'PPLG', nama: 'Pengembangan Perangkat Lunak dan Gim', desc: 'Coding, pengembangan aplikasi, database, UI/UX, game development, dan software engineering.', kuota: 72 },
-  { href: '/jurusan/tjkt', img: '/images/logotjkt.png', kode: 'TJKT', nama: 'Teknik Jaringan Komputer dan Telekomunikasi', desc: 'Jaringan komputer, server, keamanan sistem, telekomunikasi, dan troubleshooting jaringan.', kuota: 72 },
-  { href: '/jurusan/dkv', img: '/images/logodkv.png', kode: 'DKV', nama: 'Desain Komunikasi Visual', desc: 'Desain grafis, ilustrasi, fotografi, animasi, videografi, dan branding kreatif.', kuota: 36 },
-  { href: '/jurusan/pm', img: '/images/logopm.png', kode: 'PM', nama: 'Pemasaran', desc: 'Pemasaran, penjualan, promosi digital, e-commerce, dan layanan pelanggan.', kuota: 36 },
-  { href: '/jurusan/mplb', img: '/images/logomplb.png', kode: 'MPLB', nama: 'Manajemen Perkantoran dan Layanan Bisnis', desc: 'Administrasi, teknologi perkantoran, komunikasi bisnis, layanan pelanggan, dan manajemen dokumen.', kuota: 36 },
-  { href: '/jurusan/ph', img: '/images/logoph.png', kode: 'PH', nama: 'Perhotelan', desc: 'Pelayanan hotel, tata graha. food & beverage, komunikasi industri, dan hospitality.', kuota: 36 },
+  { href: '/jurusan/pplg', img: '/images/logopplg.png', kode: 'PPLG', kuota: 72,
+    nama: { id: 'Pengembangan Perangkat Lunak dan Gim', en: 'Software & Game Development' },
+    desc: { id: 'Coding, pengembangan aplikasi, database, UI/UX, game development, dan software engineering.', en: 'Coding, app development, databases, UI/UX, game development, and software engineering.' } },
+  { href: '/jurusan/tjkt', img: '/images/logotjkt.png', kode: 'TJKT', kuota: 72,
+    nama: { id: 'Teknik Jaringan Komputer dan Telekomunikasi', en: 'Computer Networking & Telecommunications' },
+    desc: { id: 'Jaringan komputer, server, keamanan sistem, telekomunikasi, dan troubleshooting jaringan.', en: 'Computer networks, servers, system security, telecommunications, and network troubleshooting.' } },
+  { href: '/jurusan/dkv', img: '/images/logodkv.png', kode: 'DKV', kuota: 36,
+    nama: { id: 'Desain Komunikasi Visual', en: 'Visual Communication Design' },
+    desc: { id: 'Desain grafis, ilustrasi, fotografi, animasi, videografi, dan branding kreatif.', en: 'Graphic design, illustration, photography, animation, videography, and creative branding.' } },
+  { href: '/jurusan/pm', img: '/images/logopm.png', kode: 'PM', kuota: 36,
+    nama: { id: 'Pemasaran', en: 'Marketing' },
+    desc: { id: 'Pemasaran, penjualan, promosi digital, e-commerce, dan layanan pelanggan.', en: 'Marketing, sales, digital promotion, e-commerce, and customer service.' } },
+  { href: '/jurusan/mplb', img: '/images/logomplb.png', kode: 'MPLB', kuota: 36,
+    nama: { id: 'Manajemen Perkantoran dan Layanan Bisnis', en: 'Office Management & Business Services' },
+    desc: { id: 'Administrasi, teknologi perkantoran, komunikasi bisnis, layanan pelanggan, dan manajemen dokumen.', en: 'Administration, office technology, business communication, customer service, and document management.' } },
+  { href: '/jurusan/ph', img: '/images/logoph.png', kode: 'PH', kuota: 36,
+    nama: { id: 'Perhotelan', en: 'Hospitality' },
+    desc: { id: 'Pelayanan hotel, tata graha. food & beverage, komunikasi industri, dan hospitality.', en: 'Hotel services, housekeeping, food & beverage, industry communication, and hospitality.' } },
 ];
 
-const STATS = [
-  { value: '1.200+', label: 'Siswa Aktif' },
-  { value: '98%', label: 'Tingkat Kelulusan' },
-  { value: '85%', label: 'Terserap Kerja/PT' },
-  { value: '15+', label: 'Tahun Berdiri' },
+const STATS: { value: string; label: Teks }[] = [
+  { value: '1.200+', label: { id: 'Siswa Aktif', en: 'Active Students' } },
+  { value: '98%', label: { id: 'Tingkat Kelulusan', en: 'Graduation Rate' } },
+  { value: '85%', label: { id: 'Terserap Kerja/PT', en: 'Employed / In University' } },
+  { value: '15+', label: { id: 'Tahun Berdiri', en: 'Years Established' } },
 ];
 
-const FASILITAS_LIST = [
-  'Tersedia Lab Untuk Masinng-Masing Jurusan',
-  'Tersedia WiFi Untuk Siswa/i di Setiap Gedung & Lantai',
-  'Ruang Perpustakaan',
-  'Auditorium',
-  'Studio Multimedia',
-  'Kantin',
-  '2 Lapangan (Gedung A & Gedung E)',
-  'CN Digital Printing oleh Multimedia',
-  'Bank Mini',
+const FASILITAS_LIST: Teks[] = [
+  { id: 'Tersedia Lab Untuk Masinng-Masing Jurusan', en: 'Dedicated Labs for Every Program' },
+  { id: 'Tersedia WiFi Untuk Siswa/i di Setiap Gedung & Lantai', en: 'Student WiFi in Every Building & Floor' },
+  { id: 'Ruang Perpustakaan', en: 'Library' },
+  { id: 'Auditorium', en: 'Auditorium' },
+  { id: 'Studio Multimedia', en: 'Multimedia Studio' },
+  { id: 'Kantin', en: 'Canteen' },
+  { id: '2 Lapangan (Gedung A & Gedung E)', en: '2 Sports Fields (Building A & Building E)' },
+  { id: 'CN Digital Printing oleh Multimedia', en: 'CN Digital Printing by Multimedia' },
+  { id: 'Bank Mini', en: 'School Mini Bank' },
 ];
 const FASILITAS_ICONS = [Monitor, Wifi, BookOpen, Presentation, Camera, Coffee, Trophy, Printer, Landmark];
 
 const FASILITAS_STATS = [
-  { label: '7 Lab Komputer', val: '150+', sub: 'Unit Komputer', bg: '#17713b', icon: Monitor },
-  { label: 'Internet', val: '1 Gbps', sub: 'Starlink', bg: '#cf962b', icon: Wifi },
-  { label: 'Akreditasi', val: 'A', sub: 'BAN-S/M', bg: '#0f4c35', icon: Landmark },
-  { label: 'Alumni', val: '5000+', sub: 'Tersebar Nasional', bg: '#093b1e', icon: Users },
+  { label: { id: '7 Lab Komputer', en: '7 Computer Labs' }, val: '150+', sub: { id: 'Unit Komputer', en: 'Computers' }, bg: '#17713b', icon: Monitor },
+  { label: { id: 'Internet', en: 'Internet' }, val: '1 Gbps', sub: { id: 'Starlink', en: 'Starlink' }, bg: '#cf962b', icon: Wifi },
+  { label: { id: 'Akreditasi', en: 'Accreditation' }, val: 'A', sub: { id: 'BAN-S/M', en: 'BAN-S/M' }, bg: '#0f4c35', icon: Landmark },
+  { label: { id: 'Alumni', en: 'Alumni' }, val: '5000+', sub: { id: 'Tersebar Nasional', en: 'Across Indonesia' }, bg: '#093b1e', icon: Users },
 ];
 
-const MARQUEE_ITEMS = [`PPDB ${TAHUN_AJARAN} DIBUKA`, '6 JURUSAN UNGGULAN', 'AKREDITASI A', 'KUOTA TERBATAS', 'DAFTAR SEKARANG'];
-const ROTATING_WORDS = ['Cerah', 'Gemilang', 'Kompetitif', 'Mendunia'];
+const MARQUEE_ITEMS: Teks[] = [
+  { id: `PPDB ${TAHUN_AJARAN} DIBUKA`, en: `ADMISSIONS ${TAHUN_AJARAN} OPEN` },
+  { id: 'GO INTERNASIONAL', en: 'GO INTERNATIONAL' },
+  { id: 'INGGRIS · JEPANG · KOREA · JERMAN · TURKI', en: 'UK · JAPAN · KOREA · GERMANY · TURKEY' },
+  { id: '6 JURUSAN UNGGULAN', en: '6 TOP PROGRAMS' },
+  { id: 'AKREDITASI A', en: 'A-ACCREDITED' },
+  { id: 'KUOTA TERBATAS', en: 'LIMITED SEATS' },
+  { id: 'DAFTAR SEKARANG', en: 'APPLY NOW' },
+];
+
+// Bendera digambar SVG (emoji bendera tidak tampil di Windows)
+const FLAGS: Record<string, React.ReactNode> = {
+  indonesia: (
+    <svg viewBox="0 0 30 20"><rect width="30" height="10" fill="#E70011" /><rect y="10" width="30" height="10" fill="#fff" /></svg>
+  ),
+  jepang: (
+    <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff" /><circle cx="15" cy="10" r="6" fill="#BC002D" /></svg>
+  ),
+  korea: (
+    <svg viewBox="0 0 30 20">
+      <rect width="30" height="20" fill="#fff" />
+      <path d="M10 10a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z" fill="#CD2E3A" />
+      <path d="M20 10a5 5 0 0 1-10 0a2.5 2.5 0 0 1 5 0a2.5 2.5 0 0 0 5 0z" fill="#0047A0" />
+      <g stroke="#000" strokeWidth="1.2">
+        <path d="M4 5.5l3-2.5M4.8 6.5l3-2.5M5.6 7.5l3-2.5M22 15l3-2.5M22.8 16l3-2.5M23.6 17l3-2.5" transform="translate(-1 0)" />
+        <path d="M22 5l3 2.5M22.8 4l3 2.5M23.6 3l3 2.5M4 14.5l3 2.5M4.8 13.5l3 2.5M5.6 12.5l3 2.5" transform="translate(-1 0)" />
+      </g>
+    </svg>
+  ),
+  jerman: (
+    <svg viewBox="0 0 30 20"><rect width="30" height="7" fill="#000" /><rect y="6.66" width="30" height="6.7" fill="#DD0000" /><rect y="13.33" width="30" height="6.67" fill="#FFCE00" /></svg>
+  ),
+  turki: (
+    <svg viewBox="0 0 30 20">
+      <rect width="30" height="20" fill="#E30A17" />
+      <circle cx="11" cy="10" r="5" fill="#fff" />
+      <circle cx="12.25" cy="10" r="4" fill="#E30A17" />
+      <path d="M16.5 10l3.8-1.24-2.35 3.24v-4l2.35 3.24z" fill="#fff" />
+    </svg>
+  ),
+  inggris: (
+    <svg viewBox="0 0 60 30" preserveAspectRatio="none">
+      <rect width="60" height="30" fill="#012169" />
+      <path d="M0 0L60 30M60 0L0 30" stroke="#fff" strokeWidth="6" />
+      <path d="M0 0L60 30M60 0L0 30" stroke="#C8102E" strokeWidth="2" />
+      <path d="M30 0v30M0 15h60" stroke="#fff" strokeWidth="10" />
+      <path d="M30 0v30M0 15h60" stroke="#C8102E" strokeWidth="6" />
+    </svg>
+  ),
+};
+
+const GO_INTL: { key: string; nama: Teks }[] = [
+  { key: 'indonesia', nama: { id: 'Indonesia', en: 'Indonesia' } },
+  { key: 'inggris', nama: { id: 'Inggris', en: 'UK' } },
+  { key: 'jepang', nama: { id: 'Jepang', en: 'Japan' } },
+  { key: 'korea', nama: { id: 'Korea', en: 'Korea' } },
+  { key: 'jerman', nama: { id: 'Jerman', en: 'Germany' } },
+  { key: 'turki', nama: { id: 'Turki', en: 'Turkey' } },
+];
 
 /* ---------- helpers & small components ---------- */
 
@@ -122,18 +195,39 @@ function StatCounter({ value, inView }: { value: string; inView: boolean }) {
   return <>{display.toLocaleString('id-ID')}{suffix}</>;
 }
 
-function RotatingWord() {
+// Judul hero bergantian 6 bahasa. Bahasa situs yang dipilih (ID/EN) selalu tampil duluan.
+const HERO_HEADLINES = [
+  { lang: 'id', flag: 'indonesia', label: { id: 'Bahasa Indonesia', en: 'Bahasa Indonesia · Indonesian' }, before: 'Raih Masa Depan ', highlight: 'Cerah', after: ' Bersama SMK Citra Negara' },
+  { lang: 'en', flag: 'inggris', label: { id: 'English · Inggris', en: 'English' }, before: 'Shape Your ', highlight: 'Bright Future', after: ' with SMK Citra Negara' },
+  { lang: 'ja', flag: 'jepang', label: { id: '日本語 · Jepang', en: '日本語 · Japanese' }, before: 'SMK Citra Negaraで', highlight: '輝く未来', after: 'をつかもう' },
+  { lang: 'ko', flag: 'korea', label: { id: '한국어 · Korea', en: '한국어 · Korean' }, before: 'SMK Citra Negara와 함께 ', highlight: '빛나는 미래', after: '를 잡으세요' },
+  { lang: 'de', flag: 'jerman', label: { id: 'Deutsch · Jerman', en: 'Deutsch · German' }, before: 'Gestalte deine ', highlight: 'glänzende Zukunft', after: ' mit SMK Citra Negara' },
+  { lang: 'tr', flag: 'turki', label: { id: 'Türkçe · Turki', en: 'Türkçe · Turkish' }, before: 'SMK Citra Negara ile ', highlight: 'parlak geleceğini', after: ' yakala' },
+];
+
+function RotatingHeadline() {
+  const { lang } = useLang();
   const [index, setIndex] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
+  const headlines = lang === 'en'
+    ? [HERO_HEADLINES[1], HERO_HEADLINES[0], ...HERO_HEADLINES.slice(2)]
+    : HERO_HEADLINES;
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => {
-      setIndex(i => (i + 1) % ROTATING_WORDS.length);
-      setAnimKey(k => k + 1);
-    }, 2200);
+    const id = setInterval(() => setIndex(i => (i + 1) % HERO_HEADLINES.length), 3600);
     return () => clearInterval(id);
   }, []);
-  return <span key={animKey} className="gradient-text rotating-word">{ROTATING_WORDS[index]}</span>;
+  const h = headlines[index];
+  return (
+    <>
+      <span key={`tag-${lang}-${index}`} className="hero-lang-tag rotating-word">
+        <span className="hero-intl-flag">{FLAGS[h.flag]}</span>
+        {h.label[lang]}
+      </span>
+      <span key={`${lang}-${index}`} lang={h.lang} className={`hero-headline rotating-word hero-headline-${h.lang}`}>
+        {h.before}<span className="gradient-text">{h.highlight}</span>{h.after}
+      </span>
+    </>
+  );
 }
 
 function ScrollProgressBar() {
@@ -208,6 +302,7 @@ function resetTilt(e: React.MouseEvent<HTMLElement>) {
 
 function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number }) {
   const [ref, inView] = useInView(0.2);
+  const { lang, t } = useLang();
   return (
     <Link
       ref={ref}
@@ -225,13 +320,13 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
         <img src={j.img} alt={j.kode} style={{ width: 70, height: 70, objectFit: 'contain' }} />
         <div style={{ background: '#C8973A', color: 'white', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>{j.kode}</div>
       </div>
-      <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 8, lineHeight: 1.3 }}>{j.nama}</h3>
-      <p style={{ fontSize: 12, color: '#6B7280', lineHeight: 1.5, marginBottom: 12 }}>{j.desc}</p>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 8, lineHeight: 1.3 }}>{j.nama[lang]}</h3>
+      <p style={{ fontSize: 12, color: '#6B7280', lineHeight: 1.5, marginBottom: 12 }}>{j.desc[lang]}</p>
       <div className="kuota-bar">
         <div className="kuota-bar-fill" style={{ width: inView ? `${(j.kuota / 72) * 100}%` : '0%' }} />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-        <div style={{ fontSize: 12, color: '#C8973A', fontWeight: 600 }}>Kuota: {j.kuota} siswa</div>
+        <div style={{ fontSize: 12, color: '#C8973A', fontWeight: 600 }}>{t(`Kuota: ${j.kuota} siswa`, `Quota: ${j.kuota} students`)}</div>
         <ArrowRight size={16} color="#C8973A" className="card-arrow" />
       </div>
     </Link>
@@ -252,6 +347,7 @@ function FacilityStatCard({ item, index }: { item: (typeof FASILITAS_STATS)[numb
   const [ref, inView] = useInView(0.2);
   const Icon = item.icon;
   const isGold = item.bg === '#C8973A';
+  const { lang } = useLang();
   return (
     <div
       ref={ref}
@@ -259,9 +355,9 @@ function FacilityStatCard({ item, index }: { item: (typeof FASILITAS_STATS)[numb
       style={{ transitionDelay: inView ? `${index * 90}ms` : '0ms', background: item.bg, borderRadius: 16, padding: 28, color: 'white' }}
     >
       <Icon size={20} color={isGold ? '#0A1628' : '#E8B84B'} style={{ marginBottom: 10, opacity: 0.9 }} />
-      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>{item.label}</div>
+      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>{item.label[lang]}</div>
       <div className="font-display" style={{ fontSize: 36, fontWeight: 700, color: isGold ? '#0A1628' : '#E8B84B' }}>{item.val}</div>
-      <div style={{ fontSize: 12, color: isGold ? 'rgba(10,22,40,0.6)' : 'rgba(255,255,255,0.5)', marginTop: 4 }}>{item.sub}</div>
+      <div style={{ fontSize: 12, color: isGold ? 'rgba(10,22,40,0.6)' : 'rgba(255,255,255,0.5)', marginTop: 4 }}>{item.sub[lang]}</div>
     </div>
   );
 }
@@ -277,6 +373,7 @@ export default function HomePage() {
   const magneticTimeline = useMagnetic();
   const magneticCta = useMagnetic();
   const { list: gelombangList, fokus: gelombangFokus } = useSpmbGelombang();
+  const { lang, t } = useLang();
 
   function handleHeroMove(e: React.MouseEvent<HTMLElement>) {
     const el = heroRef.current;
@@ -325,25 +422,40 @@ export default function HomePage() {
             <div className="hero-enter">
               <div className="hero-badge">
                 <span className="badge-dot" />
-                PENERIMAAN PESERTA DIDIK BARU {TAHUN_AJARAN}
+                {t('PENERIMAAN PESERTA DIDIK BARU', 'NEW STUDENT ADMISSIONS')} {TAHUN_AJARAN}
               </div>
               <h1 className="font-display hero-title">
-                Raih Masa Depan <RotatingWord /> Bersama SMK Citra Negara
+                {/* key={lang}: ganti bahasa → rotasi mulai lagi dari bahasa situs */}
+                <RotatingHeadline key={lang} />
               </h1>
               <p className="hero-desc">
-                Bergabunglah dengan ribuan alumni sukses. Pendidikan kejuruan berkualitas tinggi dengan kurikulum industri terkini.
+                {t(
+                  'Bergabunglah dengan ribuan alumni sukses. Pendidikan kejuruan berkualitas tinggi dengan kurikulum industri terkini.',
+                  'Join thousands of successful alumni. High-quality vocational education with an up-to-date, industry-driven curriculum.',
+                )}
               </p>
+              <div className="hero-intl">
+                <span className="hero-intl-label"><Globe2 size={15} /> {t('Go Internasional', 'Go International')}</span>
+                <div className="hero-intl-flags">
+                  {GO_INTL.map((c, i) => (
+                    <span key={c.key} className="hero-intl-chip" style={{ animationDelay: `${0.5 + i * 0.12}s` }}>
+                      <span className="hero-intl-flag">{FLAGS[c.key]}</span>
+                      {c.nama[lang]}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <div className="hero-btn-row">
-                <Link ref={magneticHero} href="/spmb" className="btn-primary magnetic" style={{ fontSize: 15 }}>Daftar SPMB Sekarang →</Link>
-                <Link href="/tentang" className="btn-outline" style={{ fontSize: 15 }}>Pelajari Lebih Lanjut</Link>
+                <Link ref={magneticHero} href="/spmb" className="btn-primary magnetic" style={{ fontSize: 15 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')} →</Link>
+                <Link href="/tentang" className="btn-outline" style={{ fontSize: 15 }}>{t('Pelajari Lebih Lanjut', 'Learn More')}</Link>
               </div>
               <div className="hero-stats-row" ref={statsRef}>
                 {STATS.map(s => (
-                  <div key={s.label}>
+                  <div key={s.label.id}>
                     <div className="font-display hero-stat-value">
                       <StatCounter value={s.value} inView={statsInView} />
                     </div>
-                    <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>{s.label}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 12 }}>{s.label[lang]}</div>
                   </div>
                 ))}
               </div>
@@ -356,8 +468,8 @@ export default function HomePage() {
                 <div className="spmb-card-head">
                   <div className="spmb-cal"><CalendarDays size={20} /></div>
                   <div>
-                    <h3 className="font-display spmb-card-title">Jadwal SPMB {GELOMBANG[0].mulai.slice(0, 4)}</h3>
-                    <p className="spmb-card-sub">Tahun Ajaran {TAHUN_AJARAN}</p>
+                    <h3 className="font-display spmb-card-title">{t('Jadwal SPMB', 'Admission Schedule')} {GELOMBANG[0].mulai.slice(0, 4)}</h3>
+                    <p className="spmb-card-sub">{t('Tahun Ajaran', 'Academic Year')} {TAHUN_AJARAN}</p>
                   </div>
                 </div>
 
@@ -374,13 +486,13 @@ export default function HomePage() {
                         </div>
                         <div className="spmb-item-body">
                           <div className="spmb-item-row">
-                            <span className="spmb-item-name">{item.nama}</span>
+                            <span className="spmb-item-name">{t(item.nama, `Wave ${i + 1}`)}</span>
                             <span className={`spmb-chip spmb-chip-${item.status}`}>
                               {item.status === 'berlangsung' && <span className="spmb-chip-dot" />}
-                              {STATUS_LABEL[item.status]}
+                              {t(STATUS_LABEL, STATUS_LABEL_EN)[item.status]}
                             </span>
                           </div>
-                          <div className="spmb-item-date">{item.rentang}</div>
+                          <div className="spmb-item-date">{t(item.rentang, formatTanggalRange(item.mulai, item.selesai, 'en-GB'))}</div>
                         </div>
                       </div>
                     );
@@ -388,7 +500,7 @@ export default function HomePage() {
                 </div>
 
                 <Link ref={magneticTimeline} href="/register" className="btn-primary magnetic spmb-cta">
-                  Mulai Pendaftaran <ArrowRight size={16} />
+                  {t('Mulai Pendaftaran', 'Start Application')} <ArrowRight size={16} />
                 </Link>
               </div>
             </div>
@@ -398,8 +510,8 @@ export default function HomePage() {
         {/* MARQUEE */}
         <div className="marquee-strip">
           <div className="marquee-track">
-            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((t, i) => (
-              <span key={i}><Sparkles size={13} /> {t}</span>
+            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((m, i) => (
+              <span key={i}><Sparkles size={13} /> {m[lang]}</span>
             ))}
           </div>
         </div>
@@ -409,8 +521,8 @@ export default function HomePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: 56 }}>
               <div className="gold-line" style={{ margin: '0 auto 16px' }} />
-              <h2 className="font-display section-title">Program Keahlian</h2>
-              <p style={{ color: '#6B7280', maxWidth: 500, margin: '0 auto', fontSize: 16 }}>Pilih jurusan sesuai minat dan bakat.</p>
+              <h2 className="font-display section-title">{t('Program Keahlian', 'Study Programs')}</h2>
+              <p style={{ color: '#6B7280', maxWidth: 500, margin: '0 auto', fontSize: 16 }}>{t('Pilih jurusan sesuai minat dan bakat.', 'Choose a program that fits your interests and talents.')}</p>
             </div>
             <div className="jurusan-grid">
               {JURUSAN.map((j, i) => <JurusanCard key={j.kode} j={j} index={i} />)}
@@ -423,16 +535,16 @@ export default function HomePage() {
           <div className="fasilitas-inner">
             <div>
               <div className="gold-line" style={{ marginBottom: 16 }} />
-              <h2 className="font-display section-title">Fasilitas Sekolah</h2>
-              <p style={{ color: '#6B7280', lineHeight: 1.8, marginBottom: 32, fontSize: 16 }}>Lingkungan belajar terbaik dengan fasilitas modern yang mendukung proses pembelajaran berkualitas tinggi.</p>
+              <h2 className="font-display section-title">{t('Fasilitas Sekolah', 'School Facilities')}</h2>
+              <p style={{ color: '#6B7280', lineHeight: 1.8, marginBottom: 32, fontSize: 16 }}>{t('Lingkungan belajar terbaik dengan fasilitas modern yang mendukung proses pembelajaran berkualitas tinggi.', 'A great learning environment with modern facilities that support high-quality learning.')}</p>
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {FASILITAS_LIST.map((f, i) => (
-                  <FacilityPill key={f} text={f} Icon={FASILITAS_ICONS[i]} index={i} />
+                  <FacilityPill key={f.id} text={f[lang]} Icon={FASILITAS_ICONS[i]} index={i} />
                 ))}
               </div>
             </div>
             <div className="fasilitas-stats-grid">
-              {FASILITAS_STATS.map((item, i) => <FacilityStatCard key={item.label} item={item} index={i} />)}
+              {FASILITAS_STATS.map((item, i) => <FacilityStatCard key={item.label.id} item={item} index={i} />)}
             </div>
           </div>
         </section>
@@ -441,11 +553,16 @@ export default function HomePage() {
         <section className="section-pad cta-section grain-overlay" style={{ background: '#15803d' }}>
           <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
             <Sparkles size={28} color="#E8B84B" className="cta-sparkle" />
-            <h2 className="font-display cta-title">Siap Bergabung?</h2>
-            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, lineHeight: 1.7, marginBottom: 36 }}>Pendaftaran Peserta Didik Baru tahun ajaran {TAHUN_AJARAN} sudah dibuka. Jangan lewatkan kesempatan ini!</p>
+            <h2 className="font-display cta-title">{t('Siap Bergabung?', 'Ready to Join Us?')}</h2>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, lineHeight: 1.7, marginBottom: 36 }}>
+              {t(
+                `Pendaftaran Peserta Didik Baru tahun ajaran ${TAHUN_AJARAN} sudah dibuka. Jangan lewatkan kesempatan ini!`,
+                `New student admissions for the ${TAHUN_AJARAN} academic year are now open. Don't miss this opportunity!`,
+              )}
+            </p>
             <div className="cta-btn-row">
-              <Link ref={magneticCta} href="/register" className="btn-primary magnetic" style={{ fontSize: 16 }}>Daftar Sekarang</Link>
-              <Link href="/spmb" className="btn-outline" style={{ fontSize: 16 }}>Info SPMB</Link>
+              <Link ref={magneticCta} href="/register" className="btn-primary magnetic" style={{ fontSize: 16 }}>{t('Daftar Sekarang', 'Apply Now')}</Link>
+              <Link href="/spmb" className="btn-outline" style={{ fontSize: 16 }}>{t('Info SPMB', 'Admission Info')}</Link>
             </div>
           </div>
         </section>
@@ -554,8 +671,33 @@ export default function HomePage() {
         }
         @keyframes gradient-text-move { to { background-position: 200% center; } }
         .rotating-word { display: inline-block; animation: word-pop-in .5s cubic-bezier(.22,1,.36,1); }
+        .hero-title { min-height: calc(3 * 1.15em + 34px); }
+        .hero-lang-tag {
+          display: flex; width: fit-content; align-items: center; gap: 7px; margin-bottom: 12px;
+          font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+          color: rgba(255,255,255,0.85); padding: 4px 11px 4px 5px; border-radius: 999px;
+          background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+        }
+        .hero-headline { display: block; }
+        .hero-headline-ja, .hero-headline-ko { font-family: 'Noto Serif JP', 'Noto Serif KR', 'Yu Mincho', 'Batang', 'Playfair Display', serif; font-weight: 700; line-height: 1.3; }
         @keyframes word-pop-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .hero-desc { color: rgba(255,255,255,0.75); font-size: 17px; line-height: 1.7; margin-bottom: 36px; max-width: 480px; }
+        .hero-intl { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: -14px 0 32px; }
+        .hero-intl-label { display: inline-flex; align-items: center; gap: 6px; color: #E8B84B; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+        .hero-intl-flags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .hero-intl-chip {
+          display: inline-flex; align-items: center; gap: 7px;
+          padding: 5px 12px 5px 6px; border-radius: 999px;
+          background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+          backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+          color: #fff; font-size: 12.5px; font-weight: 600;
+          opacity: 0; animation: intl-in .5s ease forwards;
+          transition: background .2s ease, border-color .2s ease, transform .2s ease;
+        }
+        .hero-intl-chip:hover { background: rgba(200,151,58,0.2); border-color: rgba(232,184,75,0.5); transform: translateY(-2px); }
+        .hero-intl-flag { display: inline-flex; width: 21px; height: 14px; border-radius: 3px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,0.25); }
+        .hero-intl-flag svg { width: 100%; height: 100%; display: block; }
+        @keyframes intl-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         .hero-btn-row { display: flex; gap: 16px; flex-wrap: wrap; }
         .btn-primary, .btn-outline { transition: transform .25s ease, box-shadow .25s ease; }
         .btn-primary:hover { box-shadow: 0 10px 24px rgba(200,151,58,0.35); }

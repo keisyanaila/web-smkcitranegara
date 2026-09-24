@@ -27,7 +27,7 @@ const CSS = `
   /* ── Hero ── */
   .hero-section { padding: 90px 24px 70px; }
   .hero-inner { max-width: 820px; margin: 0 auto; text-align: center; }
-  .hero-logo-wrap { width: 170px; height: 170px; }
+  .hero-logo-wrap { width: 420px; max-width: 100%; aspect-ratio: 1200 / 484; }
   .hero-title { font-size: 46px; }
   .hero-desc { color: rgba(255,255,255,0.75); font-size: 17px; line-height: 1.7; max-width: 600px; margin: 0 auto; }
 
@@ -186,7 +186,7 @@ const CSS = `
   @media (max-width: 768px) {
     .hero-section { padding: 60px 20px 56px; }
     .hero-title { font-size: 29px; }
-    .hero-logo-wrap { width: 120px; height: 120px; }
+    .hero-logo-wrap { width: 280px; }
     .hero-desc { font-size: 15px; }
     .sec { padding: 56px 20px; }
     .sec-title { font-size: 26px; }

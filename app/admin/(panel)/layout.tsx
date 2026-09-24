@@ -12,7 +12,10 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   return (
     <div className="adm-root">
       <header className="adm-topbar">
-        <div className="adm-brand">SMK Citra Negara · Admin</div>
+        <div className="adm-brand">
+          <img src="/images/logo-badge.png" alt="" className="adm-brand-logo" />
+          SMK Citra Negara · Admin
+        </div>
         <nav className="adm-nav">
           <Link href="/admin">Dashboard</Link>
           <Link href="/admin/berita">Berita</Link>
@@ -34,7 +37,8 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <style>{`
         .adm-root { min-height: 100vh; background: #f4f5f7; color: #1f2937; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
         .adm-topbar { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding: 14px 22px; background: #0B3D2E; color: #fff; border-bottom: 2px solid #C8973A; }
-        .adm-brand { font-weight: 800; font-size: 14px; }
+        .adm-brand { font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+        .adm-brand-logo { width: 32px; height: 32px; object-fit: contain; }
         .adm-nav { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
         .adm-nav a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 7px 12px; border-radius: 8px; }
         .adm-nav a:hover { background: rgba(200,151,58,0.18); color: #E8B84B; }

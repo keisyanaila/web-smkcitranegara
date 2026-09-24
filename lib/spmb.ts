@@ -25,9 +25,15 @@ export const STATUS_LABEL: Record<SpmbStatus, string> = {
   'akan-datang': 'Akan Datang',
 };
 
-export function formatTanggalRange(mulai: string, selesai: string) {
+export const STATUS_LABEL_EN: Record<SpmbStatus, string> = {
+  selesai: 'Closed',
+  berlangsung: 'Now Open',
+  'akan-datang': 'Coming Soon',
+};
+
+export function formatTanggalRange(mulai: string, selesai: string, locale = 'id-ID') {
   const fmt = (iso: string) =>
-    new Date(`${iso}T00:00:00`).toLocaleDateString('id-ID', {
+    new Date(`${iso}T00:00:00`).toLocaleDateString(locale, {
       day: 'numeric',
       month: 'long',
       year: 'numeric',

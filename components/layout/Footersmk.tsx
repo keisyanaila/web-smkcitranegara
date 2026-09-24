@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 import { GraduationCap, Phone, Mail, MapPin, Share2, MessageCircle, Play, Clock1, Clock2Icon, Clock12Icon } from 'lucide-react';
 import {
   FaInstagram,
@@ -10,6 +13,7 @@ import {
 } from 'react-icons/fa';
 
 export default function Footer() {
+  const { t } = useLang();
   return (
     <footer style={{ background: '#0B3D2E ', color: 'white', borderTop: '2px solid #C8973A' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '60px 24px 30px' }}>
@@ -20,11 +24,9 @@ export default function Footer() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
               <div
                 style={{
-                  width: 50,
+                  width: 124,
                   height: 50,
                   position: 'relative',
-                  overflow: 'hidden',
-                  borderRadius: 8,
                   flexShrink: 0,
                 }}
               >
@@ -39,11 +41,14 @@ export default function Footer() {
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: 15 }}>SMK Citra Negara</div>
-                <div style={{ fontSize: 11, color: '#C8973A' }}>Terakreditasi A</div>
+                <div style={{ fontSize: 11, color: '#C8973A' }}>{t('Terakreditasi A', 'A-Accredited')}</div>
               </div>
             </div>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 20 }}>
-              Sekolah Menengah Kejuruan unggulan yang mencetak generasi profesional, berkarakter, dan siap kerja.
+              {t(
+                'Sekolah Menengah Kejuruan unggulan yang mencetak generasi profesional, berkarakter, dan siap kerja.',
+                'A leading vocational high school shaping professional, well-rounded, and career-ready graduates.',
+              )}
             </p>
             <div style={{ display: 'flex', gap: 12 }}>
  <a
@@ -150,13 +155,13 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>Menu Utama</h4>
+            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>{t('Menu Utama', 'Main Menu')}</h4>
             {[
-              { href: '/', label: 'Beranda' },
-              { href: '/tentang', label: 'Tentang Kami' },
-              { href: '/jurusan', label: 'Program Keahlian' },
-              { href: '/spmb', label: 'SPMB Online' },
-              { href: '/login', label: 'Login Siswa' },
+              { href: '/', label: t('Beranda', 'Home') },
+              { href: '/tentang', label: t('Tentang Kami', 'About Us') },
+              { href: '/jurusan', label: t('Program Keahlian', 'Study Programs') },
+              { href: '/spmb', label: t('SPMB Online', 'Online Admission') },
+              { href: '/login', label: t('Login Siswa', 'Student Login') },
             ].map(link => (
               <Link key={link.href} href={link.href} style={{
                 display: 'block', color: 'rgba(255,255,255,0.6)',
@@ -171,15 +176,25 @@ export default function Footer() {
 
           {/* Jurusan */}
           <div>
-            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>Program Keahlian</h4>
-            {[
-              'Teknik Jaringan Komputer dan Telekomunikasi (TJKT)',
-              'Pengembangan Perangkat Lunak dan Gim (PPLG)',
-              'Manajemen Perkantoran dan Layanan Bisnis (MPLB)',
-              'Desain Komunikasi Visual (DKV)',
-              'Pemasaran (PM)',
-              'Perhotelan (PH)',
-            ].map(j => (
+            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>{t('Program Keahlian', 'Study Programs')}</h4>
+            {t(
+              [
+                'Teknik Jaringan Komputer dan Telekomunikasi (TJKT)',
+                'Pengembangan Perangkat Lunak dan Gim (PPLG)',
+                'Manajemen Perkantoran dan Layanan Bisnis (MPLB)',
+                'Desain Komunikasi Visual (DKV)',
+                'Pemasaran (PM)',
+                'Perhotelan (PH)',
+              ],
+              [
+                'Computer Networking & Telecommunications (TJKT)',
+                'Software & Game Development (PPLG)',
+                'Office Management & Business Services (MPLB)',
+                'Visual Communication Design (DKV)',
+                'Marketing (PM)',
+                'Hospitality (PH)',
+              ],
+            ).map(j => (
               <div key={j} style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, padding: '5px 0' }}>
                  {j}
               </div>
@@ -188,12 +203,12 @@ export default function Footer() {
 
           {/* Kontak */}
           <div>
-            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>Kontak</h4>
+            <h4 style={{ fontWeight: 700, marginBottom: 16, fontSize: 14, color: '#C8973A' }}>{t('Kontak', 'Contact')}</h4>
             {[
               { Icon: MapPin, text: 'Jl. Tanah Baru Jl. Kemiri Jaya No.99, Beji, Kecamatan Beji, Kota Depok, Jawa Barat 16421' },
               { Icon: Phone, text: '(021) 7720-1052 / WA: 0813-2526-9477' },
               { Icon: Mail, text: 'info@citranegara.sch.id' },
-              { Icon: Clock12Icon, text: 'Senin - Jumat: 07:00 - 15:30 | Sabtu - Minggu: 07:00 - 13:00' },
+              { Icon: Clock12Icon, text: t('Senin - Jumat: 07:00 - 15:30 | Sabtu - Minggu: 07:00 - 13:00', 'Mon - Fri: 07:00 - 15:30 | Sat - Sun: 07:00 - 13:00') },
             ].map(({ Icon, text }, i) => (
               <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 12, alignItems: 'flex-start' }}>
                 <Icon size={14} color="#C8973A" style={{ marginTop: 3, flexShrink: 0 }} />

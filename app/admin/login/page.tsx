@@ -32,6 +32,7 @@ export default function AdminLoginPage() {
   return (
     <div className="login-wrap">
       <form className="login-card" onSubmit={submit}>
+        <img src="/images/logo-badge.png" alt="Logo SMK Citra Negara" className="login-logo" />
         <h1>Masuk Admin</h1>
         <p>SMK Citra Negara</p>
         {error && <div className="login-error">{error}</div>}
@@ -50,6 +51,7 @@ export default function AdminLoginPage() {
       <style>{`
         .login-wrap { min-height: 100vh; display: grid; place-items: center; background: linear-gradient(160deg,#052e16,#15803d); padding: 24px; font-family: system-ui, sans-serif; }
         .login-card { width: 100%; max-width: 340px; background: #fff; border-radius: 16px; padding: 32px 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 12px; }
+        .login-logo { width: 88px; height: 88px; object-fit: contain; align-self: center; margin-bottom: 4px; }
         .login-card h1 { font-size: 20px; font-weight: 800; color: #0A1628; }
         .login-card p { font-size: 12px; color: #6b7280; margin-top: -8px; }
         .login-card input { padding: 11px 13px; border: 1.5px solid #d1d5db; border-radius: 10px; font-size: 14px; }
