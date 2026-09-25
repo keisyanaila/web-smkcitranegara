@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -36,7 +37,18 @@ function HeroBanner() {
   );
 }
 
+const PROFESI_EN: Record<string, string> = {
+  'Desainer Grafis': 'Graphic Designer',
+  'Ilustrator': 'Illustrator',
+  'Fotografer': 'Photographer',
+  'Animator': 'Animator',
+  'Desainer Web': 'Web Designer',
+  'Videografer / Editor Video': 'Videographer / Video Editor',
+  'Desainer Identitas Visual': 'Brand Identity Designer',
+};
+
 export default function DkvPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +77,7 @@ export default function DkvPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +89,7 @@ export default function DkvPage() {
                 maxWidth: 700,
               }}
             >
-              Desain Komunikasi Visual
+              {t("Desain Komunikasi Visual", "Visual Communication Design")}
             </h1>
 
             <p
@@ -89,7 +101,7 @@ export default function DkvPage() {
                 lineHeight: 1.6,
               }}
             >
-              Menciptakan karya visual yang efektif untuk komunikasi lewat desain grafis, ilustrasi, fotografi, animasi, dan multimedia.
+              {t("Menciptakan karya visual yang efektif untuk komunikasi lewat desain grafis, ilustrasi, fotografi, animasi, dan multimedia.", "Creating effective visual work for communication through graphic design, illustration, photography, animation, and multimedia.")}
             </p>
           </div>
         </section>
@@ -117,7 +129,7 @@ export default function DkvPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu DKV
+              {t("Apa itu DKV", "What is DKV?")}
             </h2>
 
             <p
@@ -128,7 +140,7 @@ export default function DkvPage() {
                 marginBottom: 40,
               }}
             >
-              Bidang studi Desain Komunikasi Visual adalah program pendidikan yang fokus pada pengembangan keterampilan dalam menciptakan karya visual yang efektif untuk komunikasi. Program ini mencakup berbagai aspek desain grafis, ilustrasi, fotografi, animasi, dan multimedia untuk mempersiapkan siswa menjadi profesional kreatif yang mampu bekerja di industri kreatif dan media.
+              {t("Bidang studi Desain Komunikasi Visual adalah program pendidikan yang fokus pada pengembangan keterampilan dalam menciptakan karya visual yang efektif untuk komunikasi. Program ini mencakup berbagai aspek desain grafis, ilustrasi, fotografi, animasi, dan multimedia untuk mempersiapkan siswa menjadi profesional kreatif yang mampu bekerja di industri kreatif dan media.", "Visual Communication Design (DKV) is a study program focused on building the skills to create effective visual work for communication. It covers graphic design, illustration, photography, animation, and multimedia to prepare students to become creative professionals in the creative and media industries.")}
             </p>
 
             {/* Materi */}
@@ -140,7 +152,7 @@ export default function DkvPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t("Apa yang akan kamu pelajari?", "What will you learn?")}
             </h2>
 
             <div
@@ -154,34 +166,50 @@ export default function DkvPage() {
               {[
                 {
                   label: 'Dasar-dasar Desain Grafis',
+                  labelEn: 'Graphic Design Fundamentals',
+                  descEn: 'Core design principles such as composition, color, typography, and layout, using graphic design software such as Adobe Photoshop, Illustrator, and CorelDRAW.',
                   desc: 'Prinsip-prinsip dasar desain seperti komposisi, warna, tipografi, dan layout. Penggunaan perangkat lunak desain grafis seperti Adobe Photoshop, Illustrator, dan CorelDRAW.',
                 },
                 {
                   label: 'Ilustrasi dan Seni Digital',
+                  labelEn: 'Illustration & Digital Art',
+                  descEn: 'Traditional and digital drawing techniques, and creating illustrations for books, magazines, posters, and other media.',
                   desc: 'Teknik menggambar manual dan digital, serta pembuatan ilustrasi untuk berbagai media seperti buku, majalah, dan poster.',
                 },
                 {
                   label: 'Fotografi',
+                  labelEn: 'Photography',
+                  descEn: 'Photography basics including composition, lighting, and shooting techniques, plus photo editing with Adobe Lightroom and Photoshop.',
                   desc: 'Dasar-dasar fotografi termasuk komposisi, pencahayaan, dan teknik pengambilan gambar, serta penggunaan perangkat lunak pengeditan foto seperti Adobe Lightroom dan Photoshop.',
                 },
                 {
                   label: 'Animasi dan Multimedia',
+                  labelEn: 'Animation & Multimedia',
+                  descEn: '2D and 3D animation principles, using animation software such as Adobe Animate and Blender.',
                   desc: 'Prinsip dasar animasi 2D dan 3D, serta penggunaan perangkat lunak animasi seperti Adobe Animate dan Blender.',
                 },
                 {
                   label: 'Desain Web dan Interaktif',
+                  labelEn: 'Web & Interactive Design',
+                  descEn: 'Web design basics including HTML, CSS, and UX/UI principles, and creating interactive content and animation for the web.',
                   desc: 'Dasar-dasar desain web termasuk HTML, CSS, dan prinsip-prinsip UX/UI, serta pembuatan konten interaktif dan animasi untuk web.',
                 },
                 {
                   label: 'Branding dan Identitas Visual',
+                  labelEn: 'Branding & Visual Identity',
+                  descEn: 'Branding concepts and visual identity development, including logo, packaging, and promotional design.',
                   desc: 'Konsep branding dan pengembangan identitas visual, termasuk desain logo, kemasan, dan materi promosi.',
                 },
                 {
                   label: 'Produksi Video',
+                  labelEn: 'Video Production',
+                  descEn: 'Video production basics including shooting, editing, and visual effects with Adobe Premiere Pro and After Effects.',
                   desc: 'Dasar-dasar produksi video termasuk pengambilan gambar, penyuntingan, dan efek visual, menggunakan perangkat lunak seperti Adobe Premiere Pro dan After Effects.',
                 },
                 {
                   label: 'Desain Publikasi',
+                  labelEn: 'Publication Design',
+                  descEn: 'Layout design for books, magazines, brochures, and other print materials using desktop publishing software such as Adobe InDesign.',
                   desc: 'Desain layout untuk buku, majalah, brosur, dan materi cetak lainnya, menggunakan perangkat lunak desktop publishing seperti Adobe InDesign.',
                 },
               ].map((m) => (
@@ -215,9 +243,9 @@ export default function DkvPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -232,7 +260,7 @@ export default function DkvPage() {
                 marginBottom: 20,
               }}
             >
-              Kenapa harus memilih DKV?
+              {t("Kenapa harus memilih DKV?", "Why choose DKV?")}
             </h2>
 
             <div
@@ -246,14 +274,20 @@ export default function DkvPage() {
               {[
                 {
                   label: 'Industri kreatif terus tumbuh',
+                  labelEn: 'A Growing Creative Industry',
+                  descEn: 'Demand for visual designers keeps rising along with digital media, advertising, and creative content.',
                   desc: 'Kebutuhan desainer visual meningkat seiring berkembangnya media digital, periklanan, dan konten kreatif.',
                 },
                 {
                   label: 'Keahlian nyata',
+                  labelEn: 'Real, Hands-on Skills',
+                  descEn: 'Students directly create graphic designs, illustrations, videos, and multimedia work.',
                   desc: 'Siswa langsung praktik membuat desain grafis, ilustrasi, video, dan karya multimedia.',
                 },
                 {
                   label: 'Fleksibilitas kerja',
+                  labelEn: 'Flexible Work',
+                  descEn: 'Work at a creative agency, in-house at a company, as a freelancer, or start your own business.',
                   desc: 'Bisa bekerja di agensi kreatif, in-house perusahaan, freelance, atau merintis usaha sendiri.',
                 },
               ].map((a) => (
@@ -283,9 +317,9 @@ export default function DkvPage() {
                         color: NAVY,
                       }}
                     >
-                      {a.label}:
+                      {t(a.label, a.labelEn)}:
                     </span>{' '}
-                    {a.desc}
+                    {t(a.desc, a.descEn)}
                   </p>
                 </div>
               ))}
@@ -300,7 +334,7 @@ export default function DkvPage() {
                 marginBottom: 20,
               }}
             >
-              Profesi yang cocok untuk lulusan DKV
+              {t("Profesi yang cocok untuk lulusan DKV", "Careers for DKV graduates")}
             </h2>
 
             <div
@@ -340,7 +374,7 @@ export default function DkvPage() {
                       color: 'white',
                     }}
                   >
-                    {p}
+                    {t(p, PROFESI_EN[p] ?? p)}
                   </span>
                 </div>
               ))}
@@ -361,7 +395,7 @@ export default function DkvPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan DKV?
+                {t("Tertarik bergabung dengan jurusan DKV?", "Interested in joining DKV?")}
               </p>
 
               <Link
@@ -377,7 +411,7 @@ export default function DkvPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t("Daftar Sekarang", "Apply Now")}
               </Link>
             </div>
           </div>

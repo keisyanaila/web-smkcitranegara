@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -36,7 +37,16 @@ function HeroBanner() {
   );
 }
 
+const PROFESI_EN: Record<string, string> = {
+  'Teknisi Jaringan': 'Network Technician',
+  'Administrator Jaringan': 'Network Administrator',
+  'Teknisi Telekomunikasi': 'Telecommunications Technician',
+  'Spesialis Keamanan Jaringan': 'Network Security Specialist',
+  'Teknisi IT': 'IT Technician',
+};
+
 export default function TkjPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +75,7 @@ export default function TkjPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +87,7 @@ export default function TkjPage() {
                 maxWidth: 700,
               }}
             >
-              Teknik Jaringan Komputer dan Telekomunikasi
+              {t("Teknik Jaringan Komputer dan Telekomunikasi", "Computer Networking & Telecommunications")}
             </h1>
 
             <p
@@ -89,7 +99,7 @@ export default function TkjPage() {
                 lineHeight: 1.6,
               }}
             >
-              Membekali siswa dengan pengetahuan dan keterampilan praktis di bidang jaringan komputer dan telekomunikasi agar siap kerja di industri TIK.
+              {t("Membekali siswa dengan pengetahuan dan keterampilan praktis di bidang jaringan komputer dan telekomunikasi agar siap kerja di industri TIK.", "Equipping students with practical knowledge and skills in computer networking and telecommunications so they are ready to work in the ICT industry.")}
             </p>
           </div>
         </section>
@@ -117,7 +127,7 @@ export default function TkjPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu TJKT
+              {t("Apa itu TJKT", "What is TJKT?")}
             </h2>
 
             <p
@@ -128,7 +138,7 @@ export default function TkjPage() {
                 marginBottom: 40,
               }}
             >
-              Bidang studi Teknik Jaringan Komputer dan Telekomunikasi adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam bidang jaringan komputer dan telekomunikasi. Program ini bertujuan untuk menghasilkan lulusan yang siap kerja di industri teknologi informasi dan komunikasi.
+              {t("Bidang studi Teknik Jaringan Komputer dan Telekomunikasi adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam bidang jaringan komputer dan telekomunikasi. Program ini bertujuan untuk menghasilkan lulusan yang siap kerja di industri teknologi informasi dan komunikasi.", "Computer Networking and Telecommunications (TJKT) is a study program designed to equip students with practical knowledge and skills in computer networks and telecommunications. It aims to produce graduates who are ready to work in the information and communication technology industry.")}
             </p>
 
             {/* Materi */}
@@ -140,7 +150,7 @@ export default function TkjPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t("Apa yang akan kamu pelajari?", "What will you learn?")}
             </h2>
 
             <div
@@ -154,34 +164,50 @@ export default function TkjPage() {
               {[
                 {
                   label: 'Dasar-dasar Teknologi Informasi dan Komunikasi',
+                  labelEn: 'ICT Fundamentals',
+                  descEn: 'Introduction to computer hardware and software, and basic networking principles including network types and topologies.',
                   desc: 'Pengenalan perangkat keras dan perangkat lunak komputer, serta prinsip dasar jaringan komputer termasuk jenis-jenis jaringan dan topologi jaringan.',
                 },
                 {
                   label: 'Jaringan Lokal (LAN)',
+                  labelEn: 'Local Area Networks (LAN)',
+                  descEn: 'Designing, installing, and configuring local networks, and using network devices such as hubs, switches, and routers.',
                   desc: 'Desain, instalasi, dan konfigurasi jaringan lokal, serta penggunaan perangkat jaringan seperti hub, switch, dan router.',
                 },
                 {
                   label: 'Jaringan Area Luas (WAN)',
+                  labelEn: 'Wide Area Networks (WAN)',
+                  descEn: 'WAN concepts and technologies, and an introduction to network protocols such as TCP/IP.',
                   desc: 'Konsep dan teknologi jaringan area luas, serta pengenalan dan penggunaan protokol jaringan seperti TCP/IP.',
                 },
                 {
                   label: 'Keamanan Jaringan',
+                  labelEn: 'Network Security',
+                  descEn: 'Basic techniques to protect networks from security threats, and using firewalls and other security devices.',
                   desc: 'Teknik dasar untuk melindungi jaringan dari ancaman keamanan, serta penggunaan firewall dan perangkat keamanan lainnya.',
                 },
                 {
                   label: 'Teknologi Nirkabel',
+                  labelEn: 'Wireless Technology',
+                  descEn: 'Wireless communication basics and Wi-Fi configuration, plus an introduction to mobile and cellular networks.',
                   desc: 'Dasar-dasar komunikasi nirkabel dan konfigurasi jaringan Wi-Fi, serta pengenalan teknologi mobile dan jaringan seluler.',
                 },
                 {
                   label: 'Pemrograman Dasar',
+                  labelEn: 'Basic Programming',
+                  descEn: 'Programming languages relevant to networking such as Python or JavaScript, and scripting to automate network tasks.',
                   desc: 'Pengenalan bahasa pemrograman yang relevan untuk jaringan seperti Python atau JavaScript, serta penggunaan skrip untuk otomasi tugas jaringan.',
                 },
                 {
                   label: 'Manajemen Jaringan',
+                  labelEn: 'Network Management',
+                  descEn: 'Network maintenance and troubleshooting, and using network monitoring tools.',
                   desc: 'Pemeliharaan dan troubleshooting jaringan, serta penggunaan alat monitoring jaringan.',
                 },
                 {
                   label: 'Sistem Telekomunikasi',
+                  labelEn: 'Telecommunication Systems',
+                  descEn: 'Introduction to analog and digital communication technology, and the basics of telephone systems and VoIP.',
                   desc: 'Pengenalan teknologi komunikasi analog dan digital, serta dasar-dasar sistem telepon dan VoIP.',
                 },
               ].map((m) => (
@@ -215,9 +241,9 @@ export default function TkjPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -232,7 +258,7 @@ export default function TkjPage() {
                 marginBottom: 20,
               }}
             >
-              Kenapa harus memilih TJKT?
+              {t("Kenapa harus memilih TJKT?", "Why choose TJKT?")}
             </h2>
 
             <div
@@ -246,14 +272,20 @@ export default function TkjPage() {
               {[
                 {
                   label: 'Kebutuhan industri tinggi',
+                  labelEn: 'High Industry Demand',
+                  descEn: 'Almost every organization and company needs networking and IT staff to support their operations.',
                   desc: 'Hampir semua instansi dan perusahaan membutuhkan tenaga jaringan dan IT untuk mendukung operasional mereka.',
                 },
                 {
                   label: 'Keahlian nyata',
+                  labelEn: 'Real, Hands-on Skills',
+                  descEn: 'Students practice installing, configuring, and troubleshooting computer networks and telecommunication systems.',
                   desc: 'Siswa langsung praktik instalasi, konfigurasi, dan troubleshooting jaringan komputer serta sistem telekomunikasi.',
                 },
                 {
                   label: 'Fleksibilitas kerja',
+                  labelEn: 'Flexible Work',
+                  descEn: 'Work as a field technician, an office network administrator, or run your own network installation business.',
                   desc: 'Bisa bekerja sebagai teknisi lapangan, administrator jaringan di kantor, maupun membuka jasa instalasi jaringan sendiri.',
                 },
               ].map((a) => (
@@ -283,9 +315,9 @@ export default function TkjPage() {
                         color: NAVY,
                       }}
                     >
-                      {a.label}:
+                      {t(a.label, a.labelEn)}:
                     </span>{' '}
-                    {a.desc}
+                    {t(a.desc, a.descEn)}
                   </p>
                 </div>
               ))}
@@ -300,7 +332,7 @@ export default function TkjPage() {
                 marginBottom: 20,
               }}
             >
-              Profesi yang cocok untuk lulusan TJKT
+              {t("Profesi yang cocok untuk lulusan TJKT", "Careers for TJKT graduates")}
             </h2>
 
             <div
@@ -338,7 +370,7 @@ export default function TkjPage() {
                       color: 'white',
                     }}
                   >
-                    {p}
+                    {t(p, PROFESI_EN[p] ?? p)}
                   </span>
                 </div>
               ))}
@@ -359,7 +391,7 @@ export default function TkjPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan TJKT?
+                {t("Tertarik bergabung dengan jurusan TJKT?", "Interested in joining TJKT?")}
               </p>
 
               <Link
@@ -375,7 +407,7 @@ export default function TkjPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t("Daftar Sekarang", "Apply Now")}
               </Link>
             </div>
           </div>

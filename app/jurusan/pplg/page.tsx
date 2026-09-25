@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -36,7 +37,8 @@ function HeroBanner() {
   );
 }
 
-export default function IpaPage() {
+export default function PplgPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +67,7 @@ export default function IpaPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali 
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +79,7 @@ export default function IpaPage() {
                 maxWidth: 700,
               }}
             >
-              Pengembangan Perangkat Lunak Dan Game 
+              {t('Pengembangan Perangkat Lunak Dan Gim', 'Software & Game Development')}
             </h1>
 
             {/* Keterangan singkat di bawah judul, di atas foto */}
@@ -118,7 +120,7 @@ export default function IpaPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu PPLG
+              {t('Apa itu PPLG?', 'What is PPLG?')}
             </h2>
 
             <p
@@ -129,7 +131,10 @@ export default function IpaPage() {
                 marginBottom: 40,
               }}
             >
-             Bidang studi Pengembangan Perangkat Lunak dan Gim adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam bidang pengembangan perangkat lunak dan pembuatan gim. Program ini bertujuan untuk menghasilkan lulusan yang siap bekerja di industri teknologi informasi dan hiburan digital, khususnya dalam pengembangan aplikasi perangkat lunak dan gim.
+             {t(
+               'Bidang studi Pengembangan Perangkat Lunak dan Gim adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam bidang pengembangan perangkat lunak dan pembuatan gim. Program ini bertujuan untuk menghasilkan lulusan yang siap bekerja di industri teknologi informasi dan hiburan digital, khususnya dalam pengembangan aplikasi perangkat lunak dan gim.',
+               'Software and Game Development (PPLG) is a study program designed to equip students with practical knowledge and skills in software development and game creation. It aims to produce graduates who are ready to work in the IT and digital entertainment industries, especially in building software applications and games.',
+             )}
             </p>
 
             {/* Materi */}
@@ -141,7 +146,7 @@ export default function IpaPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t('Apa yang akan kamu pelajari?', 'What will you learn?')}
             </h2>
 
             <div
@@ -155,34 +160,50 @@ export default function IpaPage() {
               {[
                 {
                   label: 'Dasar-dasar Pemrograman',
+                  labelEn: 'Programming Fundamentals',
+                  descEn: 'Introduction to programming languages such as Python, Java, C++, or JavaScript, and core concepts like variables, data types, control flow, and functions.',
                   desc: 'Pengenalan bahasa pemrograman seperti Python, Java, C++, atau JavaScript, Konsep dasar pemrograman seperti variabel, tipe data, kontrol alur, dan fungsi.',
                 },
                 {
                   label: 'Pengembangan Perangkat Lunak',
+                  labelEn: 'Software Development',
+                  descEn: 'Software design principles, building desktop, web, and mobile applications, and using frameworks and development tools.',
                   desc: 'Prinsip-prinsip desain perangkat lunak, Pengembangan aplikasi berbasis desktop, web, dan mobile,Penggunaan framework dan alat bantu pengembangan perangkat lunak.',
                 },
                 {
                   label: 'Database dan Sistem Manajemen Basis Data',
+                  labelEn: 'Databases & Database Management Systems',
+                  descEn: 'Database fundamentals and SQL, database design and implementation, and integrating databases with applications.',
                   desc: 'Konsep dasar basis data dan SQL,Perancangan dan implementasi basis data, Integrasi basis data dengan aplikasi perangkat lunak.',
                 },
                 {
                   label: 'Pemrograman Gim',
+                  labelEn: 'Game Programming',
+                  descEn: 'Introduction to game development and core game concepts, using game engines such as Unity or Unreal Engine, and creating characters, environments, and game mechanics.',
                   desc: 'Pengenalan pengembangan gim dan konsep dasar gim,Penggunaan mesin gim seperti Unity atau Unreal Engine, Pembuatan karakter, lingkungan, dan mekanik gim.',
                 },
                 {
                   label: 'Desain Antarmuka Pengguna (UI) dan Pengalaman Pengguna (UX)',
+                  labelEn: 'User Interface (UI) & User Experience (UX) Design',
+                  descEn: 'User interface design principles, techniques to improve user experience, and UI/UX tools such as Adobe XD or Figma.',
                   desc: 'Prinsip-prinsip desain antarmuka pengguna,Teknik untuk meningkatkan pengalaman pengguna,Alat bantu desain UI/UX seperti Adobe XD atau Figma.',
                 },
                 {
                   label: 'Manajemen Proyek Perangkat Lunak',
+                  labelEn: 'Software Project Management',
+                  descEn: 'Project management methods such as Agile and Scrum, tools like Jira or Trello, and software documentation and maintenance.',
                   desc: 'Teknik dan metodologi manajemen proyek seperti Agile dan Scrum,Alat bantu manajemen proyek seperti Jira atau Trello,Dokumentasi dan pemeliharaan perangkat lunak.',
                 },
                  {
                   label: 'Keamanan Perangkat Lunak',
+                  labelEn: 'Software Security',
+                  descEn: 'Software security fundamentals, techniques to protect applications from threats, and security testing.',
                   desc: 'Konsep dasar keamanan perangkat lunak,Teknik untuk melindungi aplikasi dari ancaman keamanan,Pengujian keamanan perangkat lunak.',
                 },
                   {
                   label: 'Testing dan Debugging',
+                  labelEn: 'Testing & Debugging',
+                  descEn: 'Software testing techniques and tools, debugging methods to find and fix bugs, and automated testing with tools such as Selenium.',
                   desc: 'Teknik dan alat untuk pengujian perangkat lunak,Metode debugging untuk menemukan dan memperbaiki bug,Pengujian otomatis dengan menggunakan alat bantu seperti Selenium.',
                 },
               ].map((m) => (
@@ -216,9 +237,9 @@ export default function IpaPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -233,7 +254,7 @@ export default function IpaPage() {
                 marginBottom: 20,
               }}
             >
-              Kenapa harus memilih PPLG?
+              {t('Kenapa harus memilih PPLG?', 'Why choose PPLG?')}
             </h2>
 
             <div
@@ -247,14 +268,20 @@ export default function IpaPage() {
               {[
                 {
                   label: 'Peluang Kerja luas',
+                  labelEn: 'Wide Career Opportunities',
+                  descEn: 'Almost every organization, from government agencies to startups, needs IT talent.',
                   desc: ' Hampir semua perusahaan, dari instansi pemerintah hingga startup, butuh tenaga IT.',
                 },
                 {
                   label: 'Keahlian nyata',
+                  labelEn: 'Real, Hands-on Skills',
+                  descEn: 'Students learn by directly building apps, websites, and games.',
                   desc: 'Siswa langsung belajar membuat aplikasi, web, dan game',
                 },
                 {
                   label: 'Fleksibilitas kerja',
+                  labelEn: 'Flexible Work',
+                  descEn: 'Work in an office, remotely, or start your own business.',
                   desc: 'Bisa bekerja di kantor, jarak jauh (remote), atau merintis usaha sendiri.',
                 },
            
@@ -285,9 +312,9 @@ export default function IpaPage() {
                         color: NAVY,
                       }}
                     >
-                      {a.label}:
+                      {t(a.label, a.labelEn)}:
                     </span>{' '}
-                    {a.desc}
+                    {t(a.desc, a.descEn)}
                   </p>
                 </div>
               ))}
@@ -302,7 +329,7 @@ export default function IpaPage() {
                 marginBottom: 20,
               }}
             >
-              Profesi yang cocok untuk lulusan IPA
+              {t('Profesi yang cocok untuk lulusan PPLG', 'Careers for PPLG graduates')}
             </h2>
 
             <div
@@ -314,8 +341,8 @@ export default function IpaPage() {
               }}
             >
               {[
-                'programer',
-                'Game Developer',
+                'Programmer',
+                'Web Developer',
                 'Game Developer',
                 'Mobile App Developer',
                 'UI/UX Designer',
@@ -363,7 +390,7 @@ export default function IpaPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan IPA?
+                {t('Tertarik bergabung dengan jurusan PPLG?', 'Interested in joining PPLG?')}
               </p>
 
               <Link
@@ -379,7 +406,7 @@ export default function IpaPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t('Daftar Sekarang', 'Apply Now')}
               </Link>
             </div>
           </div>

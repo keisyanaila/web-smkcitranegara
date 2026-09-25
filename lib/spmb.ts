@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 export const TAHUN_AJARAN = '2027/2028';
 
 export const GELOMBANG = [
-  { nama: 'Gelombang 1', mulai: '2027-01-02', selesai: '2027-02-27' },
-  { nama: 'Gelombang 2', mulai: '2027-03-01', selesai: '2027-04-30' },
+  { nama: 'Gelombang 1', mulai: '2026-09-01', selesai: '2026-12-01' },
+  { nama: 'Gelombang 2', mulai: '2026-12-01', selesai: '2027-04-30' },
   { nama: 'Gelombang 3', mulai: '2027-05-01', selesai: '2027-06-30' },
 ];
 

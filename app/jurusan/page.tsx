@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CheckCircle, Users, Clock, Monitor, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLang } from '@/lib/i18n';
 
 /* ══════════════════════════════════════════
    DATA
@@ -12,6 +13,7 @@ import { useRouter } from 'next/navigation';
 const JURUSAN = [
   {
     id: 'pplg',
+    en: { nama: "Software & Game Development", deskripsi: "Preparing students to become professional software developers: web, games, mobile, databases, and systems engineering.", kompetensi: ["Programming Basics","Databases","UI/UX Design","Testing & Debugging"] },
     href: '/jurusan/pplg',
     logo: '/images/logopplg.png',
     kode: 'PPLG',
@@ -25,6 +27,7 @@ const JURUSAN = [
   },
   {
     id: 'tjkt',
+    en: { nama: "Computer Networking & Telecommunications", deskripsi: "Equipping students with practical knowledge and skills in computer networks and telecommunications.", kompetensi: ["LAN/WAN Networks","Network Security","Wireless Technology","Network Management"] },
     href: '/jurusan/tjkt',
     logo: '/images/logotjkt.png',
     kode: 'TJKT',
@@ -38,6 +41,7 @@ const JURUSAN = [
   },
   {
     id: 'dkv',
+    en: { nama: "Visual Communication Design", deskripsi: "Focused on graphic design, illustration, photography, animation, and multimedia skills.", kompetensi: ["Graphic Design","Photography","Animation","Video Production"] },
     href: '/jurusan/dkv',
     logo: '/images/logodkv.png',
     kode: 'DKV',
@@ -51,6 +55,7 @@ const JURUSAN = [
   },
   {
     id: 'pm',
+    en: { nama: "Digital Business & Retail", deskripsi: "Building marketing and sales skills, from market research to digital marketing.", kompetensi: ["Market Research","Marketing Strategy","Sales","E-commerce"] },
     href: '/jurusan/pm',
     logo: '/images/logopm.png',
     kode: 'PM',
@@ -64,6 +69,7 @@ const JURUSAN = [
   },
   {
     id: 'mplb',
+    en: { nama: "Office Management & Business Services", deskripsi: "Preparing students to manage office administration and business services effectively.", kompetensi: ["Office Administration","Business Communication","Customer Service","Basic Finance"] },
     href: '/jurusan/mplb',
     logo: '/images/logomplb.png',
     kode: 'MPLB',
@@ -77,6 +83,7 @@ const JURUSAN = [
   },
   {
     id: 'ph',
+    en: { nama: "Hospitality", deskripsi: "Shaping young professionals ready to enter the tourism and hospitality industry.", kompetensi: ["Front Office","Housekeeping","F&B Service","Entrepreneurship"] },
     href: '/jurusan/ph',
     logo: '/images/logoph.png',
     kode: 'PH',
@@ -91,18 +98,21 @@ const JURUSAN = [
 ];
 
 const KATEGORI = ['Semua', ...Array.from(new Set(JURUSAN.map((j) => j.kategori)))];
+const KATEGORI_EN: Record<string, string> = { Semua: 'All', Teknologi: 'Technology', Kreatif: 'Creative', Bisnis: 'Business', Pariwisata: 'Tourism' };
 
 const STATS: {
   icon: typeof Users;
   label: string;
+  labelEn: string;
   value: number | null;
   suffix: string;
+  suffixEn: string;
   display?: string;
 }[] = [
-  { icon: Users, label: 'Total Kuota', value: 288, suffix: ' Siswa' },
-  { icon: Monitor, label: 'Program Keahlian', value: 6, suffix: ' Jurusan' },
-  { icon: Clock, label: 'Masa Belajar', value: 3, suffix: ' Tahun' },
-  { icon: CheckCircle, label: 'Akreditasi', value: null, suffix: '', display: 'A (Unggul)' },
+  { icon: Users, label: 'Total Kuota', labelEn: 'Total Quota', value: 288, suffix: ' Siswa', suffixEn: ' Students' },
+  { icon: Monitor, label: 'Program Keahlian', labelEn: 'Study Programs', value: 6, suffix: ' Jurusan', suffixEn: ' Programs' },
+  { icon: Clock, label: 'Masa Belajar', labelEn: 'Study Duration', value: 3, suffix: ' Tahun', suffixEn: ' Years' },
+  { icon: CheckCircle, label: 'Akreditasi', labelEn: 'Accreditation', value: null, suffix: '', suffixEn: '', display: 'A (Unggul)' },
 ];
 
 const SCROLL_OFFSET = 86;
@@ -193,7 +203,8 @@ function StatItem({
   trigger: boolean;
 }) {
   const count = useCountUp(item.value, trigger);
-  const text = item.display ?? `${count}${item.suffix}`;
+  const { t } = useLang();
+  const text = item.display ? t(item.display, 'A (Excellent)') : `${count}${t(item.suffix, item.suffixEn)}`;
 
   return (
     <div className="jrs-stat-item" style={{ animationDelay: `${index * 90}ms` }}>
@@ -201,7 +212,7 @@ function StatItem({
         <item.icon size={18} color="#C8973A" />
       </div>
       <div>
-        <div className="jrs-stat-label">{item.label}</div>
+        <div className="jrs-stat-label">{t(item.label, item.labelEn)}</div>
         <div className="jrs-stat-val">{text}</div>
       </div>
     </div>
@@ -213,6 +224,7 @@ function StatItem({
 ══════════════════════════════════════════ */
 function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number }) {
   const router = useRouter();
+  const { t } = useLang();
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -265,23 +277,23 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
         </div>
 
         <div className="jrs-card-body">
-          <h3 className="font-display jrs-card-title">{j.nama}</h3>
-          <p className="jrs-card-desc">{j.deskripsi}</p>
+          <h3 className="font-display jrs-card-title">{t(j.nama, j.en.nama)}</h3>
+          <p className="jrs-card-desc">{t(j.deskripsi, j.en.deskripsi)}</p>
 
           <div className="jrs-tags">
-            {j.kompetensi.map((k, i) => (
+            {t(j.kompetensi, j.en.kompetensi).map((k, i) => (
               <span key={i} className="jrs-tag">{k}</span>
             ))}
           </div>
 
           <div className="jrs-card-meta">
-            <span><strong>{j.kuota}</strong> kuota/tahun</span>
+            <span><strong>{j.kuota}</strong> {t('kuota/tahun', 'seats/year')}</span>
             <span className="jrs-dot">•</span>
-            <span><strong>{j.kelas}</strong> rombel</span>
+            <span><strong>{j.kelas}</strong> {t('rombel', j.kelas > 1 ? 'classes' : 'class')}</span>
           </div>
 
           <Link href={j.href} className="jrs-detail-btn" onClick={(e) => e.stopPropagation()}>
-            Lihat Detail <ArrowRight size={16} />
+            {t('Lihat Detail', 'View Details')} <ArrowRight size={16} />
           </Link>
         </div>
       </div>
@@ -294,6 +306,7 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
 ══════════════════════════════════════════ */
 export default function JurusanPage() {
   const [activeFilter, setActiveFilter] = useState('Semua');
+  const { t } = useLang();
   const filtered = activeFilter === 'Semua' ? JURUSAN : JURUSAN.filter((j) => j.kategori === activeFilter);
 
   const [statsRef, statsInView] = useInViewOnce<HTMLDivElement>(0.3);
@@ -311,9 +324,12 @@ export default function JurusanPage() {
           <span className="jrs-blob jrs-blob-2" aria-hidden="true" />
           <div className="jrs-hero-inner">
             <div className="gold-line" style={{ margin: '0 auto 20px' }} />
-            <h1 className="font-display jrs-hero-title">Program Keahlian</h1>
+            <h1 className="font-display jrs-hero-title">{t('Program Keahlian', 'Study Programs')}</h1>
             <p className="jrs-hero-desc">
-              6 program keahlian dirancang bersama industri untuk memastikan lulusan siap kerja dan kompeten.
+              {t(
+                '6 program keahlian dirancang bersama industri untuk memastikan lulusan siap kerja dan kompeten.',
+                '6 study programs designed together with industry to make sure graduates are competent and career-ready.',
+              )}
             </p>
           </div>
         </section>
@@ -337,7 +353,7 @@ export default function JurusanPage() {
                 className={`jrs-filter-chip ${activeFilter === cat ? 'is-active' : ''}`}
                 onClick={() => setActiveFilter(cat)}
               >
-                {cat}
+                {t(cat, KATEGORI_EN[cat] ?? cat)}
               </button>
             ))}
           </div>
@@ -351,20 +367,23 @@ export default function JurusanPage() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="jrs-empty">Belum ada jurusan di kategori ini.</p>
+            <p className="jrs-empty">{t('Belum ada jurusan di kategori ini.', 'No programs in this category yet.')}</p>
           )}
         </section>
 
         {/* CTA */}
         <section className="jrs-cta">
           <div ref={ctaRef} className={`jrs-cta-inner ${ctaInView ? 'is-visible' : ''}`}>
-            <h2 className="font-display jrs-cta-title">Sudah Tentukan Pilihan?</h2>
+            <h2 className="font-display jrs-cta-title">{t('Sudah Tentukan Pilihan?', 'Made Your Choice?')}</h2>
             <p className="jrs-cta-desc">
-              Daftar sekarang dan mulai perjalanan menuju karir impian Anda bersama SMK Citra Negara.
+              {t(
+                'Daftar sekarang dan mulai perjalanan menuju karir impian Anda bersama SMK Citra Negara.',
+                'Apply now and start your journey toward your dream career with SMK Citra Negara.',
+              )}
             </p>
             <div className="jrs-cta-buttons">
-              <Link href="/spmb" className="btn-primary jrs-shine" style={{ fontSize: 16 }}>Daftar SPMB Sekarang</Link>
-              <Link href="/spmb" className="btn-outline jrs-shine" style={{ fontSize: 16 }}>Info Lebih Lanjut</Link>
+              <Link href="/spmb" className="btn-primary jrs-shine" style={{ fontSize: 16 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')}</Link>
+              <Link href="/spmb" className="btn-outline jrs-shine" style={{ fontSize: 16 }}>{t('Info Lebih Lanjut', 'More Information')}</Link>
             </div>
           </div>
         </section>
