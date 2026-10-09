@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { adminGuard, requireDb } from '@/lib/apiGuard';
+import { adminGuard, errorResponse, requireDb } from '@/lib/apiGuard';
 
 const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
 const OK_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
@@ -10,10 +10,13 @@ export async function POST(req: Request) {
   const guard = await adminGuard();
   if (guard) return guard;
 
-  const sql = requireDb();
-
-  const form = await req.formData();
-  const file = form.get('file');
+  let file: FormDataEntryValue | null = null;
+  try {
+    const form = await req.formData();
+    file = form.get('file');
+  } catch {
+    return NextResponse.json({ error: 'Upload gagal dibaca. Coba pilih ulang gambarnya.' }, { status: 400 });
+  }
   if (!(file instanceof File)) {
     return NextResponse.json({ error: 'Field "file" tidak ada' }, { status: 400 });
   }
@@ -26,11 +29,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Ukuran maksimal 4 MB' }, { status: 400 });
   }
 
-  const rows = await sql`
-    insert into media (filename, mime, data, size)
-    values (${file.name || 'upload'}, ${file.type}, ${buf.toString('base64')}, ${buf.length})
-    returning id
-  `;
-
-  return NextResponse.json({ url: `/api/media/${rows[0].id}` });
+  try {
+    const sql = requireDb();
+    const rows = await sql`
+      insert into media (filename, mime, data, size)
+      values (${file.name || 'upload'}, ${file.type}, ${buf.toString('base64')}, ${buf.length})
+      returning id
+    `;
+    return NextResponse.json({ url: `/api/media/${rows[0].id}` });
+  } catch (e) {
+    return errorResponse(e, 'POST /api/admin/media');
+  }
 }

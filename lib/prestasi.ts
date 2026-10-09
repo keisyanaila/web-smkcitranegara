@@ -73,6 +73,26 @@ export const KATEGORI_PRESTASI_COLOR: Record<string, string> = {
   Organisasi: '#92681A',
 };
 
+/** Nama kategori & tingkat prestasi untuk mode English */
+export const KATEGORI_PRESTASI_EN: Record<string, string> = {
+  Semua: 'All',
+  Olahraga: 'Sports',
+  'Olahraga Elektronik': 'E-Sports',
+  Seni: 'Arts',
+  Akademik: 'Academic',
+  Organisasi: 'Organization',
+};
+
+export const TINGKAT_PRESTASI_EN: Record<string, string> = {
+  Sekolah: 'School',
+  Kecamatan: 'District',
+  Kota: 'City',
+  Kabupaten: 'Regency',
+  Provinsi: 'Provincial',
+  Nasional: 'National',
+  Internasional: 'International',
+};
+
 /** Baca kolom `anggota` (string JSON dari DB) jadi array yang bersih. */
 export function parseAnggota(raw: unknown): Anggota[] {
   let arr: unknown = raw;

@@ -5,172 +5,180 @@ import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
+import { useLang } from '@/lib/i18n';
 
 type Jurusan = {
   id: string;
   nama: string;
+  namaEn: string;
   singkatan: string;
   tagline: string;
   deskripsi: string;
+  deskripsiEn: string;
   icon: string;
   accent: string;
   accent2: string;
   bidang: string;
+  bidangEn: string;
   skills: {
     title: string;
+    titleEn?: string;
     desc: string;
+    descEn: string;
     icon: string;
   }[];
   projects: {
     title: string;
+    titleEn?: string;
     desc: string;
+    descEn: string;
   }[];
 };
 
 const JURUSAN: Jurusan[] = [
   {
     id: 'pplg',
-    nama: 'Pengembangan Perangkat Lunak dan Gim',
+    nama: 'Pengembangan Perangkat Lunak dan Gim', namaEn: 'Software & Game Development',
     singkatan: 'PPLG',
     tagline: 'CODE. BUILD. CREATE.',
     deskripsi:
-      'PPLG mempelajari proses pengembangan perangkat lunak dan gim, mulai dari memahami algoritma dan logika pemrograman, membuat website dan aplikasi, mengelola basis data, hingga mengembangkan produk digital yang dapat digunakan.',
+      'PPLG mempelajari proses pengembangan perangkat lunak dan gim, mulai dari memahami algoritma dan logika pemrograman, membuat website dan aplikasi, mengelola basis data, hingga mengembangkan produk digital yang dapat digunakan.', deskripsiEn: 'PPLG covers the process of developing software and games — from understanding algorithms and programming logic, building websites and apps, and managing databases, to developing usable digital products.',
     icon: '</>',
     accent: '#1E3A5F',
     accent2: '#ffff00',
-    bidang: 'Pemrograman & Teknologi Digital',
+    bidang: 'Pemrograman & Teknologi Digital', bidangEn: 'Programming & Digital Technology',
     skills: [
       {
-        title: 'Pemrograman',
-        desc: 'Mempelajari logika, algoritma, struktur program, dan bahasa pemrograman untuk membuat perangkat lunak.',
+        title: 'Pemrograman', titleEn: 'Programming',
+        desc: 'Mempelajari logika, algoritma, struktur program, dan bahasa pemrograman untuk membuat perangkat lunak.', descEn: 'Learning logic, algorithms, program structure, and programming languages to build software.',
         icon: '</>',
       },
       {
         title: 'Web Development',
-        desc: 'Membuat website dari sisi tampilan hingga fungsi menggunakan teknologi web modern.',
+        desc: 'Membuat website dari sisi tampilan hingga fungsi menggunakan teknologi web modern.', descEn: 'Building websites, from the interface to the functionality, using modern web technologies.',
         icon: '◫',
       },
       {
-        title: 'Basis Data',
-        desc: 'Mempelajari cara menyimpan, mengelola, mengolah, dan mengambil data dalam sebuah aplikasi.',
+        title: 'Basis Data', titleEn: 'Databases',
+        desc: 'Mempelajari cara menyimpan, mengelola, mengolah, dan mengambil data dalam sebuah aplikasi.', descEn: 'Learning how to store, manage, process, and retrieve data in an application.',
         icon: '▦',
       },
       {
-        title: 'Pengembangan Gim',
-        desc: 'Mengenal konsep game development seperti gameplay, logic, asset, dan interaksi pengguna.',
+        title: 'Pengembangan Gim', titleEn: 'Game Development',
+        desc: 'Mengenal konsep game development seperti gameplay, logic, asset, dan interaksi pengguna.', descEn: 'Getting to know game development concepts such as gameplay, logic, assets, and user interaction.',
         icon: '◈',
       },
     ],
     projects: [
       {
-        title: 'Website Sekolah',
-        desc: 'Membangun website informatif dan interaktif untuk kebutuhan sekolah.',
+        title: 'Website Sekolah', titleEn: 'School Website',
+        desc: 'Membangun website informatif dan interaktif untuk kebutuhan sekolah.', descEn: 'Building an informative and interactive website for the school’s needs.',
       },
       {
-        title: 'Aplikasi Digital',
-        desc: 'Membuat aplikasi untuk menyelesaikan kebutuhan atau permasalahan tertentu.',
+        title: 'Aplikasi Digital', titleEn: 'Digital App',
+        desc: 'Membuat aplikasi untuk menyelesaikan kebutuhan atau permasalahan tertentu.', descEn: 'Creating apps that solve specific needs or problems.',
       },
       {
         title: 'Game Prototype',
-        desc: 'Mengembangkan konsep gim sederhana dari ide hingga menjadi prototype.',
+        desc: 'Mengembangkan konsep gim sederhana dari ide hingga menjadi prototype.', descEn: 'Developing a simple game concept from idea to prototype.',
       },
     ],
   },
 
   {
     id: 'dkv',
-    nama: 'Desain Komunikasi Visual',
+    nama: 'Desain Komunikasi Visual', namaEn: 'Visual Communication Design',
     singkatan: 'DKV',
     tagline: 'THINK. DESIGN. COMMUNICATE.',
     deskripsi:
-      'DKV mempelajari bagaimana menyampaikan pesan dan gagasan melalui bahasa visual. Siswa mengembangkan kemampuan desain grafis, ilustrasi, fotografi, tipografi, identitas visual, serta media komunikasi kreatif.',
+      'DKV mempelajari bagaimana menyampaikan pesan dan gagasan melalui bahasa visual. Siswa mengembangkan kemampuan desain grafis, ilustrasi, fotografi, tipografi, identitas visual, serta media komunikasi kreatif.', deskripsiEn: 'DKV is about delivering messages and ideas through visual language. Students develop skills in graphic design, illustration, photography, typography, visual identity, and creative communication media.',
     icon: '✦',
     accent: '#DC2626',
     accent2: '#120308',
-    bidang: 'Desain & Komunikasi Visual',
+    bidang: 'Desain & Komunikasi Visual', bidangEn: 'Design & Visual Communication',
     skills: [
       {
-        title: 'Desain Grafis',
-        desc: 'Mengolah teks, gambar, warna, dan komposisi menjadi karya visual yang komunikatif.',
+        title: 'Desain Grafis', titleEn: 'Graphic Design',
+        desc: 'Mengolah teks, gambar, warna, dan komposisi menjadi karya visual yang komunikatif.', descEn: 'Turning text, images, color, and composition into communicative visual work.',
         icon: '✦',
       },
       {
-        title: 'Ilustrasi',
-        desc: 'Mengembangkan kemampuan menggambar dan menciptakan visual untuk menyampaikan sebuah ide.',
+        title: 'Ilustrasi', titleEn: 'Illustration',
+        desc: 'Mengembangkan kemampuan menggambar dan menciptakan visual untuk menyampaikan sebuah ide.', descEn: 'Developing drawing skills and creating visuals to convey an idea.',
         icon: '◒',
       },
       {
-        title: 'Tipografi',
-        desc: 'Mempelajari pemilihan, pengaturan, dan penggunaan huruf agar pesan visual lebih efektif.',
+        title: 'Tipografi', titleEn: 'Typography',
+        desc: 'Mempelajari pemilihan, pengaturan, dan penggunaan huruf agar pesan visual lebih efektif.', descEn: 'Learning to choose, arrange, and use type so visual messages are more effective.',
         icon: 'Aa',
       },
       {
         title: 'Branding',
-        desc: 'Membangun identitas visual sebuah produk atau organisasi melalui logo, warna, dan elemen grafis.',
+        desc: 'Membangun identitas visual sebuah produk atau organisasi melalui logo, warna, dan elemen grafis.', descEn: 'Building the visual identity of a product or organization through logos, colors, and graphic elements.',
         icon: '◇',
       },
     ],
     projects: [
       {
         title: 'Visual Identity',
-        desc: 'Merancang identitas visual seperti logo, warna, dan elemen grafis sebuah brand.',
+        desc: 'Merancang identitas visual seperti logo, warna, dan elemen grafis sebuah brand.', descEn: 'Designing a brand’s visual identity, such as its logo, colors, and graphic elements.',
       },
       {
         title: 'Poster & Campaign',
-        desc: 'Membuat media kampanye visual untuk menyampaikan informasi kepada masyarakat.',
+        desc: 'Membuat media kampanye visual untuk menyampaikan informasi kepada masyarakat.', descEn: 'Creating visual campaign media to share information with the public.',
       },
       {
         title: 'Creative Portfolio',
-        desc: 'Mengembangkan kumpulan karya desain sebagai portofolio kreatif.',
+        desc: 'Mengembangkan kumpulan karya desain sebagai portofolio kreatif.', descEn: 'Building a collection of design work as a creative portfolio.',
       },
     ],
   },
 
   {
     id: 'tjkt',
-    nama: 'Teknik Jaringan Komputer dan Telekomunikasi',
+    nama: 'Teknik Jaringan Komputer dan Telekomunikasi', namaEn: 'Computer Network & Telecommunications Engineering',
     singkatan: 'TJKT',
     tagline: 'CONNECT. CONFIGURE. PROTECT.',
     deskripsi:
-      'TJKT mempelajari instalasi, konfigurasi, pemeliharaan, dan troubleshooting jaringan komputer serta teknologi telekomunikasi. Siswa mengenal perangkat jaringan, server, konektivitas, hingga dasar keamanan jaringan.',
+      'TJKT mempelajari instalasi, konfigurasi, pemeliharaan, dan troubleshooting jaringan komputer serta teknologi telekomunikasi. Siswa mengenal perangkat jaringan, server, konektivitas, hingga dasar keamanan jaringan.', deskripsiEn: 'TJKT covers the installation, configuration, maintenance, and troubleshooting of computer networks and telecommunications technology. Students learn about network devices, servers, connectivity, and network security basics.',
     icon: '⌁',
     accent: '#3a96d0',
     accent2: '#175e8b',
-    bidang: 'Jaringan & Infrastruktur Teknologi',
+    bidang: 'Jaringan & Infrastruktur Teknologi', bidangEn: 'Networking & Technology Infrastructure',
     skills: [
       {
-        title: 'Jaringan Komputer',
-        desc: 'Mempelajari konsep jaringan LAN, WAN, topologi, IP address, serta komunikasi antarperangkat.',
+        title: 'Jaringan Komputer', titleEn: 'Computer Networks',
+        desc: 'Mempelajari konsep jaringan LAN, WAN, topologi, IP address, serta komunikasi antarperangkat.', descEn: 'Learning LAN and WAN concepts, topologies, IP addressing, and communication between devices.',
         icon: '⌁',
       },
       {
         title: 'Routing & Switching',
-        desc: 'Mempelajari konfigurasi perangkat jaringan agar data dapat dikirim dan diterima dengan baik.',
+        desc: 'Mempelajari konfigurasi perangkat jaringan agar data dapat dikirim dan diterima dengan baik.', descEn: 'Learning to configure network devices so data can be sent and received properly.',
         icon: '⇄',
       },
       {
         title: 'Server',
-        desc: 'Mengenal instalasi dan pengelolaan server serta layanan jaringan untuk kebutuhan pengguna.',
+        desc: 'Mengenal instalasi dan pengelolaan server serta layanan jaringan untuk kebutuhan pengguna.', descEn: 'Getting to know server installation and management, plus network services for users.',
         icon: '▣',
       },
       {
-        title: 'Keamanan Jaringan',
-        desc: 'Mengenal konsep dasar keamanan jaringan untuk membantu melindungi perangkat dan data.',
+        title: 'Keamanan Jaringan', titleEn: 'Network Security',
+        desc: 'Mengenal konsep dasar keamanan jaringan untuk membantu melindungi perangkat dan data.', descEn: 'Learning the basics of network security to help protect devices and data.',
         icon: '◇',
       },
     ],
     projects: [
       {
         title: 'Network Lab',
-        desc: 'Membangun simulasi jaringan untuk mempraktikkan konfigurasi dan konektivitas.',
+        desc: 'Membangun simulasi jaringan untuk mempraktikkan konfigurasi dan konektivitas.', descEn: 'Building network simulations to practice configuration and connectivity.',
       },
       {
         title: 'Server Setup',
-        desc: 'Melakukan instalasi dan konfigurasi layanan server sesuai kebutuhan jaringan.',
+        desc: 'Melakukan instalasi dan konfigurasi layanan server sesuai kebutuhan jaringan.', descEn: 'Installing and configuring server services based on network needs.',
       },
       {
         title: 'Network Troubleshooting',
-        desc: 'Menganalisis masalah koneksi dan melakukan perbaikan pada jaringan.',
+        desc: 'Menganalisis masalah koneksi dan melakukan perbaikan pada jaringan.', descEn: 'Analyzing connection problems and fixing the network.',
       },
     ],
   },
@@ -179,6 +187,7 @@ const JURUSAN: Jurusan[] = [
 export default function JurusanPPLGDKVTJKTPage() {
   const [active, setActive] = useState('pplg');
   const [changing, setChanging] = useState(false);
+  const { t } = useLang();
 
   const current =
     JURUSAN.find((item) => item.id === active) ?? JURUSAN[0];
@@ -1379,7 +1388,7 @@ export default function JurusanPPLGDKVTJKTPage() {
 
           <div className="hero-copy">
             <div className="eyebrow">
-              PROGRAM KEAHLIAN · SMK CITRA NEGARA
+              {t('PROGRAM KEAHLIAN · SMK CITRA NEGARA', 'STUDY PROGRAM · SMK CITRA NEGARA')}
             </div>
 
             <h1 className="hero-title">
@@ -1387,7 +1396,7 @@ export default function JurusanPPLGDKVTJKTPage() {
             </h1>
 
             <div className="hero-name">
-              {current.nama}
+              {t(current.nama, current.namaEn)}
             </div>
 
             <div className="hero-tagline">
@@ -1395,13 +1404,13 @@ export default function JurusanPPLGDKVTJKTPage() {
             </div>
 
             <p className="hero-desc">
-              {current.deskripsi}
+              {t(current.deskripsi, current.deskripsiEn)}
             </p>
 
             <div
               className="switcher"
               role="tablist"
-              aria-label="Pilih program keahlian"
+              aria-label={t('Pilih program keahlian', 'Choose a study program')}
             >
               {JURUSAN.map((item) => (
                 <button
@@ -1432,11 +1441,11 @@ export default function JurusanPPLGDKVTJKTPage() {
             <div className="section-head">
               <div>
                 <div className="section-kicker">
-                  Yang Dipelajari
+                  {t('Yang Dipelajari', 'What You’ll Learn')}
                 </div>
 
                 <h2 className="section-title">
-                  Dunia {current.singkatan}
+                  {t('Dunia', 'The World of')} {current.singkatan}
                 </h2>
               </div>
 
@@ -1461,11 +1470,11 @@ export default function JurusanPPLGDKVTJKTPage() {
                     </div>
 
                     <h3>
-                      {skill.title}
+                      {t(skill.title, skill.titleEn ?? skill.title)}
                     </h3>
 
                     <p>
-                      {skill.desc}
+                      {t(skill.desc, skill.descEn)}
                     </p>
                   </article>
                 )
@@ -1481,7 +1490,7 @@ export default function JurusanPPLGDKVTJKTPage() {
             >
               <div>
                 <div className="section-kicker">
-                  Contoh Penerapan
+                  {t('Contoh Penerapan', 'Real-World Examples')}
                 </div>
 
                 <h2 className="section-title">
@@ -1502,11 +1511,11 @@ export default function JurusanPPLGDKVTJKTPage() {
                     </small>
 
                     <strong>
-                      {project.title}
+                      {t(project.title, project.titleEn ?? project.title)}
                     </strong>
 
                     <p>
-                      {project.desc}
+                      {t(project.desc, project.descEn)}
                     </p>
                   </article>
                 )
@@ -1515,23 +1524,23 @@ export default function JurusanPPLGDKVTJKTPage() {
 
             <div className="major-bottom">
               <div className="bottom-item">
-                <span>Program Keahlian</span>
+                <span>{t('Program Keahlian', 'Study Program')}</span>
                 <strong>
                   {current.singkatan}
                 </strong>
               </div>
 
               <div className="bottom-item">
-                <span>Fokus Utama</span>
+                <span>{t('Fokus Utama', 'Main Focus')}</span>
                 <strong>
-                  {current.bidang}
+                  {t(current.bidang, current.bidangEn)}
                 </strong>
               </div>
 
               <div className="bottom-item">
-                <span>Gaya Belajar</span>
+                <span>{t('Gaya Belajar', 'Learning Style')}</span>
                 <strong>
-                  Teori + Praktik + Proyek
+                  {t('Teori + Praktik + Proyek', 'Theory + Practice + Projects')}
                 </strong>
               </div>
             </div>

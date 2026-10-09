@@ -8,7 +8,7 @@ const env = readFileSync(new URL('../.env.local', import.meta.url), 'utf8');
 const m = env.match(/^DATABASE_URL\s*=\s*"?([^"\n]+)"?/m);
 if (!m) { console.error('DATABASE_URL tidak ditemukan di .env.local'); process.exit(1); }
 
-const sql = neon(m[1]);
+const sql = neon(m[1].trim());
 
 await sql`alter table prestasi add column if not exists anggota text not null default '[]'`;
 

@@ -8,6 +8,8 @@ import {
   Target, Eye, GraduationCap, Users, CalendarDays, Award,
   ChevronDown, Sparkles, HeartHandshake, Rocket, ShieldCheck, Code2,
 } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { JABATAN_EN } from '@/lib/jabatan';
 
 /* ══════════════════════════════════════════
    CSS (responsif + animasi scroll-reveal)
@@ -282,14 +284,16 @@ function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
    Data — sesuaikan bila perlu
 ══════════════════════════════════════════ */
 const STATS = [
-  { icon: CalendarDays, to: 2004, suffix: '', label: 'Tahun Berdiri' },
-  { icon: GraduationCap, to: 6, suffix: '', label: 'Program Keahlian' },
-  { icon: Users, to: 1200, suffix: '+', label: 'Siswa Aktif' },
-  { icon: Award, to: 100, suffix: '+', label: 'Prestasi Diraih' },
+  { icon: CalendarDays, to: 2004, suffix: '', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { icon: GraduationCap, to: 6, suffix: '', label: 'Program Keahlian', labelEn: 'Study Programs' },
+  { icon: Users, to: 1200, suffix: '+', label: 'Siswa Aktif', labelEn: 'Active Students' },
+  { icon: Award, to: 100, suffix: '+', label: 'Prestasi Diraih', labelEn: 'Achievements' },
 ];
 
 const VISI =
   'Terwujudnya Sekolah Kejujuran yang Religius, Disiplin dan Terampil Dalam Menyongsong Generasi Emas di Tahun 2045.';
+const VISI_EN =
+  'To become a School of Honesty that is religious, disciplined, and skilled in welcoming the Golden Generation of 2045.';
 
 const MISI = [
   'Mewujudkan insan yang taat beribadah, cinta kepada kitab suci, dan pandai dalam dakwah keagamaan.',
@@ -297,23 +301,29 @@ const MISI = [
   'Mewujudkan peserta didik yang ahli sesuai kejuruannya melalui sinkronisasi kurikulum intrakurikuler dengan ekstrakurikuler.',
   'Mengembangkan kerja sama dengan dunia usaha dan dunia industri (DUDI).',
 ];
+const MISI_EN = [
+  'To shape people who are devout in worship, love the holy scripture, and are skilled in religious outreach.',
+  'To shape students who are well-behaved, obedient, and have a spirit of leadership.',
+  'To shape students who are experts in their vocational field by aligning the intracurricular curriculum with extracurricular activities.',
+  'To build partnerships with the business world and industry (DUDI).',
+];
 
 const VALUES = [
-  { icon: ShieldCheck, title: 'Sekolah Kejujuran', desc: 'Budaya jujur ditanamkan lewat kantin kejujuran dan pembiasaan harian di setiap kelas.' },
-  { icon: HeartHandshake, title: 'Religius & Berkarakter', desc: 'Pembiasaan ibadah, tahsin, dan kegiatan keagamaan untuk membentuk akhlak mulia.' },
-  { icon: Code2, title: 'Kompeten & Terampil', desc: 'Pembelajaran berbasis praktik dengan lab dan alat sesuai standar industri.' },
-  { icon: Rocket, title: 'Link & Match Industri', desc: 'Kerja sama DUDI untuk magang, guru tamu, dan penyerapan lulusan.' },
-  { icon: Sparkles, title: 'Ekstrakurikuler Aktif', desc: '14+ ekskul mulai dari Paskibra, E-Sport, hingga CN Gakuen untuk menyalurkan minat bakat.' },
-  { icon: Users, title: 'Pendampingan Siswa', desc: 'Guru BK dan wali kelas mendampingi perkembangan akademik dan non-akademik siswa.' },
+  { icon: ShieldCheck, title: 'Sekolah Kejujuran', titleEn: 'School of Honesty', desc: 'Budaya jujur ditanamkan lewat kantin kejujuran dan pembiasaan harian di setiap kelas.', descEn: 'A culture of honesty is built through our honesty canteen and daily habits in every class.' },
+  { icon: HeartHandshake, title: 'Religius & Berkarakter', titleEn: 'Religious & Strong Character', desc: 'Pembiasaan ibadah, tahsin, dan kegiatan keagamaan untuk membentuk akhlak mulia.', descEn: 'Regular worship, Quran recitation (tahsin), and religious activities to build noble character.' },
+  { icon: Code2, title: 'Kompeten & Terampil', titleEn: 'Competent & Skilled', desc: 'Pembelajaran berbasis praktik dengan lab dan alat sesuai standar industri.', descEn: 'Hands-on learning with labs and equipment that meet industry standards.' },
+  { icon: Rocket, title: 'Link & Match Industri', titleEn: 'Industry Link & Match', desc: 'Kerja sama DUDI untuk magang, guru tamu, dan penyerapan lulusan.', descEn: 'Industry partnerships for internships, guest teachers, and graduate placement.' },
+  { icon: Sparkles, title: 'Ekstrakurikuler Aktif', titleEn: 'Active Extracurriculars', desc: '14+ ekskul mulai dari Paskibra, E-Sport, hingga CN Gakuen untuk menyalurkan minat bakat.', descEn: '14+ clubs, from Paskibra (flag troop) and E-Sports to CN Gakuen, to grow every interest and talent.' },
+  { icon: Users, title: 'Pendampingan Siswa', titleEn: 'Student Mentoring', desc: 'Guru BK dan wali kelas mendampingi perkembangan akademik dan non-akademik siswa.', descEn: 'Counselors and homeroom teachers guide students’ academic and non-academic growth.' },
 ];
 
 const PROGRAMS = [
-  { kode: 'PPLG', nama: 'Perangkat Lunak & Gim', color: '#1E3A5F' },
-  { kode: 'TJKT', nama: 'Jaringan & Telekomunikasi', color: '#3a96d0' },
-  { kode: 'DKV', nama: 'Desain Komunikasi Visual', color: '#DC2626' },
-  { kode: 'PM', nama: 'Pemasaran', color: '#92681A' },
-  { kode: 'MPLB', nama: 'Manajemen Perkantoran', color: '#b59a00' },
-  { kode: 'PH', nama: 'Perhotelan', color: '#024d20' },
+  { kode: 'PPLG', nama: 'Perangkat Lunak & Gim', namaEn: 'Software & Game Development', color: '#1E3A5F' },
+  { kode: 'TJKT', nama: 'Jaringan & Telekomunikasi', namaEn: 'Networking & Telecommunications', color: '#3a96d0' },
+  { kode: 'DKV', nama: 'Desain Komunikasi Visual', namaEn: 'Visual Communication Design', color: '#DC2626' },
+  { kode: 'PM', nama: 'Pemasaran', namaEn: 'Marketing', color: '#92681A' },
+  { kode: 'MPLB', nama: 'Manajemen Perkantoran', namaEn: 'Office Management', color: '#b59a00' },
+  { kode: 'PH', nama: 'Perhotelan', namaEn: 'Hospitality', color: '#024d20' },
 ];
 
 /* ══════════════════════════════════════════
@@ -322,6 +332,7 @@ const PROGRAMS = [
 function Box({ name, label, variant = 'default', wide = false }: {
   name: string; label: string; variant?: string; wide?: boolean;
 }) {
+  const { t } = useLang();
   const styles: Record<string, { bg: string; border: string; nameColor: string; labelColor: string }> = {
     default: { bg: 'white', border: '#E2D9C8', nameColor: '#0A1628', labelColor: '#6B7280' },
     dark: { bg: '#023d17', border: '#C8973A', nameColor: 'white', labelColor: '#C8973A' },
@@ -332,7 +343,7 @@ function Box({ name, label, variant = 'default', wide = false }: {
   return (
     <div className={`struktur-box ${wide ? 'struktur-box-wide' : ''}`} style={{ background: s.bg, border: `1.5px solid ${s.border}` }}>
       <div className="struktur-box-name" style={{ color: s.nameColor }}>{name}</div>
-      <div className="struktur-box-label" style={{ color: s.labelColor }}>{label}</div>
+      <div className="struktur-box-label" style={{ color: s.labelColor }}>{t(label, JABATAN_EN[label] ?? label)}</div>
     </div>
   );
 }
@@ -347,11 +358,12 @@ function VCol({ children }: { children: React.ReactNode }) {
 }
 
 function StrukturDiagram() {
+  const { t } = useLang();
   return (
     <div className="struktur-section">
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <p className="struktur-hint" style={{ textAlign: 'center', color: '#9CA3AF', fontSize: 12, marginBottom: 12 }}>
-          ← Geser untuk melihat struktur lengkap →
+          {t('← Geser untuk melihat struktur lengkap →', '← Swipe to see the full structure →')}
         </p>
         <div className="struktur-tree" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -457,11 +469,11 @@ function StrukturDiagram() {
             </VCol>
           </div>
           <VLine h={24} />
-          <div style={{ background: '#FAF7F0', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>WALAS</div>
+          <div style={{ background: '#FAF7F0', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>{t('WALAS', 'HOMEROOM TEACHERS')}</div>
           <VLine />
-          <div style={{ background: '#FAF7F0', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>GURU</div>
+          <div style={{ background: '#FAF7F0', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>{t('GURU', 'TEACHERS')}</div>
           <VLine />
-          <div style={{ background: 'linear-gradient(135deg,#C8973A,#E8B84B)', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>PESERTA DIDIK</div>
+          <div style={{ background: 'linear-gradient(135deg,#C8973A,#E8B84B)', border: '1.5px solid #C8973A', borderRadius: 10, padding: '10px 60px', fontWeight: 800, color: '#0A1628', fontSize: 14, letterSpacing: 2 }}>{t('PESERTA DIDIK', 'STUDENTS')}</div>
         </div>
       </div>
     </div>
@@ -476,6 +488,7 @@ export default function TentangPage() {
   const [readMore, setReadMore] = useState(false);
   const [vmTab, setVmTab] = useState<'visi' | 'misi'>('visi');
   const [showStruktur, setShowStruktur] = useState(false);
+  const { t } = useLang();
 
   return (
     <>
@@ -491,11 +504,13 @@ export default function TentangPage() {
               </div>
             </div>
             <h1 className="font-display hero-title" style={{ color: 'white', marginBottom: 16 }}>
-              Tentang SMK Citra Negara
+              {t('Tentang SMK Citra Negara', 'About SMK Citra Negara')}
             </h1>
             <p className="hero-desc">
-              Berdiri sejak 2004, kami menjadi institusi pendidikan kejuruan terkemuka di Palembang yang
-              menghasilkan lulusan siap kerja, religius, dan berkarakter.
+              {t(
+                'Berdiri sejak 2004, kami menjadi institusi pendidikan kejuruan terkemuka di Palembang yang menghasilkan lulusan siap kerja, religius, dan berkarakter.',
+                'Founded in 2004, we have become a leading vocational school in Palembang, producing graduates who are job-ready, religious, and of strong character.',
+              )}
             </p>
           </div>
         </section>
@@ -508,7 +523,7 @@ export default function TentangPage() {
                 <s.icon size={20} color="#0A1628" />
               </div>
               <Counter to={s.to} suffix={s.suffix} />
-              <div className="stat-lbl">{s.label}</div>
+              <div className="stat-lbl">{t(s.label, s.labelEn)}</div>
             </div>
           ))}
         </div>
@@ -516,15 +531,15 @@ export default function TentangPage() {
         {/* ── SAMBUTAN ── */}
         <section className="sec sec-cream">
           <div className="sec-head reveal">
-            <span className="sec-kicker">Sambutan</span>
-            <h2 className="font-display sec-title">Kepala Sekolah</h2>
+            <span className="sec-kicker">{t('Sambutan', 'Welcome Message')}</span>
+            <h2 className="font-display sec-title">{t('Kepala Sekolah', 'From the Principal')}</h2>
           </div>
           <div className="sambutan-grid">
             <div className="sambutan-photo-area reveal">
               <div className="sambutan-photo-wrap">
                 <Image
                   src="/images/kepseksmk.png"
-                  alt="Kepala Sekolah SMK Citra Negara"
+                  alt={t('Kepala Sekolah SMK Citra Negara', 'Principal of SMK Citra Negara')}
                   width={360}
                   height={440}
                   sizes="(min-width: 861px) 300px, 210px"
@@ -532,35 +547,36 @@ export default function TentangPage() {
                 />
               </div>
               <div className="sambutan-name">Abdul Kodir Zaelani, S.Pd.I</div>
-              <div className="sambutan-role">KEPALA SMK CITRA NEGARA</div>
+              <div className="sambutan-role">{t('KEPALA SMK CITRA NEGARA', 'PRINCIPAL OF SMK CITRA NEGARA')}</div>
             </div>
 
             <div className="sambutan-text-area reveal d1">
               <div className={`sambutan-fade ${readMore ? 'open' : ''}`}>
                 <p className="sambutan-p">Assalamu&rsquo;alaikum warahmatullahi wabarakatuh.</p>
                 <p className="sambutan-p">
-                  Salam sejahtera untuk seluruh siswa-siswi, orang tua, guru, dan staf sekolah kita yang
-                  tercinta. Selamat datang di SMK Citra Negara, lembaga pendidikan yang berkomitmen mencetak
-                  generasi yang terampil, berkarakter, dan siap bersaing di dunia kerja maupun melanjutkan
-                  pendidikan ke jenjang yang lebih tinggi.
+                  {t(
+                    'Salam sejahtera untuk seluruh siswa-siswi, orang tua, guru, dan staf sekolah kita yang tercinta. Selamat datang di SMK Citra Negara, lembaga pendidikan yang berkomitmen mencetak generasi yang terampil, berkarakter, dan siap bersaing di dunia kerja maupun melanjutkan pendidikan ke jenjang yang lebih tinggi.',
+                    'Warm greetings to all our beloved students, parents, teachers, and school staff. Welcome to SMK Citra Negara, a school committed to developing a generation that is skilled, of strong character, and ready to compete in the workforce or continue to higher education.',
+                  )}
                 </p>
                 <p className="sambutan-p">
-                  Di era globalisasi dan digitalisasi ini, tantangan dunia industri semakin kompleks. Oleh
-                  karena itu, kami senantiasa berupaya memberikan pendidikan berbasis kompetensi yang
-                  mengedepankan nilai kejujuran, disiplin, dan inovasi. Dengan kurikulum yang relevan, tenaga
-                  pendidik profesional, serta fasilitas yang mendukung, kami berharap dapat memberikan
-                  pengalaman belajar terbaik bagi para siswa.
+                  {t(
+                    'Di era globalisasi dan digitalisasi ini, tantangan dunia industri semakin kompleks. Oleh karena itu, kami senantiasa berupaya memberikan pendidikan berbasis kompetensi yang mengedepankan nilai kejujuran, disiplin, dan inovasi. Dengan kurikulum yang relevan, tenaga pendidik profesional, serta fasilitas yang mendukung, kami berharap dapat memberikan pengalaman belajar terbaik bagi para siswa.',
+                    'In this era of globalization and digitalization, the challenges of industry are increasingly complex. That is why we always strive to provide competency-based education that upholds honesty, discipline, and innovation. With a relevant curriculum, professional educators, and supportive facilities, we hope to give our students the best possible learning experience.',
+                  )}
                 </p>
                 <p className="sambutan-p">
-                  Kami berharap semua pihak dapat bersinergi dalam mewujudkan visi dan misi sekolah. Semoga
-                  Allah SWT senantiasa meridhoi setiap langkah kita dalam mencerdaskan kehidupan bangsa.
+                  {t(
+                    'Kami berharap semua pihak dapat bersinergi dalam mewujudkan visi dan misi sekolah. Semoga Allah SWT senantiasa meridhoi setiap langkah kita dalam mencerdaskan kehidupan bangsa.',
+                    'We hope everyone can work together to realize the school’s vision and mission. May Allah SWT bless every step we take in educating the nation.',
+                  )}
                 </p>
               </div>
               <button
                 className={`read-btn ${readMore ? 'open' : ''}`}
                 onClick={() => setReadMore((v) => !v)}
               >
-                {readMore ? 'Tutup' : 'Baca selengkapnya'} <ChevronDown size={16} />
+                {readMore ? t('Tutup', 'Close') : t('Baca selengkapnya', 'Read more')} <ChevronDown size={16} />
               </button>
             </div>
           </div>
@@ -569,29 +585,29 @@ export default function TentangPage() {
         {/* ── VISI & MISI (tab) ── */}
         <section className="sec sec-white">
           <div className="sec-head reveal">
-            <span className="sec-kicker">Arah Sekolah</span>
-            <h2 className="font-display sec-title">Visi &amp; Misi</h2>
+            <span className="sec-kicker">{t('Arah Sekolah', 'Our Direction')}</span>
+            <h2 className="font-display sec-title">{t('Visi & Misi', 'Vision & Mission')}</h2>
           </div>
           <div className="vm-wrap">
             <div className="vm-tabs reveal">
               <button className={`vm-tab ${vmTab === 'visi' ? 'active' : ''}`} onClick={() => setVmTab('visi')}>
-                <Eye size={16} /> Visi
+                <Eye size={16} /> {t('Visi', 'Vision')}
               </button>
               <button className={`vm-tab ${vmTab === 'misi' ? 'active' : ''}`} onClick={() => setVmTab('misi')}>
-                <Target size={16} /> Misi
+                <Target size={16} /> {t('Misi', 'Mission')}
               </button>
             </div>
             <div className="vm-panel reveal d1">
               {vmTab === 'visi' ? (
                 <>
-                  <h3><Eye size={22} color="#E8B84B" /> Visi</h3>
-                  <p className="vm-single">{VISI}</p>
+                  <h3><Eye size={22} color="#E8B84B" /> {t('Visi', 'Vision')}</h3>
+                  <p className="vm-single">{t(VISI, VISI_EN)}</p>
                 </>
               ) : (
                 <>
-                  <h3><Target size={22} color="#E8B84B" /> Misi</h3>
+                  <h3><Target size={22} color="#E8B84B" /> {t('Misi', 'Mission')}</h3>
                   <ul className="vm-list">
-                    {MISI.map((m) => <li key={m}>{m}</li>)}
+                    {t(MISI, MISI_EN).map((m) => <li key={m}>{m}</li>)}
                   </ul>
                 </>
               )}
@@ -602,8 +618,8 @@ export default function TentangPage() {
         {/* ── KEUNGGULAN ── */}
         <section className="sec sec-cream">
           <div className="sec-head reveal">
-            <span className="sec-kicker">Kenapa Kami</span>
-            <h2 className="font-display sec-title">Keunggulan SMK Citra Negara</h2>
+            <span className="sec-kicker">{t('Kenapa Kami', 'Why Us')}</span>
+            <h2 className="font-display sec-title">{t('Keunggulan SMK Citra Negara', 'Why SMK Citra Negara')}</h2>
           </div>
           <div className="val-grid">
             {VALUES.map((v, i) => (
@@ -611,8 +627,8 @@ export default function TentangPage() {
                 <div className="val-ico">
                   <v.icon size={24} color="#123524" />
                 </div>
-                <h4>{v.title}</h4>
-                <p>{v.desc}</p>
+                <h4>{t(v.title, v.titleEn)}</h4>
+                <p>{t(v.desc, v.descEn)}</p>
               </div>
             ))}
           </div>
@@ -621,8 +637,8 @@ export default function TentangPage() {
         {/* ── PROGRAM KEAHLIAN ── */}
         <section className="sec sec-white">
           <div className="sec-head reveal">
-            <span className="sec-kicker">Jurusan</span>
-            <h2 className="font-display sec-title">6 Program Keahlian</h2>
+            <span className="sec-kicker">{t('Jurusan', 'Programs')}</span>
+            <h2 className="font-display sec-title">{t('6 Program Keahlian', '6 Study Programs')}</h2>
           </div>
           <div className="prog-grid">
             {PROGRAMS.map((p, i) => (
@@ -634,7 +650,7 @@ export default function TentangPage() {
                 <div className="prog-badge" style={{ background: p.color }}>{p.kode}</div>
                 <div>
                   <b>{p.kode}</b>
-                  <span>{p.nama}</span>
+                  <span>{t(p.nama, p.namaEn)}</span>
                 </div>
               </Link>
             ))}
@@ -645,14 +661,14 @@ export default function TentangPage() {
         <section className="sec sec-cream" style={{ paddingBottom: showStruktur ? 24 : 78 }}>
           <div className="sec-head reveal" style={{ marginBottom: 28 }}>
             <span className="sec-kicker">SMK Citra Negara</span>
-            <h2 className="font-display sec-title">Struktur Organisasi</h2>
+            <h2 className="font-display sec-title">{t('Struktur Organisasi', 'Organizational Structure')}</h2>
           </div>
           <div className="struktur-toggle">
             <button
               className={showStruktur ? 'open' : ''}
               onClick={() => setShowStruktur((v) => !v)}
             >
-              {showStruktur ? 'Sembunyikan bagan' : 'Lihat bagan struktur'} <ChevronDown size={16} />
+              {showStruktur ? t('Sembunyikan bagan', 'Hide chart') : t('Lihat bagan struktur', 'View org chart')} <ChevronDown size={16} />
             </button>
           </div>
         </section>

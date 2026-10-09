@@ -6,6 +6,7 @@ import { CheckCircle, Users, Clock, Monitor, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 /* ══════════════════════════════════════════
    DATA
@@ -382,8 +383,7 @@ export default function JurusanPage() {
               )}
             </p>
             <div className="jrs-cta-buttons">
-              <Link href="/spmb" className="btn-primary jrs-shine" style={{ fontSize: 16 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')}</Link>
-              <Link href="/spmb" className="btn-outline jrs-shine" style={{ fontSize: 16 }}>{t('Info Lebih Lanjut', 'More Information')}</Link>
+              <Link href={SPMB_URL} className="btn-primary jrs-shine" style={{ fontSize: 16 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')}</Link>
             </div>
           </div>
         </section>

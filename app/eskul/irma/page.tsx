@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 import {
   BookOpen,
   HeartHandshake,
@@ -22,30 +23,30 @@ import {
 ══════════════════════════════════════════ */
 
 const STATS = [
-  { angka: '2010', label: 'Tahun Berdiri' },
-  { angka: '40+', label: 'Anggota Aktif' },
-  { angka: '15', label: 'Kegiatan' },
-  { angka: '100', label: 'Dedikasi', suffix: '%' },
+  { angka: '2010', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '40+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '15', label: 'Kegiatan', labelEn: 'Activities' },
+  { angka: '100', label: 'Dedikasi', labelEn: 'Dedication', suffix: '%' },
 ];
 
 const TUJUAN = [
   {
     icon: BookOpen,
-    judul: 'Pendalaman Islam',
+    judul: 'Pendalaman Islam', judulEn: 'Deepening Islamic Knowledge',
     deskripsi:
-      'Meningkatkan pemahaman siswa terhadap ajaran Islam melalui kajian, pembelajaran Al-Qur’an, dan kegiatan keislaman yang positif.',
+      'Meningkatkan pemahaman siswa terhadap ajaran Islam melalui kajian, pembelajaran Al-Qur’an, dan kegiatan keislaman yang positif.', deskripsiEn: 'Improving students’ understanding of Islamic teachings through study circles, Quran learning, and positive Islamic activities.',
   },
   {
     icon: HeartHandshake,
-    judul: 'Akhlak Mulia',
+    judul: 'Akhlak Mulia', judulEn: 'Noble Character',
     deskripsi:
-      'Membentuk pribadi yang santun, bertanggung jawab, peduli, dan mampu menerapkan nilai-nilai Islam dalam kehidupan sehari-hari.',
+      'Membentuk pribadi yang santun, bertanggung jawab, peduli, dan mampu menerapkan nilai-nilai Islam dalam kehidupan sehari-hari.', deskripsiEn: 'Shaping individuals who are polite, responsible, caring, and able to apply Islamic values in daily life.',
   },
   {
     icon: UsersRound,
-    judul: 'Ukhuwah Islamiyah',
+    judul: 'Ukhuwah Islamiyah', judulEn: 'Islamic Brotherhood',
     deskripsi:
-      'Membangun persaudaraan antar siswa melalui kebersamaan, kerja sama, dan kegiatan positif dalam lingkungan sekolah.',
+      'Membangun persaudaraan antar siswa melalui kebersamaan, kerja sama, dan kegiatan positif dalam lingkungan sekolah.', deskripsiEn: 'Building brotherhood among students through togetherness, cooperation, and positive activities at school.',
   },
 ];
 
@@ -53,38 +54,38 @@ const KEGIATAN = [
   {
     no: '01',
     icon: BookOpen,
-    nama: 'Kajian Keislaman',
-    detail: 'Membahas ilmu agama dan nilai-nilai kehidupan dalam Islam.',
+    nama: 'Kajian Keislaman', namaEn: 'Islamic Study Circles',
+    detail: 'Membahas ilmu agama dan nilai-nilai kehidupan dalam Islam.', detailEn: 'Discussing religious knowledge and the values of life in Islam.',
   },
   {
     no: '02',
     icon: ScrollText,
-    nama: 'Tadarus Al-Qur’an',
-    detail: 'Membiasakan membaca dan memahami Al-Qur’an bersama.',
+    nama: 'Tadarus Al-Qur’an', namaEn: 'Quran Recitation (Tadarus)',
+    detail: 'Membiasakan membaca dan memahami Al-Qur’an bersama.', detailEn: 'Building the habit of reading and understanding the Quran together.',
   },
   {
     no: '03',
     icon: MoonStar,
-    nama: 'Kegiatan Ramadhan',
-    detail: 'Mengisi bulan Ramadhan dengan kegiatan keagamaan yang bermanfaat.',
+    nama: 'Kegiatan Ramadhan', namaEn: 'Ramadan Activities',
+    detail: 'Mengisi bulan Ramadhan dengan kegiatan keagamaan yang bermanfaat.', detailEn: 'Filling the month of Ramadan with meaningful religious activities.',
   },
   {
     no: '04',
     icon: HandHeart,
-    nama: 'Kegiatan Sosial',
-    detail: 'Menumbuhkan kepedulian melalui aksi sosial dan berbagi.',
+    nama: 'Kegiatan Sosial', namaEn: 'Social Activities',
+    detail: 'Menumbuhkan kepedulian melalui aksi sosial dan berbagi.', detailEn: 'Growing compassion through social action and sharing.',
   },
   {
     no: '05',
     icon: Sparkles,
-    nama: 'Peringatan Hari Besar Islam',
-    detail: 'Mengadakan kegiatan untuk memperingati momen penting dalam Islam.',
+    nama: 'Peringatan Hari Besar Islam', namaEn: 'Islamic Holiday Commemorations',
+    detail: 'Mengadakan kegiatan untuk memperingati momen penting dalam Islam.', detailEn: 'Holding events to commemorate important moments in Islam.',
   },
   {
     no: '06',
     icon: UsersRound,
-    nama: 'Kebersamaan Anggota',
-    detail: 'Membangun solidaritas dan ukhuwah antar anggota IRMA.',
+    nama: 'Kebersamaan Anggota', namaEn: 'Member Fellowship',
+    detail: 'Membangun solidaritas dan ukhuwah antar anggota IRMA.', detailEn: 'Building solidarity and brotherhood among IRMA members.',
   },
 ];
 
@@ -203,6 +204,7 @@ function CountUp({
 
 export default function IrmaPage() {
   const title = 'IRMA';
+  const { t } = useLang();
 
   return (
     <>
@@ -1159,7 +1161,7 @@ export default function IrmaPage() {
 
               <div className="irma-kicker">
                 <span className="irma-kicker-line" />
-                Ekstrakurikuler SMK Citra Negara
+                {t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}
                 <Sparkles size={15} />
               </div>
 
@@ -1178,13 +1180,11 @@ export default function IrmaPage() {
               </h1>
 
               <div className="irma-arabic">
-                Ikatan Remaja Masjid
+                {t('Ikatan Remaja Masjid', 'Mosque Youth Association')}
               </div>
 
               <p className="irma-description">
-                Wadah bagi siswa untuk belajar, berbagi, dan bertumbuh
-                bersama dalam lingkungan yang islami. Membentuk generasi
-                muda yang berilmu, berakhlak, dan aktif dalam kebaikan.
+                {t('Wadah bagi siswa untuk belajar, berbagi, dan bertumbuh bersama dalam lingkungan yang islami. Membentuk generasi muda yang berilmu, berakhlak, dan aktif dalam kebaikan.', 'A place for students to learn, share, and grow together in an Islamic environment — shaping young people who are knowledgeable, of good character, and active in doing good.')}
               </p>
 
             </div>
@@ -1211,7 +1211,7 @@ export default function IrmaPage() {
                 />
 
                 <div className="irma-stat-label">
-                  {stat.label}
+                  {t(stat.label, stat.labelEn)}
                 </div>
               </Reveal>
             ))}
@@ -1227,13 +1227,13 @@ export default function IrmaPage() {
 
               <Reveal>
                 <div className="irma-section-label">
-                  Tentang IRMA
+                  {t('Tentang IRMA', 'About IRMA')}
                 </div>
               </Reveal>
 
               <Reveal delay={70}>
                 <h2 className="irma-section-heading">
-                  TUMBUH DALAM <span>KEBAIKAN</span>
+                  {t('TUMBUH DALAM', 'GROWING IN')} <span>{t('KEBAIKAN', 'GOODNESS')}</span>
                 </h2>
               </Reveal>
 
@@ -1254,11 +1254,11 @@ export default function IrmaPage() {
                       </div>
 
                       <div className="irma-card-title">
-                        {item.judul}
+                        {t(item.judul, item.judulEn)}
                       </div>
 
                       <p className="irma-card-desc">
-                        {item.deskripsi}
+                        {t(item.deskripsi, item.deskripsiEn)}
                       </p>
 
                     </Reveal>
@@ -1290,13 +1290,13 @@ export default function IrmaPage() {
 
             <Reveal>
               <div className="irma-section-label">
-                Aktivitas IRMA
+                {t('Aktivitas IRMA', 'IRMA Activities')}
               </div>
             </Reveal>
 
             <Reveal delay={70}>
               <h2 className="irma-section-heading">
-                KEGIATAN <span>KAMI</span>
+                {t('KEGIATAN', 'OUR')} <span>{t('KAMI', 'ACTIVITIES')}</span>
               </h2>
             </Reveal>
 
@@ -1323,11 +1323,11 @@ export default function IrmaPage() {
                       />
 
                       <div className="irma-kegiatan-name">
-                        {item.nama}
+                        {t(item.nama, item.namaEn)}
                       </div>
 
                       <div className="irma-kegiatan-detail">
-                        {item.detail}
+                        {t(item.detail, item.detailEn)}
                       </div>
                     </div>
 
@@ -1356,8 +1356,7 @@ export default function IrmaPage() {
                 />
 
                 <div className="irma-quote-text">
-                  Menjadi generasi muda yang berilmu,
-                  berakhlak, dan bermanfaat bagi sesama.
+                  {t('Menjadi generasi muda yang berilmu, berakhlak, dan bermanfaat bagi sesama.', 'To be a young generation that is knowledgeable, of good character, and beneficial to others.')}
                 </div>
 
                 <div className="irma-quote-small">

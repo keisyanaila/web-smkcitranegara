@@ -6,30 +6,32 @@ import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
 import { Flag, ShieldCheck, UsersRound } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2023', label: 'Tahun Berdiri' },
-  { angka: '45+', label: 'Anggota Aktif' },
-  { angka: '12', label: 'Prestasi Diraih' },
-  { angka: '100', label: 'Dedikasi', suffix: '%' },
+  { angka: '2023', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '45+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '12', label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100', label: 'Dedikasi', labelEn: 'Dedication', suffix: '%' },
 ];
 
 const TUJUAN = [
-  { icon: Flag, judul: 'Nasionalisme', deskripsi: 'Menanamkan cinta tanah air dan penghormatan pada simbol negara, khususnya Sang Merah Putih.' },
-  { icon: ShieldCheck, judul: 'Karakter Unggul', deskripsi: 'Kedisiplinan, tanggung jawab, dan kerja sama ditempa di setiap sesi latihan dan penugasan.' },
-  { icon: UsersRound, judul: 'Jiwa Kepemimpinan', deskripsi: 'Anggota dilatih memimpin barisan dan berani menghadapi tekanan di lapangan nyata.' },
+  { icon: Flag, judul: 'Nasionalisme', judulEn: 'Nationalism', deskripsi: 'Menanamkan cinta tanah air dan penghormatan pada simbol negara, khususnya Sang Merah Putih.', deskripsiEn: 'Instilling love for the homeland and respect for national symbols, especially the Red and White flag.' },
+  { icon: ShieldCheck, judul: 'Karakter Unggul', judulEn: 'Strong Character', deskripsi: 'Kedisiplinan, tanggung jawab, dan kerja sama ditempa di setiap sesi latihan dan penugasan.', deskripsiEn: 'Discipline, responsibility, and teamwork are forged in every training session and duty.' },
+  { icon: UsersRound, judul: 'Jiwa Kepemimpinan', judulEn: 'Leadership', deskripsi: 'Anggota dilatih memimpin barisan dan berani menghadapi tekanan di lapangan nyata.', deskripsiEn: 'Members are trained to lead formations and stay brave under pressure in the real field.' },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Baris-Berbaris (PBB)', detail: 'Formasi, kerapian, dan ketepatan gerakan.', aba: 'SIAP GERAK' },
-  { no: '02', nama: 'Pengibaran Protokoler', detail: 'Prosedur resmi sesuai standar nasional.', aba: 'KIBARKAN' },
-  { no: '03', nama: 'Ketahanan Fisik & Mental', detail: 'Drill intensif membangun kepercayaan diri.', aba: 'TAHAN!' },
-  { no: '04', nama: 'Upacara Kenegaraan', detail: 'Bertugas di hari besar nasional.', aba: 'HORMAT' },
-  { no: '05', nama: 'Pelatihan Kedisiplinan', detail: 'Etika, sikap, dan tanggung jawab.', aba: 'TEGAP' },
-  { no: '06', nama: 'Kompetisi Antar Sekolah', detail: 'Membawa nama sekolah di tingkat daerah.', aba: 'MAJU JALAN' },
+  { no: '01', nama: 'Baris-Berbaris (PBB)', namaEn: 'Marching Drill', detail: 'Formasi, kerapian, dan ketepatan gerakan.', detailEn: 'Formation, neatness, and precise movement.', aba: 'SIAP GERAK', abaEn: 'ATTENTION' },
+  { no: '02', nama: 'Pengibaran Protokoler', namaEn: 'Ceremonial Flag Raising', detail: 'Prosedur resmi sesuai standar nasional.', detailEn: 'Official procedures according to national standards.', aba: 'KIBARKAN', abaEn: 'RAISE' },
+  { no: '03', nama: 'Ketahanan Fisik & Mental', namaEn: 'Physical & Mental Endurance', detail: 'Drill intensif membangun kepercayaan diri.', detailEn: 'Intensive drills that build confidence.', aba: 'TAHAN!', abaEn: 'HOLD!' },
+  { no: '04', nama: 'Upacara Kenegaraan', namaEn: 'State Ceremonies', detail: 'Bertugas di hari besar nasional.', detailEn: 'On duty on national holidays.', aba: 'HORMAT', abaEn: 'SALUTE' },
+  { no: '05', nama: 'Pelatihan Kedisiplinan', namaEn: 'Discipline Training', detail: 'Etika, sikap, dan tanggung jawab.', detailEn: 'Ethics, attitude, and responsibility.', aba: 'TEGAP', abaEn: 'STAND TALL' },
+  { no: '06', nama: 'Kompetisi Antar Sekolah', namaEn: 'Inter-School Competitions', detail: 'Membawa nama sekolah di tingkat daerah.', detailEn: 'Representing the school at the regional level.', aba: 'MAJU JALAN', abaEn: 'FORWARD MARCH' },
 ];
 
 const MARQUEE = ['SIAP — GERAK', 'LENCANG KANAN', 'HITUNG MULAI', 'HADAP KANAN', 'MAJU — JALAN', 'BALIK KANAN', 'ISTIRAHAT DI TEMPAT'];
+const MARQUEE_EN = ['ATTENTION', 'RIGHT DRESS', 'COUNT OFF', 'RIGHT FACE', 'FORWARD — MARCH', 'ABOUT FACE', 'PARADE REST'];
 
 /* Formasi pasukan (posisi tiap titik dalam %) */
 const FORMASI: { nama: string; titik: [number, number][] }[] = [
@@ -135,6 +137,7 @@ export default function PaskibraPage() {
   const [salutes, setSalutes] = useState<{ id: number }[]>([]);
   const [salCount, setSalCount] = useState(0);
   const salId = useRef(0);
+  const { t } = useLang();
 
   // spotlight komandan ikut kursor di hero
   useEffect(() => {
@@ -327,7 +330,7 @@ export default function PaskibraPage() {
               <div className="psk-hero-text">
                 <div className="psk-eyebrow">
                   <Flag size={16} className="psk-flag-icon" />
-                  Ekstrakurikuler SMK Citra Negara
+                  {t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}
                 </div>
                 <h1 className="psk-title">
                   {title.split('').map((ch, i) => (
@@ -335,8 +338,7 @@ export default function PaskibraPage() {
                   ))}
                 </h1>
                 <p className="psk-subtitle">
-                  Pasukan Pengibar Bendera — garda kehormatan bangsa. Bukan sekadar berseragam:
-                  kami simbol disiplin, kebanggaan, dan dedikasi tanpa kompromi.
+                  {t('Pasukan Pengibar Bendera — garda kehormatan bangsa. Bukan sekadar berseragam: kami simbol disiplin, kebanggaan, dan dedikasi tanpa kompromi.', 'The Flag-Raising Troop — guardians of national honor. More than a uniform: we are a symbol of discipline, pride, and uncompromising dedication.')}
                 </p>
               </div>
               <div className="psk-flag" aria-hidden="true">
@@ -349,7 +351,7 @@ export default function PaskibraPage() {
           {/* MARQUEE */}
           <div className="psk-marquee" aria-hidden="true">
             <div className="psk-marquee-track">
-              {[...MARQUEE, ...MARQUEE].map((m, i) => <span key={i}>{m}</span>)}
+              {[...t(MARQUEE, MARQUEE_EN), ...t(MARQUEE, MARQUEE_EN)].map((m, i) => <span key={i}>{m}</span>)}
             </div>
           </div>
 
@@ -358,21 +360,21 @@ export default function PaskibraPage() {
             {STATS.map((s, i) => (
               <Reveal key={s.label} delay={i * 90} className="psk-stat">
                 <CountUp value={s.angka} suffix={s.suffix} />
-                <div className="psk-stat-label">{s.label}</div>
+                <div className="psk-stat-label">{t(s.label, s.labelEn)}</div>
               </Reveal>
             ))}
           </div>
 
           {/* TUJUAN */}
           <section className="psk-section" style={{ paddingTop: 'clamp(44px,7vw,80px)' }}>
-            <Reveal><div className="psk-label">Mengapa Paskibra</div></Reveal>
-            <Reveal delay={60}><h2 className="psk-heading">Tujuan Kami</h2></Reveal>
+            <Reveal><div className="psk-label">{t('Mengapa Paskibra', 'Why Paskibra')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psk-heading">{t('Tujuan Kami', 'Our Goals')}</h2></Reveal>
             <div className="psk-tujuan-grid">
-              {TUJUAN.map((t, i) => (
-                <Reveal key={t.judul} delay={i * 120} className="psk-tcard">
-                  <div className="psk-tcard-icon"><t.icon size={26} /></div>
-                  <div className="psk-tcard-title">{t.judul}</div>
-                  <p className="psk-tcard-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj, i) => (
+                <Reveal key={tj.judul} delay={i * 120} className="psk-tcard">
+                  <div className="psk-tcard-icon"><tj.icon size={26} /></div>
+                  <div className="psk-tcard-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="psk-tcard-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </Reveal>
               ))}
             </div>
@@ -380,17 +382,17 @@ export default function PaskibraPage() {
 
           {/* KEGIATAN */}
           <section className="psk-section" style={{ paddingTop: 'clamp(20px,3vw,40px)' }}>
-            <Reveal><div className="psk-label">Program Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="psk-heading">Kegiatan Rutin</h2></Reveal>
+            <Reveal><div className="psk-label">{t('Program Latihan', 'Training Program')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psk-heading">{t('Kegiatan Rutin', 'Regular Activities')}</h2></Reveal>
             <div className="psk-keg-grid">
               {KEGIATAN.map((k, i) => (
                 <Reveal key={k.no} delay={i * 70} className="psk-keg-item" as="div">
                   <div className="psk-keg-no">{k.no}</div>
                   <div>
-                    <div className="psk-keg-nama">{k.nama}</div>
-                    <div className="psk-keg-detail">{k.detail}</div>
+                    <div className="psk-keg-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="psk-keg-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
-                  <span className="psk-keg-aba">{k.aba}</span>
+                  <span className="psk-keg-aba">{t(k.aba, k.abaEn)}</span>
                 </Reveal>
               ))}
             </div>
@@ -398,10 +400,10 @@ export default function PaskibraPage() {
 
           {/* CTA HORMAT */}
           <section className="psk-cta">
-            <h2>Hormat, Grak!</h2>
-            <p>Satu penghormatan untuk barisan yang menjaga kehormatan Merah Putih.</p>
-            <button type="button" className="psk-cta-btn" onClick={salute}>🫡 Beri Hormat</button>
-            <span className="psk-cta-count">{salCount > 0 ? `${salCount} penghormatan` : 'jadilah yang pertama'}</span>
+            <h2>{t('Hormat, Grak!', 'Salute!')}</h2>
+            <p>{t('Satu penghormatan untuk barisan yang menjaga kehormatan Merah Putih.', 'A salute for the troop that guards the honor of the Red and White.')}</p>
+            <button type="button" className="psk-cta-btn" onClick={salute}>{t('🫡 Beri Hormat', '🫡 Give a Salute')}</button>
+            <span className="psk-cta-count">{salCount > 0 ? t(`${salCount} penghormatan`, `${salCount} salute${salCount > 1 ? 's' : ''}`) : t('jadilah yang pertama', 'be the first')}</span>
             {salutes.map((s) => <span key={s.id} className="psk-salute-fly">🫡</span>)}
           </section>
         </main>

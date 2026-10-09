@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 import { GraduationCap, Phone, Mail, MapPin, Share2, MessageCircle, Play, Clock1, Clock2Icon, Clock12Icon } from 'lucide-react';
 import {
   FaInstagram,
@@ -160,8 +161,7 @@ export default function Footer() {
               { href: '/', label: t('Beranda', 'Home') },
               { href: '/tentang', label: t('Tentang Kami', 'About Us') },
               { href: '/jurusan', label: t('Program Keahlian', 'Study Programs') },
-              { href: '/spmb', label: t('SPMB Online', 'Online Admission') },
-              { href: '/login', label: t('Login Siswa', 'Student Login') },
+              { href: SPMB_URL, label: t('Daftar SPMB', 'Online Admission') },
             ].map(link => (
               <Link key={link.href} href={link.href} style={{
                 display: 'block', color: 'rgba(255,255,255,0.6)',

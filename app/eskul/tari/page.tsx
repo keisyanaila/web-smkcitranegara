@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footersmk';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useLang } from '@/lib/i18n';
 
 type Mode = 'tradisional' | 'modern';
 
@@ -143,10 +144,124 @@ const CONTENT: Record<Mode, TariContent> = {
   },
 };
 
+const CONTENT_EN: Record<Mode, TariContent> = {
+  tradisional: {
+    ...CONTENT.tradisional,
+    eyebrow: 'SMK Citra Negara Extracurricular',
+    titleMain: 'TRADITIONAL',
+    titleAccent: 'DANCE',
+    subtitle:
+      'Bringing movement to life, preserving tradition, and celebrating the cultural richness of the Indonesian archipelago through dance.',
+    stats: [
+      { angka: '2013', label: 'Year Founded' },
+      { angka: '28+', label: 'Active Members' },
+      { angka: '16', label: 'Achievements' },
+      { angka: '100%', label: 'Dedication' },
+    ],
+    tujuanLabel: 'Why Traditional Dance?',
+    tujuanHeading: 'MOVEMENT WITH MEANING',
+    tujuan: [
+      {
+        icon: '✿',
+        judul: 'Creativity & Expression',
+        deskripsi:
+          'Developing students’ creativity through meaningful movement, expression, rhythm, and choreography.',
+      },
+      {
+        icon: '❋',
+        judul: 'Preserving Culture',
+        deskripsi:
+          'Introducing traditional dances from across Indonesia while building pride in Indonesian culture.',
+      },
+      {
+        icon: '✦',
+        judul: 'Character & Teamwork',
+        deskripsi:
+          'Building discipline, confidence, responsibility, and teamwork through rehearsing together.',
+      },
+    ],
+    ragamLabel: 'Indonesia’s Cultural Richness',
+    ragamHeading: 'DANCES OF THE ARCHIPELAGO',
+    ragamTag: 'Cultural Heritage of the Archipelago',
+    ragam: [
+      { nama: 'Jaipong', daerah: 'West Java', deskripsi: 'A signature dance of West Java with dynamic, energetic, and expressive movements.' },
+      { nama: 'Saman', daerah: 'Aceh', deskripsi: 'A dance that emphasizes unity, precise rhythm, and the coordinated movement of its dancers.' },
+      { nama: 'Piring', daerah: 'West Sumatra', deskripsi: 'A Minangkabau dance performed with plates as props and eye-catching movements.' },
+      { nama: 'Gambyong', daerah: 'Central Java', deskripsi: 'A Javanese dance known for its soft, graceful movements and beautiful expression.' },
+    ],
+    kegiatan: [
+      { no: '01', nama: 'Basic Technique Training', detail: 'Learning basic movements, posture, rhythm, and expression.' },
+      { no: '02', nama: 'Choreography Practice', detail: 'Arranging movements, floor patterns, and group unity.' },
+      { no: '03', nama: 'Shows & Performances', detail: 'Performing dance works at various school events.' },
+      { no: '04', nama: 'Cultural Exploration', detail: 'Learning the history, meaning, costumes, music, and props of each dance.' },
+      { no: '05', nama: 'Art Workshops', detail: 'Gaining experience and insight from advisors and practitioners.' },
+      { no: '06', nama: 'Festivals & Competitions', detail: 'Building experience and achievements through arts competitions.' },
+    ],
+    quoteText: '“Every movement has a story, every dance carries a heritage.”',
+    quoteSmall: 'Traditional Dance · SMK Citra Negara',
+  },
+  modern: {
+    ...CONTENT.modern,
+    eyebrow: 'SMK Citra Negara Extracurricular',
+    titleMain: 'MODERN',
+    titleAccent: 'DANCE',
+    subtitle:
+      'Exploring today’s moves — hip-hop, K-pop, contemporary, and creative choreography that is energetic and expressive.',
+    stats: [
+      { angka: '2018', label: 'Year Founded' },
+      { angka: '30+', label: 'Active Members' },
+      { angka: '12', label: 'Achievements' },
+      { angka: '100%', label: 'Energy' },
+    ],
+    tujuanLabel: 'Why Modern Dance?',
+    tujuanHeading: 'MOVES OF TODAY',
+    tujuan: [
+      {
+        icon: '⚡',
+        judul: 'Creativity & Personal Style',
+        deskripsi:
+          'Developing a personal movement style through modern choreography, musicality, and body exploration.',
+      },
+      {
+        icon: '🔥',
+        judul: 'Fitness & Stamina',
+        deskripsi:
+          'Building strength, flexibility, and endurance through dynamic, intense training routines.',
+      },
+      {
+        icon: '✦',
+        judul: 'Character & Teamwork',
+        deskripsi:
+          'Building discipline, confidence, and team unity in every stage performance.',
+      },
+    ],
+    ragamLabel: 'Modern Dance Styles',
+    ragamHeading: 'GENRES & STYLES',
+    ragamTag: 'Today’s Moves & Expression',
+    ragam: [
+      { nama: 'Hip-Hop', daerah: 'Street Dance', deskripsi: 'A freestyle built on groove, isolations, and energetic footwork full of character.' },
+      { nama: 'K-Pop Dance', daerah: 'Korea', deskripsi: 'Clean choreography following idol groups, demanding unity, precision, and expression.' },
+      { nama: 'Contemporary', daerah: 'Modern', deskripsi: 'Expressive movement exploration blending ballet, modern dance, and improvisation.' },
+      { nama: 'Dance Cover', daerah: 'Stage', deskripsi: 'Re-performing popular choreography with your own interpretation, formations, and style.' },
+    ],
+    kegiatan: [
+      { no: '01', nama: 'Basic Movement Training', detail: 'Groove, isolations, footwork, and body control.' },
+      { no: '02', nama: 'Choreography Practice', detail: 'Building formations, transitions, and group sync.' },
+      { no: '03', nama: 'Dance Covers & Challenges', detail: 'Re-performing popular choreography in your own style.' },
+      { no: '04', nama: 'Content Production', detail: 'Filming and editing dance videos for the school’s social media.' },
+      { no: '05', nama: 'Choreographer Workshops', detail: 'Learning techniques and the latest trends from modern dance practitioners.' },
+      { no: '06', nama: 'Festivals & Competitions', detail: 'Sharpening stage confidence through inter-school dance competitions.' },
+    ],
+    quoteText: '“Every beat is a language, every move is an expression.”',
+    quoteSmall: 'Modern Dance · SMK Citra Negara',
+  },
+};
+
 export default function TariPage() {
   const [mode, setMode] = useState<Mode>('tradisional');
   const [activeTari, setActiveTari] = useState(0);
-  const c = CONTENT[mode];
+  const { t } = useLang();
+  const c = t(CONTENT, CONTENT_EN)[mode];
 
   const switchMode = (next: Mode) => {
     setMode(next);
@@ -1559,7 +1674,7 @@ export default function TariPage() {
           ====================================== */}
 
           <div className="tari-mode">
-            <div className="tari-mode-inner" role="tablist" aria-label="Jenis tari">
+            <div className="tari-mode-inner" role="tablist" aria-label={t('Jenis tari', 'Dance type')}>
               <button
                 type="button"
                 role="tab"
@@ -1567,7 +1682,7 @@ export default function TariPage() {
                 className={`tari-mode-btn ${mode === 'tradisional' ? 'active' : ''}`}
                 onClick={() => switchMode('tradisional')}
               >
-                Tradisional
+                {t('Tradisional', 'Traditional')}
               </button>
               <button
                 type="button"
@@ -1589,7 +1704,7 @@ export default function TariPage() {
             <div className="tri-hero-img">
               <Image
                 src={c.heroImg}
-                alt={`Tari ${c.titleAccent} SMK Citra Negara`}
+                alt={`${c.titleMain} ${c.titleAccent} SMK Citra Negara`}
                 fill
                 priority
               />
@@ -1720,11 +1835,11 @@ export default function TariPage() {
 
           <section className="tri-section">
             <div className="tri-section-label">
-              Program Latihan
+              {t('Program Latihan', 'Training Program')}
             </div>
 
             <h2 className="tri-section-heading">
-              KEGIATAN RUTIN
+              {t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}
             </h2>
 
             <div className="tri-kegiatan-grid">

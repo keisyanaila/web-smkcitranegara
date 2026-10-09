@@ -8,8 +8,10 @@ import { Newspaper, Calendar, ArrowRight } from 'lucide-react';
 import {
   formatTanggal,
   KATEGORI_BERITA_COLOR,
+  KATEGORI_BERITA_EN,
   type Berita,
 } from '@/lib/berita';
+import { useLang } from '@/lib/i18n';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -19,6 +21,8 @@ const BORDER = '#F0EBE0';
 export default function BeritaPage() {
   const [semua, setSemua] = useState<Berita[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const { lang, t } = useLang();
+  const kat = (k: string) => t(k, KATEGORI_BERITA_EN[k] ?? k);
 
   useEffect(() => {
     fetch('/api/berita', { cache: 'no-store' })
@@ -52,13 +56,16 @@ export default function BeritaPage() {
                 fontSize: 12, fontWeight: 600, marginBottom: 20,
               }}
             >
-              <Newspaper size={14} /> KABAR SEKOLAH
+              <Newspaper size={14} /> {t('KABAR SEKOLAH', 'SCHOOL NEWS')}
             </div>
             <h1 className="font-display" style={{ fontSize: 48, color: 'white', marginBottom: 16 }}>
-              Berita &amp; Kegiatan
+              {t('Berita & Kegiatan', 'News & Activities')}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 17, lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-              Informasi terbaru seputar prestasi, pengumuman, dan kegiatan SMK Citra Negara.
+              {t(
+                'Informasi terbaru seputar prestasi, pengumuman, dan kegiatan SMK Citra Negara.',
+                'The latest on achievements, announcements, and activities at SMK Citra Negara.',
+              )}
             </p>
           </div>
         </section>
@@ -80,7 +87,7 @@ export default function BeritaPage() {
                   transition: 'all 0.18s',
                 }}
               >
-                {k}
+                {kat(k)}
               </button>
             ))}
           </div>
@@ -91,7 +98,7 @@ export default function BeritaPage() {
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             {list.length === 0 && (
               <div style={{ textAlign: 'center', padding: '60px 0', color: '#9CA3AF', fontSize: 15 }}>
-                {loaded ? 'Belum ada berita.' : 'Memuat…'}
+                {loaded ? t('Belum ada berita.', 'No news yet.') : t('Memuat…', 'Loading…')}
               </div>
             )}
 
@@ -114,18 +121,18 @@ export default function BeritaPage() {
                     alt={utama.judul}
                     style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                  <span style={badge(KATEGORI_BERITA_COLOR[utama.kategori])}>{utama.kategori}</span>
+                  <span style={badge(KATEGORI_BERITA_COLOR[utama.kategori])}>{kat(utama.kategori)}</span>
                 </div>
                 <div style={{ padding: '32px 34px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div style={metaRow}>
-                    <Calendar size={14} /> {formatTanggal(utama.tanggal)}
+                    <Calendar size={14} /> {formatTanggal(utama.tanggal, lang)}
                   </div>
                   <h2 className="font-display" style={{ fontSize: 26, color: NAVY, lineHeight: 1.3, margin: '10px 0 12px' }}>
                     {utama.judul}
                   </h2>
                   <p style={{ color: GRAY, fontSize: 14.5, lineHeight: 1.7, marginBottom: 18 }}>{utama.ringkasan}</p>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: GOLD, fontWeight: 700, fontSize: 14 }}>
-                    Baca selengkapnya <ArrowRight size={16} />
+                    {t('Baca selengkapnya', 'Read more')} <ArrowRight size={16} />
                   </span>
                 </div>
               </Link>
@@ -158,18 +165,18 @@ export default function BeritaPage() {
                       alt={b.judul}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     />
-                    <span style={badge(KATEGORI_BERITA_COLOR[b.kategori])}>{b.kategori}</span>
+                    <span style={badge(KATEGORI_BERITA_COLOR[b.kategori])}>{kat(b.kategori)}</span>
                   </div>
                   <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <div style={metaRow}>
-                      <Calendar size={13} /> {formatTanggal(b.tanggal)}
+                      <Calendar size={13} /> {formatTanggal(b.tanggal, lang)}
                     </div>
                     <h3 style={{ fontSize: 15, fontWeight: 700, color: NAVY, lineHeight: 1.45, margin: '8px 0 8px' }}>
                       {b.judul}
                     </h3>
                     <p style={{ fontSize: 13, color: GRAY, lineHeight: 1.6, flex: 1 }}>{b.ringkasan}</p>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: GOLD, fontWeight: 700, fontSize: 13, marginTop: 14 }}>
-                      Baca selengkapnya <ArrowRight size={14} />
+                      {t('Baca selengkapnya', 'Read more')} <ArrowRight size={14} />
                     </span>
                   </div>
                 </Link>

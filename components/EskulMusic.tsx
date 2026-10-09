@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLang } from '@/lib/i18n';
 
 /**
  * Tombol musik latar untuk halaman ekstrakurikuler.
@@ -22,6 +23,7 @@ export default function EskulMusic({
   const audioRef = useRef<HTMLAudioElement>(null);
   const stopAutoKickRef = useRef<() => void>(() => {});
   const [playing, setPlaying] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -87,11 +89,11 @@ export default function EskulMusic({
         type="button"
         onClick={toggle}
         className="emus-fab"
-        aria-label={playing ? 'Jeda musik' : 'Putar musik'}
+        aria-label={playing ? t('Jeda musik', 'Pause music') : t('Putar musik', 'Play music')}
         aria-pressed={playing}
       >
         <span className="emus-icon" aria-hidden="true">{playing ? '❚❚' : '►'}</span>
-        <span className="emus-label">{playing ? 'Jeda musik' : 'Putar musik'}</span>
+        <span className="emus-label">{playing ? t('Jeda musik', 'Pause music') : t('Putar musik', 'Play music')}</span>
         <span className={`emus-eq ${playing ? '' : 'is-paused'}`} aria-hidden="true">
           <span /><span /><span /><span />
         </span>

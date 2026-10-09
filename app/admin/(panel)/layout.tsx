@@ -27,8 +27,9 @@ export default async function PanelLayout({ children }: { children: React.ReactN
 
       {!isDbConfigured && (
         <div className="adm-banner">
-          DATABASE_URL belum di-set. Isi <code>.env.local</code> dan jalankan <code>db/schema.sql</code> di Neon,
-          lalu restart <code>npm run dev</code>. Sebelum itu, form tidak bisa menyimpan.
+          DATABASE_URL belum di-set. Salin <code>.env.local.example</code> jadi <code>.env.local</code>, isi nilainya,
+          jalankan <code>node db/run-schema.mjs</code>, lalu restart <code>npm run dev</code> (di Vercel: isi
+          Environment Variables lalu Redeploy). Sebelum itu, form tidak bisa menyimpan.
         </div>
       )}
 
@@ -82,7 +83,16 @@ export default async function PanelLayout({ children }: { children: React.ReactN
         .adm-btn-danger:hover:not(:disabled) { background: #fef2f2; }
 
         .adm-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; font-size: 13px; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
+        .adm-notice { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; font-size: 13px; padding: 9px 12px; border-radius: 8px; margin-bottom: 12px; }
         .adm-muted { color: #6b7280; font-size: 14px; }
+
+        .adm-status { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+        .adm-status li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.5; }
+        .adm-status-dot { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; margin-top: 1px; }
+        .adm-status-ok { background: #16a34a; }
+        .adm-status-bad { background: #dc2626; }
+        .adm-status small { display: block; color: #6b7280; font-size: 12px; }
+        .adm-status code { background: #f3f4f6; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
 
         .adm-table-wrap { overflow-x: auto; }
         .adm-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }

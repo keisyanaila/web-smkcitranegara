@@ -9,8 +9,10 @@ import { ArrowLeft, Calendar, User, ArrowRight } from 'lucide-react';
 import {
   formatTanggal,
   KATEGORI_BERITA_COLOR,
+  KATEGORI_BERITA_EN,
   type Berita,
 } from '@/lib/berita';
+import { useLang } from '@/lib/i18n';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -25,6 +27,7 @@ export default function DetailBeritaPage({
   const { slug } = use(params);
   const [berita, setBerita] = useState<Berita | null | undefined>(undefined);
   const [lainnya, setLainnya] = useState<Berita[]>([]);
+  const { lang, t } = useLang();
 
   useEffect(() => {
     let alive = true;
@@ -47,7 +50,7 @@ export default function DetailBeritaPage({
     return (
       <>
         <Navbar />
-        <main style={{ background: '#FAF7F0', padding: '90px 24px', textAlign: 'center', color: GRAY }}>Memuat…</main>
+        <main style={{ background: '#FAF7F0', padding: '90px 24px', textAlign: 'center', color: GRAY }}>{t('Memuat…', 'Loading…')}</main>
         <Footer />
       </>
     );
@@ -67,7 +70,7 @@ export default function DetailBeritaPage({
             }}
           >
             <ArrowLeft size={18} />
-            Kembali ke Berita
+            {t('Kembali ke Berita', 'Back to News')}
           </Link>
 
           {/* Meta */}
@@ -79,9 +82,9 @@ export default function DetailBeritaPage({
                 fontSize: 12, fontWeight: 700, letterSpacing: 0.4,
               }}
             >
-              {berita.kategori}
+              {t(berita.kategori, KATEGORI_BERITA_EN[berita.kategori] ?? berita.kategori)}
             </span>
-            <span style={metaItem}><Calendar size={15} /> {formatTanggal(berita.tanggal)}</span>
+            <span style={metaItem}><Calendar size={15} /> {formatTanggal(berita.tanggal, lang)}</span>
             <span style={metaItem}><User size={15} /> {berita.penulis}</span>
           </div>
 
@@ -124,7 +127,7 @@ export default function DetailBeritaPage({
             <div style={{ marginTop: 60 }}>
               <div className="gold-line" style={{ marginBottom: 16 }} />
               <h2 className="font-display" style={{ fontSize: 26, color: NAVY, marginBottom: 24 }}>
-                Berita Lainnya
+                {t('Berita Lainnya', 'More News')}
               </h2>
               <div
                 style={{
@@ -149,13 +152,13 @@ export default function DetailBeritaPage({
                     </div>
                     <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                       <div style={{ ...metaItem, fontSize: 11, color: '#9CA3AF' }}>
-                        <Calendar size={12} /> {formatTanggal(b.tanggal)}
+                        <Calendar size={12} /> {formatTanggal(b.tanggal, lang)}
                       </div>
                       <div style={{ fontSize: 13.5, fontWeight: 700, color: NAVY, lineHeight: 1.45, margin: '8px 0 10px', flex: 1 }}>
                         {b.judul}
                       </div>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: GOLD, fontWeight: 700, fontSize: 12 }}>
-                        Baca <ArrowRight size={13} />
+                        {t('Baca', 'Read')} <ArrowRight size={13} />
                       </span>
                     </div>
                   </Link>

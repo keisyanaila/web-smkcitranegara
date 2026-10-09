@@ -5,46 +5,48 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2015', label: 'Tahun Berdiri' },
-  { angka: '25+', label: 'Anggota Aktif' },
-  { angka: '12', label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '2015', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '25+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '12', label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
-  { icon: '⚡', judul: 'Kebugaran Fisik', deskripsi: 'Latihan intens dan pertandingan dinamis membangun daya tahan, kecepatan, dan kekuatan tubuh secara menyeluruh.' },
-  { icon: '⚽', judul: 'Keterampilan Teknis', deskripsi: 'Dribbling, passing, kontrol bola, dan tembakan diasah lewat drill terukur di ruang sempit khas futsal.' },
-  { icon: '🤝', judul: 'Kerjasama Tim', deskripsi: 'Komunikasi, kepercayaan, dan strategi bersama — lima pemain bergerak seperti satu.' },
+  { icon: '⚡', judul: 'Kebugaran Fisik', judulEn: 'Physical Fitness', deskripsi: 'Latihan intens dan pertandingan dinamis membangun daya tahan, kecepatan, dan kekuatan tubuh secara menyeluruh.', deskripsiEn: 'Intense training and dynamic matches build overall endurance, speed, and strength.' },
+  { icon: '⚽', judul: 'Keterampilan Teknis', judulEn: 'Technical Skills', deskripsi: 'Dribbling, passing, kontrol bola, dan tembakan diasah lewat drill terukur di ruang sempit khas futsal.', deskripsiEn: 'Dribbling, passing, ball control, and shooting are sharpened through measured drills in futsal’s tight spaces.' },
+  { icon: '🤝', judul: 'Kerjasama Tim', judulEn: 'Teamwork', deskripsi: 'Komunikasi, kepercayaan, dan strategi bersama — lima pemain bergerak seperti satu.', deskripsiEn: 'Communication, trust, and shared strategy — five players moving as one.' },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Teknik Dasar', detail: 'Dribbling, passing, shooting, dan penguasaan bola.', kategori: 'teknik' },
-  { no: '02', nama: 'Latihan Fisik', detail: 'Jogging, sprint interval, dan latihan kekuatan.', kategori: 'fisik' },
-  { no: '03', nama: 'Strategi & Taktik', detail: 'Formasi, pergerakan tanpa bola, dan pola serangan.', kategori: 'strategi' },
-  { no: '04', nama: 'Pertandingan Internal', detail: 'Scrimmage antar anggota untuk menguji kemampuan.', kategori: 'kompetisi' },
-  { no: '05', nama: 'Partisipasi Turnamen', detail: 'Kompetisi futsal regional hingga nasional.', kategori: 'kompetisi' },
-  { no: '06', nama: 'Pengembangan Mentalitas', detail: 'Sportivitas, fair play, dan mental pemenang.', kategori: 'mental' },
+  { no: '01', nama: 'Latihan Teknik Dasar', namaEn: 'Basic Technique Training', detail: 'Dribbling, passing, shooting, dan penguasaan bola.', detailEn: 'Dribbling, passing, shooting, and ball mastery.', kategori: 'teknik' },
+  { no: '02', nama: 'Latihan Fisik', namaEn: 'Conditioning', detail: 'Jogging, sprint interval, dan latihan kekuatan.', detailEn: 'Jogging, sprint intervals, and strength training.', kategori: 'fisik' },
+  { no: '03', nama: 'Strategi & Taktik', namaEn: 'Strategy & Tactics', detail: 'Formasi, pergerakan tanpa bola, dan pola serangan.', detailEn: 'Formations, off-the-ball movement, and attacking patterns.', kategori: 'strategi' },
+  { no: '04', nama: 'Pertandingan Internal', namaEn: 'Internal Matches', detail: 'Scrimmage antar anggota untuk menguji kemampuan.', detailEn: 'Scrimmages between members to test skills.', kategori: 'kompetisi' },
+  { no: '05', nama: 'Partisipasi Turnamen', namaEn: 'Tournament Participation', detail: 'Kompetisi futsal regional hingga nasional.', detailEn: 'Regional to national futsal competitions.', kategori: 'kompetisi' },
+  { no: '06', nama: 'Pengembangan Mentalitas', namaEn: 'Mindset Development', detail: 'Sportivitas, fair play, dan mental pemenang.', detailEn: 'Sportsmanship, fair play, and a winning mentality.', kategori: 'mental' },
 ];
 
 const FILTERS = [
-  { key: 'semua', label: 'Semua' },
-  { key: 'teknik', label: 'Teknik' },
-  { key: 'fisik', label: 'Fisik' },
-  { key: 'strategi', label: 'Strategi' },
-  { key: 'kompetisi', label: 'Kompetisi' },
-  { key: 'mental', label: 'Mental' },
+  { key: 'semua', label: 'Semua', labelEn: 'All' },
+  { key: 'teknik', label: 'Teknik', labelEn: 'Technique' },
+  { key: 'fisik', label: 'Fisik', labelEn: 'Fitness' },
+  { key: 'strategi', label: 'Strategi', labelEn: 'Strategy' },
+  { key: 'kompetisi', label: 'Kompetisi', labelEn: 'Competition' },
+  { key: 'mental', label: 'Mental', labelEn: 'Mental' },
 ];
 
 const POSISI = [
-  { nama: 'Kiper', peran: 'Penjaga gawang sekaligus pemantik serangan dari belakang.' },
-  { nama: 'Anchor', peran: 'Jangkar pertahanan, mengatur tempo dan menutup ruang tengah.' },
-  { nama: 'Flank', peran: 'Sayap kiri & kanan — motor transisi cepat dan lebar lapangan.' },
-  { nama: 'Pivot', peran: 'Ujung tombak, jadi tumpuan bola dan penyelesai peluang.' },
+  { nama: 'Kiper', namaEn: 'Goalkeeper', peran: 'Penjaga gawang sekaligus pemantik serangan dari belakang.', peranEn: 'Guards the goal and sparks attacks from the back.' },
+  { nama: 'Anchor', peran: 'Jangkar pertahanan, mengatur tempo dan menutup ruang tengah.', peranEn: 'The defensive anchor, controlling the tempo and closing the middle.' },
+  { nama: 'Flank', peran: 'Sayap kiri & kanan — motor transisi cepat dan lebar lapangan.', peranEn: 'Left & right wings — the engine of fast transitions and width.' },
+  { nama: 'Pivot', peran: 'Ujung tombak, jadi tumpuan bola dan penyelesai peluang.', peranEn: 'The spearhead, holding up the ball and finishing chances.' },
 ];
 
 const MARQUEE = ['GOL!', 'FAST BREAK', 'ONE — TWO', 'PIVOT PLAY', 'PRESSING TINGGI', 'CLEAN SHEET', 'FULL PRESS'];
+const MARQUEE_EN = ['GOAL!', 'FAST BREAK', 'ONE — TWO', 'PIVOT PLAY', 'HIGH PRESS', 'CLEAN SHEET', 'FULL PRESS'];
 
 /* ── glyph bola futsal ── */
 function Ball({ size = 56, className = '' }: { size?: number; className?: string }) {
@@ -123,6 +125,7 @@ export default function FutsalPage() {
   const [shots, setShots] = useState<{ id: number }[]>([]);
   const [flash, setFlash] = useState(false);
   const shotId = useRef(0);
+  const { t } = useLang();
 
   const filtered = filter === 'semua' ? KEGIATAN : KEGIATAN.filter((k) => k.kategori === filter);
 
@@ -343,15 +346,14 @@ export default function FutsalPage() {
             </div>
             <div className="fts-hero-content">
               <div className="fts-hero-text">
-                <div className="fts-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="fts-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="fts-title">
                   {'FUTSAL'.split('').map((ch, i) => (
                     <span key={i} className={`fts-letter ${i >= 3 ? 'fts-letter-accent' : ''}`} style={{ animationDelay: `${i * 70}ms` }}>{ch}</span>
                   ))}
                 </h1>
                 <p className="fts-subtitle">
-                  Ruang sempit, tempo tinggi, keputusan cepat. Futsal menempa teknik, stamina, dan
-                  kekompakan tim di setiap detik pertandingan.
+                  {t('Ruang sempit, tempo tinggi, keputusan cepat. Futsal menempa teknik, stamina, dan kekompakan tim di setiap detik pertandingan.', 'Tight spaces, high tempo, quick decisions. Futsal sharpens technique, stamina, and team chemistry in every second of the game.')}
                 </p>
               </div>
               <div className="fts-bounce-zone" aria-hidden="true">
@@ -364,7 +366,7 @@ export default function FutsalPage() {
           {/* MARQUEE */}
           <div className="fts-marquee" aria-hidden="true">
             <div className="fts-marquee-track">
-              {[...MARQUEE, ...MARQUEE].map((m, i) => <span key={i}>{m}</span>)}
+              {[...t(MARQUEE, MARQUEE_EN), ...t(MARQUEE, MARQUEE_EN)].map((m, i) => <span key={i}>{m}</span>)}
             </div>
           </div>
 
@@ -372,19 +374,19 @@ export default function FutsalPage() {
           <div className="fts-scoreboard">
             <div className="fts-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 110} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 110} />
               ))}
             </div>
           </div>
 
           {/* TUJUAN */}
           <section className="fts-section">
-            <Reveal><div className="fts-label">Kenapa Futsal</div></Reveal>
-            <Reveal delay={60}><h2 className="fts-heading">Tujuan Kami</h2></Reveal>
+            <Reveal><div className="fts-label">{t('Kenapa Futsal', 'Why Futsal')}</div></Reveal>
+            <Reveal delay={60}><h2 className="fts-heading">{t('Tujuan Kami', 'Our Goals')}</h2></Reveal>
             <div className="fts-grid-3">
-              {TUJUAN.map((t, i) => (
+              {TUJUAN.map((tj, i) => (
                 <div
-                  key={t.judul}
+                  key={tj.judul}
                   className="fts-card fts-reveal fts-reveal-in"
                   style={{ transitionDelay: `${i * 120}ms` }}
                   onMouseMove={(e) => {
@@ -393,9 +395,9 @@ export default function FutsalPage() {
                     e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
                   }}
                 >
-                  <span className="fts-card-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="fts-card-title">{t.judul}</div>
-                  <p className="fts-card-desc">{t.deskripsi}</p>
+                  <span className="fts-card-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="fts-card-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="fts-card-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </div>
               ))}
             </div>
@@ -405,13 +407,13 @@ export default function FutsalPage() {
 
           {/* POSISI */}
           <section className="fts-section" style={{ paddingTop: 'clamp(36px,5vw,60px)' }}>
-            <Reveal><div className="fts-label">Susunan Pemain</div></Reveal>
-            <Reveal delay={60}><h2 className="fts-heading">Peran di Lapangan</h2></Reveal>
+            <Reveal><div className="fts-label">{t('Susunan Pemain', 'Lineup')}</div></Reveal>
+            <Reveal delay={60}><h2 className="fts-heading">{t('Peran di Lapangan', 'Roles on the Court')}</h2></Reveal>
             <div className="fts-pos">
               {POSISI.map((p, i) => (
                 <Reveal key={p.nama} delay={i * 90} className="fts-pos-item">
-                  <div className="fts-pos-nama">{p.nama}</div>
-                  <div className="fts-pos-peran">{p.peran}</div>
+                  <div className="fts-pos-nama">{t(p.nama, p.namaEn ?? p.nama)}</div>
+                  <div className="fts-pos-peran">{t(p.peran, p.peranEn)}</div>
                 </Reveal>
               ))}
             </div>
@@ -419,13 +421,13 @@ export default function FutsalPage() {
 
           {/* KEGIATAN + FILTER */}
           <section className="fts-section" style={{ paddingTop: 'clamp(20px,3vw,40px)' }}>
-            <Reveal><div className="fts-label">Program Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="fts-heading">Kegiatan Rutin</h2></Reveal>
+            <Reveal><div className="fts-label">{t('Program Latihan', 'Training Program')}</div></Reveal>
+            <Reveal delay={60}><h2 className="fts-heading">{t('Kegiatan Rutin', 'Regular Activities')}</h2></Reveal>
             <Reveal delay={100}>
               <div className="fts-filter">
                 {FILTERS.map((f) => (
                   <button key={f.key} type="button" className={`fts-chip ${filter === f.key ? 'on' : ''}`} onClick={() => setFilter(f.key)}>
-                    {f.label}
+                    {t(f.label, f.labelEn)}
                   </button>
                 ))}
               </div>
@@ -435,10 +437,10 @@ export default function FutsalPage() {
                 <div key={k.no} className="fts-keg-item">
                   <div className="fts-keg-no">{k.no}</div>
                   <div>
-                    <div className="fts-keg-nama">{k.nama}</div>
-                    <div className="fts-keg-detail">{k.detail}</div>
+                    <div className="fts-keg-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="fts-keg-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
-                  <span className="fts-keg-tag">{k.kategori}</span>
+                  <span className="fts-keg-tag">{t(k.kategori, FILTERS.find((f) => f.key === k.kategori)?.labelEn ?? k.kategori)}</span>
                 </div>
               ))}
             </div>
@@ -446,15 +448,15 @@ export default function FutsalPage() {
 
           {/* CETAK GOL */}
           <section className="fts-goal">
-            <div className="fts-label" style={{ display: 'inline-block' }}>Ayo Cetak Gol</div>
-            <h2>Tendangan Pertamamu?</h2>
-            <p>Nggak perlu jago dulu — yang penting mau latihan rutin. Hubungi pembina ekstrakurikuler di sekolah.</p>
+            <div className="fts-label" style={{ display: 'inline-block' }}>{t('Ayo Cetak Gol', 'Let’s Score')}</div>
+            <h2>{t('Tendangan Pertamamu?', 'Your First Kick?')}</h2>
+            <p>{t('Nggak perlu jago dulu — yang penting mau latihan rutin. Hubungi pembina ekstrakurikuler di sekolah.', 'You don’t need to be good yet — what matters is practicing regularly. Contact the club advisor at school.')}</p>
             <div className={`fts-net ${flash ? 'shake' : ''}`} aria-hidden="true">
               {shots.map((s) => <div key={s.id} className="fts-net-ball"><Ball size={40} /></div>)}
-              <div className={`fts-gol-flash ${flash ? 'on' : ''}`}>GOL!</div>
+              <div className={`fts-gol-flash ${flash ? 'on' : ''}`}>{t('GOL!', 'GOAL!')}</div>
             </div>
-            <button type="button" className="fts-kick-btn" onClick={tendang}>⚽ Tendang!</button>
-            <span className="fts-gol-count">{gol > 0 ? `${gol} gol tercipta` : 'belum ada gol'}</span>
+            <button type="button" className="fts-kick-btn" onClick={tendang}>{t('⚽ Tendang!', '⚽ Kick!')}</button>
+            <span className="fts-gol-count">{gol > 0 ? t(`${gol} gol tercipta`, `${gol} goal${gol > 1 ? 's' : ''} scored`) : t('belum ada gol', 'no goals yet')}</span>
           </section>
         </main>
 

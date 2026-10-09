@@ -8,7 +8,7 @@ import {
   ArrowRight, Monitor, Wifi, BookOpen, Presentation, Camera, Coffee,
   Trophy, Printer, Landmark, Users, Sparkles, CalendarDays, Check, Globe2,
 } from 'lucide-react';
-import { GELOMBANG, TAHUN_AJARAN, STATUS_LABEL, STATUS_LABEL_EN, formatTanggalRange, useSpmbGelombang } from '@/lib/spmb';
+import { GELOMBANG, SPMB_URL, TAHUN_AJARAN, STATUS_LABEL, STATUS_LABEL_EN, formatTanggalRange, useSpmbGelombang } from '@/lib/spmb';
 import { useLang } from '@/lib/i18n';
 
 // Teks dua bahasa: `id` = Indonesia, `en` = English
@@ -446,7 +446,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="hero-btn-row">
-                <Link ref={magneticHero} href="/spmb" className="btn-primary magnetic" style={{ fontSize: 15 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')} →</Link>
+                <Link ref={magneticHero} href={SPMB_URL} className="btn-primary magnetic" style={{ fontSize: 15 }}>{t('Daftar SPMB Sekarang', 'Apply for Admission')} →</Link>
                 <Link href="/tentang" className="btn-outline" style={{ fontSize: 15 }}>{t('Pelajari Lebih Lanjut', 'Learn More')}</Link>
               </div>
               <div className="hero-stats-row" ref={statsRef}>
@@ -499,7 +499,7 @@ export default function HomePage() {
                   })}
                 </div>
 
-                <Link ref={magneticTimeline} href="/register" className="btn-primary magnetic spmb-cta">
+                <Link ref={magneticTimeline} href={SPMB_URL} className="btn-primary magnetic spmb-cta">
                   {t('Mulai Pendaftaran', 'Start Application')} <ArrowRight size={16} />
                 </Link>
               </div>
@@ -561,8 +561,7 @@ export default function HomePage() {
               )}
             </p>
             <div className="cta-btn-row">
-              <Link ref={magneticCta} href="/register" className="btn-primary magnetic" style={{ fontSize: 16 }}>{t('Daftar Sekarang', 'Apply Now')}</Link>
-              <Link href="/spmb" className="btn-outline" style={{ fontSize: 16 }}>{t('Info SPMB', 'Admission Info')}</Link>
+              <Link ref={magneticCta} href={SPMB_URL} className="btn-primary magnetic" style={{ fontSize: 16 }}>{t('Daftar Sekarang', 'Apply Now')}</Link>
             </div>
           </div>
         </section>

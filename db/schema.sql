@@ -27,7 +27,6 @@ create table if not exists berita (
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
-create index if not exists berita_tanggal_idx on berita (tanggal desc);
 
 -- ── Prestasi ──
 create table if not exists prestasi (
@@ -43,7 +42,37 @@ create table if not exists prestasi (
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
-create index if not exists prestasi_created_idx on prestasi (created_at desc);
 
--- Kalau tabel prestasi sudah ada dari sebelumnya, tambahkan kolom baru (aman diulang):
-alter table prestasi add column if not exists anggota text not null default '[]';
+-- ── Perbaikan tabel lama ──
+-- Kalau tabel sudah ada dari versi sebelumnya, "create table if not exists" di atas
+-- tidak menambah kolom yang kurang. Baris di bawah melengkapinya (aman diulang).
+
+alter table media add column if not exists filename   text        not null default 'upload';
+alter table media add column if not exists mime       text        not null default 'application/octet-stream';
+alter table media add column if not exists data       text        not null default '';
+alter table media add column if not exists size       integer     not null default 0;
+alter table media add column if not exists created_at timestamptz not null default now();
+
+alter table berita add column if not exists tanggal    date        not null default current_date;
+alter table berita add column if not exists kategori   text        not null default 'Kegiatan';
+alter table berita add column if not exists penulis    text        not null default 'Humas SMK Citra Negara';
+alter table berita add column if not exists gambar     text        not null default '';
+alter table berita add column if not exists ringkasan  text        not null default '';
+alter table berita add column if not exists konten     text        not null default '';
+alter table berita add column if not exists published  boolean     not null default true;
+alter table berita add column if not exists created_at timestamptz not null default now();
+alter table berita add column if not exists updated_at timestamptz not null default now();
+
+alter table prestasi add column if not exists tahun      text        not null default '';
+alter table prestasi add column if not exists kategori   text        not null default 'Akademik';
+alter table prestasi add column if not exists tingkat    text        not null default '';
+alter table prestasi add column if not exists anggota    text        not null default '[]';
+alter table prestasi add column if not exists foto       text        not null default '';
+alter table prestasi add column if not exists deskripsi  text        not null default '';
+alter table prestasi add column if not exists published  boolean     not null default true;
+alter table prestasi add column if not exists created_at timestamptz not null default now();
+alter table prestasi add column if not exists updated_at timestamptz not null default now();
+
+-- ── Index (dibuat setelah kolom dipastikan ada) ──
+create index if not exists berita_tanggal_idx on berita (tanggal desc);
+create index if not exists prestasi_created_idx on prestasi (created_at desc);

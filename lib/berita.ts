@@ -115,11 +115,16 @@ const BULAN = [
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
 ];
 
-/** "2026-08-17" -> "17 Agustus 2026" */
-export function formatTanggal(iso: string): string {
+const BULAN_EN = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+/** "2026-08-17" -> "17 Agustus 2026" (lang 'en' -> "17 August 2026") */
+export function formatTanggal(iso: string, lang: 'id' | 'en' = 'id'): string {
   const [y, m, d] = iso.split('-').map(Number);
   if (!y || !m || !d) return iso;
-  return `${d} ${BULAN[m - 1]} ${y}`;
+  return `${d} ${(lang === 'en' ? BULAN_EN : BULAN)[m - 1]} ${y}`;
 }
 
 export function getBeritaTerbaru(): Berita[] {
@@ -134,4 +139,12 @@ export const KATEGORI_BERITA_COLOR: Record<string, string> = {
   Prestasi: '#C8973A',
   Pengumuman: '#1E3A5F',
   Kegiatan: '#15803d',
+};
+
+/** Nama kategori berita untuk mode English */
+export const KATEGORI_BERITA_EN: Record<string, string> = {
+  Semua: 'All',
+  Prestasi: 'Achievements',
+  Pengumuman: 'Announcements',
+  Kegiatan: 'Activities',
 };

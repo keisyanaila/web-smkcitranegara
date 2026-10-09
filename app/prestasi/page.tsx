@@ -4,11 +4,14 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { Award } from 'lucide-react';
-import { KATEGORI_PRESTASI_COLOR as KATEGORI_COLOR, type Prestasi } from '@/lib/prestasi';
+import { KATEGORI_PRESTASI_COLOR as KATEGORI_COLOR, KATEGORI_PRESTASI_EN, type Prestasi } from '@/lib/prestasi';
+import { useLang } from '@/lib/i18n';
 
 export default function PrestasiPage() {
   const [aktif, setAktif] = useState('Semua');
   const [PRESTASI, setPrestasi] = useState<Prestasi[]>([]);
+  const { t } = useLang();
+  const kat = (k: string) => t(k, KATEGORI_PRESTASI_EN[k] ?? k);
 
   useEffect(() => {
     fetch('/api/prestasi', { cache: 'no-store' })
@@ -33,10 +36,13 @@ export default function PrestasiPage() {
           <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
             <div className="gold-line" style={{ margin: '0 auto 20px' }} />
             <h1 className="font-display" style={{ fontSize: 48, color: 'white', marginBottom: 16 }}>
-              Prestasi & Penghargaan
+              {t('Prestasi & Penghargaan', 'Achievements & Awards')}
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 17, lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-              Deretan pencapaian membanggakan siswa-siswi SMK Citra Negara di berbagai bidang kompetisi.
+              {t(
+                'Deretan pencapaian membanggakan siswa-siswi SMK Citra Negara di berbagai bidang kompetisi.',
+                'A collection of proud achievements by SMK Citra Negara students across many competitions.',
+              )}
             </p>
           </div>
         </section>
@@ -45,10 +51,10 @@ export default function PrestasiPage() {
         <section style={{ background: '#023d17', padding: '22px 24px', borderBottom: '2px solid #C8973A' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', gap: 40, justifyContent: 'center', flexWrap: 'wrap' }}>
             {[
-              { label: 'Total Prestasi', val: `${PRESTASI.length}+` },
-              { label: 'Tingkat Nasional', val: '3' },
-              { label: 'Tingkat Jabodetabek', val: '3' },
-              { label: 'Bidang', val: '4' },
+              { label: t('Total Prestasi', 'Total Achievements'), val: `${PRESTASI.length}+` },
+              { label: t('Tingkat Nasional', 'National Level'), val: '3' },
+              { label: t('Tingkat Jabodetabek', 'Greater Jakarta Level'), val: '3' },
+              { label: t('Bidang', 'Fields'), val: '4' },
             ].map(s => (
               <div key={s.label} style={{ textAlign: 'center' }}>
                 <div style={{ color: '#E8B84B', fontWeight: 800, fontSize: 22 }}>{s.val}</div>
@@ -75,7 +81,7 @@ export default function PrestasiPage() {
                   transition: 'all 0.18s',
                 }}
               >
-                {k}
+                {kat(k)}
               </button>
             ))}
           </div>
@@ -128,7 +134,7 @@ export default function PrestasiPage() {
                     background: KATEGORI_COLOR[p.kategori] ?? 'rgba(10,22,40,0.75)',
                     color: 'white', fontSize: 10, fontWeight: 800,
                     padding: '4px 10px', borderRadius: 20, letterSpacing: 0.5,
-                  }}>{p.kategori}</div>
+                  }}>{kat(p.kategori)}</div>
                   <div style={{
                     position: 'absolute', top: 12, right: 12,
                     background: 'linear-gradient(135deg,#C8973A,#E8B84B)',
@@ -171,7 +177,7 @@ export default function PrestasiPage() {
 
           {filtered.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#9CA3AF', fontSize: 15 }}>
-              Belum ada prestasi di kategori ini.
+              {t('Belum ada prestasi di kategori ini.', 'No achievements in this category yet.')}
             </div>
           )}
         </section>

@@ -5,56 +5,57 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import { useState } from 'react';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '🇯🇵', label: 'Bahasa Jepang' },
-  { angka: '5S', label: 'Etos Kerja Jepang' },
-  { angka: '∞', label: 'Peluang Global' },
-  { angka: 'CN', label: 'Gakuen' },
+  { angka: '🇯🇵', label: 'Bahasa Jepang', labelEn: 'Japanese Language' },
+  { angka: '5S', label: 'Etos Kerja Jepang', labelEn: 'Japanese Work Ethic' },
+  { angka: '∞', label: 'Peluang Global', labelEn: 'Global Opportunities' },
+  { angka: 'CN', label: 'Gakuen', labelEn: 'Gakuen' },
 ];
 
 const TUJUAN = [
   {
     icon: 'あ',
     kanji: '日本語',
-    judul: 'Penguasaan Bahasa Jepang',
+    judul: 'Penguasaan Bahasa Jepang', judulEn: 'Japanese Language Mastery',
     deskripsi:
-      'Mengembangkan kemampuan mendengar, berbicara, membaca, dan menulis Bahasa Jepang, mulai dari Hiragana, Katakana, hingga Kanji.',
+      'Mengembangkan kemampuan mendengar, berbicara, membaca, dan menulis Bahasa Jepang, mulai dari Hiragana, Katakana, hingga Kanji.', deskripsiEn: 'Developing listening, speaking, reading, and writing skills in Japanese, from Hiragana and Katakana to Kanji.',
   },
   {
     icon: '和',
     kanji: '文化',
-    judul: 'Pemahaman Lintas Budaya',
+    judul: 'Pemahaman Lintas Budaya', judulEn: 'Cross-Cultural Understanding',
     deskripsi:
-      'Mengenal budaya, tradisi, kebiasaan, dan kehidupan masyarakat Jepang untuk membangun wawasan global dan toleransi antarbudaya.',
+      'Mengenal budaya, tradisi, kebiasaan, dan kehidupan masyarakat Jepang untuk membangun wawasan global dan toleransi antarbudaya.', deskripsiEn: 'Getting to know Japanese culture, traditions, customs, and daily life to build global insight and intercultural tolerance.',
   },
   {
     icon: '道',
     kanji: '未来',
-    judul: 'Persiapan Karier Global',
+    judul: 'Persiapan Karier Global', judulEn: 'Global Career Preparation',
     deskripsi:
-      'Mempersiapkan siswa yang ingin melanjutkan studi atau membangun karier di Jepang melalui bekal bahasa, budaya, dan etos kerja.',
+      'Mempersiapkan siswa yang ingin melanjutkan studi atau membangun karier di Jepang melalui bekal bahasa, budaya, dan etos kerja.', deskripsiEn: 'Preparing students who want to study or build a career in Japan with language, culture, and work-ethic skills.',
   },
   {
     icon: '五',
     kanji: '5S',
-    judul: 'Disiplin & Etos Kerja',
+    judul: 'Disiplin & Etos Kerja', judulEn: 'Discipline & Work Ethic',
     deskripsi:
-      'Menerapkan nilai Seiri, Seiton, Seiso, Seiketsu, dan Shitsuke serta semangat Kaizen dalam kehidupan sehari-hari.',
+      'Menerapkan nilai Seiri, Seiton, Seiso, Seiketsu, dan Shitsuke serta semangat Kaizen dalam kehidupan sehari-hari.', deskripsiEn: 'Applying the values of Seiri, Seiton, Seiso, Seiketsu, and Shitsuke, along with the Kaizen spirit, in daily life.',
   },
   {
     icon: '創',
     kanji: '創造',
-    judul: 'Kreativitas',
+    judul: 'Kreativitas', judulEn: 'Creativity',
     deskripsi:
-      'Mengeksplorasi sisi kreatif budaya Jepang melalui seni tradisional, budaya pop, literatur, film, anime, dan berbagai kegiatan budaya.',
+      'Mengeksplorasi sisi kreatif budaya Jepang melalui seni tradisional, budaya pop, literatur, film, anime, dan berbagai kegiatan budaya.', deskripsiEn: 'Exploring the creative side of Japanese culture through traditional arts, pop culture, literature, film, anime, and cultural activities.',
   },
   {
     icon: '🌸',
     kanji: '交流',
-    judul: 'Persahabatan Internasional',
+    judul: 'Persahabatan Internasional', judulEn: 'International Friendship',
     deskripsi:
-      'Membangun keberanian berkomunikasi dan membuka wawasan siswa terhadap lingkungan pendidikan serta profesional di Jepang.',
+      'Membangun keberanian berkomunikasi dan membuka wawasan siswa terhadap lingkungan pendidikan serta profesional di Jepang.', deskripsiEn: 'Building the courage to communicate and opening students’ eyes to educational and professional environments in Japan.',
   },
 ];
 
@@ -62,34 +63,34 @@ const KEGIATAN = [
   {
     no: '01',
     icon: 'あ',
-    nama: 'Kelas Bahasa Jepang',
+    nama: 'Kelas Bahasa Jepang', namaEn: 'Japanese Language Class',
     jp: '日本語教室',
     detail:
-      'Mempelajari Bunpou, Kaiwa, Hiragana, Katakana, Kanji, serta latihan komunikasi sehari-hari yang dapat menjadi bekal menghadapi JLPT atau NAT-TEST.',
+      'Mempelajari Bunpou, Kaiwa, Hiragana, Katakana, Kanji, serta latihan komunikasi sehari-hari yang dapat menjadi bekal menghadapi JLPT atau NAT-TEST.', detailEn: 'Studying Bunpou (grammar), Kaiwa (conversation), Hiragana, Katakana, Kanji, and everyday communication — preparation for the JLPT or NAT-TEST.',
   },
   {
     no: '02',
     icon: '折',
-    nama: 'Workshop Budaya Jepang',
+    nama: 'Workshop Budaya Jepang', namaEn: 'Japanese Culture Workshop',
     jp: '日本文化',
     detail:
-      'Mengenal Origami, Shodo, Yukata, Reigi Sahou, tradisi, makanan, hingga berbagai kebiasaan masyarakat Jepang.',
+      'Mengenal Origami, Shodo, Yukata, Reigi Sahou, tradisi, makanan, hingga berbagai kebiasaan masyarakat Jepang.', detailEn: 'Exploring Origami, Shodo, Yukata, Reigi Sahou, traditions, food, and many Japanese customs.',
   },
   {
     no: '03',
     icon: '礼',
-    nama: 'Simulasi Etika Kerja',
+    nama: 'Simulasi Etika Kerja', namaEn: 'Work Etiquette Simulation',
     jp: '仕事のマナー',
     detail:
-      'Berlatih Aisatsu, etika berkomunikasi, ketepatan waktu, pertukaran kartu nama, hingga simulasi wawancara kerja.',
+      'Berlatih Aisatsu, etika berkomunikasi, ketepatan waktu, pertukaran kartu nama, hingga simulasi wawancara kerja.', detailEn: 'Practicing Aisatsu (greetings), communication etiquette, punctuality, business card exchange, and mock job interviews.',
   },
   {
     no: '04',
     icon: '🎬',
-    nama: 'Anime, Film & Literatur',
+    nama: 'Anime, Film & Literatur', namaEn: 'Anime, Film & Literature',
     jp: 'アニメ・映画・文学',
     detail:
-      'Membedah anime, manga, film, dan literatur Jepang untuk memahami bahasa, nilai moral, serta konteks sosial masyarakat Jepang.',
+      'Membedah anime, manga, film, dan literatur Jepang untuk memahami bahasa, nilai moral, serta konteks sosial masyarakat Jepang.', detailEn: 'Analyzing Japanese anime, manga, film, and literature to understand the language, moral values, and social context of Japan.',
   },
   {
     no: '05',
@@ -97,7 +98,7 @@ const KEGIATAN = [
     nama: 'Bunkasai',
     jp: '文化祭',
     detail:
-      'Merancang festival budaya Jepang di sekolah sebagai wadah kreativitas, kerja sama, kepemimpinan, dan manajemen acara.',
+      'Merancang festival budaya Jepang di sekolah sebagai wadah kreativitas, kerja sama, kepemimpinan, dan manajemen acara.', detailEn: 'Organizing a Japanese culture festival at school as a space for creativity, teamwork, leadership, and event management.',
   },
   {
     no: '06',
@@ -105,7 +106,7 @@ const KEGIATAN = [
     nama: 'Sharing Session',
     jp: '交流会',
     detail:
-      'Mendapatkan informasi mengenai beasiswa, program magang, Tokutei Ginou, Ginou Jisshu, pendidikan, pekerjaan, dan kehidupan di Jepang.',
+      'Mendapatkan informasi mengenai beasiswa, program magang, Tokutei Ginou, Ginou Jisshu, pendidikan, pekerjaan, dan kehidupan di Jepang.', detailEn: 'Getting information about scholarships, internships, Tokutei Ginou, Ginou Jisshu, education, work, and life in Japan.',
   },
 ];
 
@@ -115,33 +116,34 @@ const BUDAYA = [
     nama: 'Origami',
     jp: 'おりがみ',
     deskripsi:
-      'Mengenal seni melipat kertas Jepang yang sederhana tetapi membutuhkan ketelitian, kreativitas, dan kesabaran.',
+      'Mengenal seni melipat kertas Jepang yang sederhana tetapi membutuhkan ketelitian, kreativitas, dan kesabaran.', deskripsiEn: 'Discovering the Japanese art of paper folding — simple, yet requiring precision, creativity, and patience.',
   },
   {
     kanji: '書',
     nama: 'Shodo',
     jp: '書道',
     deskripsi:
-      'Mengenal seni kaligrafi Jepang sekaligus belajar mengenai ketelitian, keseimbangan, dan filosofi di balik setiap karakter.',
+      'Mengenal seni kaligrafi Jepang sekaligus belajar mengenai ketelitian, keseimbangan, dan filosofi di balik setiap karakter.', deskripsiEn: 'Discovering Japanese calligraphy while learning precision, balance, and the philosophy behind each character.',
   },
   {
     kanji: '浴',
     nama: 'Yukata',
     jp: 'ゆかた',
     deskripsi:
-      'Mengenal pakaian tradisional Jepang yang sering digunakan dalam festival musim panas serta mempelajari tata cara penggunaannya.',
+      'Mengenal pakaian tradisional Jepang yang sering digunakan dalam festival musim panas serta mempelajari tata cara penggunaannya.', deskripsiEn: 'Getting to know the traditional Japanese garment often worn at summer festivals, and how to wear it properly.',
   },
   {
     kanji: '礼',
     nama: 'Reigi Sahou',
     jp: '礼儀作法',
     deskripsi:
-      'Mempelajari tata krama dan etika Jepang seperti membungkuk, memberi salam, sopan santun, dan menghargai orang lain.',
+      'Mempelajari tata krama dan etika Jepang seperti membungkuk, memberi salam, sopan santun, dan menghargai orang lain.', deskripsiEn: 'Learning Japanese manners and etiquette such as bowing, greetings, politeness, and respecting others.',
   },
 ];
 
 export default function CNGakuenPage() {
   const [activeBudaya, setActiveBudaya] = useState(0);
+  const { t } = useLang();
 
   return (
     <>
@@ -1769,7 +1771,7 @@ export default function CNGakuenPage() {
               </div>
 
               <div className="gk-eyebrow">
-                Ekstrakurikuler SMK Citra Negara
+                {t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}
               </div>
 
               <h1 className="gk-title">
@@ -1781,10 +1783,7 @@ export default function CNGakuenPage() {
               </div>
 
               <p className="gk-subtitle">
-                Wadah bagi siswa yang ingin mengenal Jepang lebih
-                dalam melalui bahasa, budaya, kreativitas, serta
-                persiapan menuju peluang pendidikan dan karier
-                internasional.
+                {t('Wadah bagi siswa yang ingin mengenal Jepang lebih dalam melalui bahasa, budaya, kreativitas, serta persiapan menuju peluang pendidikan dan karier internasional.', 'A place for students who want to know Japan more deeply through language, culture, and creativity, while preparing for international study and career opportunities.')}
               </p>
             </div>
 
@@ -1810,7 +1809,7 @@ export default function CNGakuenPage() {
                 </div>
 
                 <div className="gk-stat-label">
-                  {stat.label}
+                  {t(stat.label, stat.labelEn)}
                 </div>
               </div>
             ))}
@@ -1827,7 +1826,7 @@ export default function CNGakuenPage() {
 
             <h2 className="gk-heading">
               日本を知る
-              <span>Mengenal Jepang, Membuka Dunia</span>
+              <span>{t('Mengenal Jepang, Membuka Dunia', 'Discover Japan, Open Up the World')}</span>
             </h2>
 
             <div className="gk-intro">
@@ -1845,30 +1844,23 @@ export default function CNGakuenPage() {
 
               <div className="gk-intro-copy">
                 <h3>
-                  Bukan hanya tentang
+                  {t('Bukan hanya tentang', 'Not just about')}
                   <span> Jepang.</span>
                 </h3>
 
                 <p>
-                  CN Gakuen merupakan wadah bagi siswa yang
-                  memiliki ketertarikan terhadap Jepang, baik
-                  dari segi bahasa, budaya, maupun peluang
-                  pendidikan dan karier.
+                  {t('CN Gakuen merupakan wadah bagi siswa yang memiliki ketertarikan terhadap Jepang, baik dari segi bahasa, budaya, maupun peluang pendidikan dan karier.', 'CN Gakuen is a community for students interested in Japan — its language, its culture, and its education and career opportunities.')}
                 </p>
 
                 <p>
-                  Melalui berbagai kegiatan, siswa tidak hanya
-                  mengenal budaya populer Jepang, tetapi juga
-                  membangun kemampuan komunikasi, kedisiplinan,
-                  kreativitas, dan etos kerja yang dapat menjadi
-                  bekal menghadapi dunia profesional.
+                  {t('Melalui berbagai kegiatan, siswa tidak hanya mengenal budaya populer Jepang, tetapi juga membangun kemampuan komunikasi, kedisiplinan, kreativitas, dan etos kerja yang dapat menjadi bekal menghadapi dunia profesional.', 'Through a variety of activities, students don’t just explore Japanese pop culture — they also build communication skills, discipline, creativity, and a work ethic that prepare them for the professional world.')}
                 </p>
 
                 <div className="gk-jp-quote">
                   学ぶことは、未来への一歩。
                   <br />
                   <small>
-                    Belajar adalah satu langkah menuju masa depan.
+                    {t('Belajar adalah satu langkah menuju masa depan.', 'Learning is one step toward the future.')}
                   </small>
                 </div>
               </div>
@@ -1882,12 +1874,12 @@ export default function CNGakuenPage() {
           <section className="gk-tujuan-section">
             <div className="gk-section">
               <div className="gk-section-label">
-                Tujuan Ekstrakurikuler
+                {t('Tujuan Ekstrakurikuler', 'Club Goals')}
               </div>
 
               <h2 className="gk-heading">
-                6 PILAR CN GAKUEN
-                <span>Belajar · Berkembang · Berkarya</span>
+                {t('6 PILAR CN GAKUEN', 'THE 6 PILLARS OF CN GAKUEN')}
+                <span>{t('Belajar · Berkembang · Berkarya', 'Learn · Grow · Create')}</span>
               </h2>
 
               <div className="gk-tujuan-grid">
@@ -1906,11 +1898,11 @@ export default function CNGakuenPage() {
                     </div>
 
                     <div className="gk-card-title">
-                      {item.judul}
+                      {t(item.judul, item.judulEn)}
                     </div>
 
                     <p className="gk-card-desc">
-                      {item.deskripsi}
+                      {t(item.deskripsi, item.deskripsiEn)}
                     </p>
                   </article>
                 ))}
@@ -1942,7 +1934,7 @@ export default function CNGakuenPage() {
 
               <h2 className="gk-heading">
                 日本文化
-                <span>Eksplorasi Budaya Jepang</span>
+                <span>{t('Eksplorasi Budaya Jepang', 'Exploring Japanese Culture')}</span>
               </h2>
 
               <div className="gk-budaya-grid">
@@ -1982,7 +1974,7 @@ export default function CNGakuenPage() {
                   </h3>
 
                   <p className="gk-info-desc">
-                    {BUDAYA[activeBudaya].deskripsi}
+                    {t(BUDAYA[activeBudaya].deskripsi, BUDAYA[activeBudaya].deskripsiEn)}
                   </p>
 
                   <span className="gk-info-tag">
@@ -2000,12 +1992,12 @@ export default function CNGakuenPage() {
           <section className="gk-kegiatan-section">
             <div className="gk-section">
               <div className="gk-section-label">
-                Program Kegiatan
+                {t('Program Kegiatan', 'Activity Program')}
               </div>
 
               <h2 className="gk-heading">
                 活動
-                <span>Kegiatan CN Gakuen</span>
+                <span>{t('Kegiatan CN Gakuen', 'CN Gakuen Activities')}</span>
               </h2>
 
               <div className="gk-kegiatan-grid">
@@ -2026,7 +2018,7 @@ export default function CNGakuenPage() {
 
                     <div>
                       <div className="gk-kegiatan-name">
-                        {item.nama}
+                        {t(item.nama, item.namaEn ?? item.nama)}
                       </div>
 
                       <div className="gk-kegiatan-jp">
@@ -2034,7 +2026,7 @@ export default function CNGakuenPage() {
                       </div>
 
                       <div className="gk-kegiatan-detail">
-                        {item.detail}
+                        {t(item.detail, item.detailEn)}
                       </div>
                     </div>
                   </article>
@@ -2054,7 +2046,7 @@ export default function CNGakuenPage() {
               </div>
 
               <h2 className="gk-values-title">
-                Belajar dari budaya kerja Jepang.
+                {t('Belajar dari budaya kerja Jepang.', 'Learning from Japanese work culture.')}
                 <br />
                 <span>小さな改善、大きな未来。</span>
               </h2>
@@ -2137,8 +2129,7 @@ export default function CNGakuenPage() {
             </div>
 
             <div className="gk-quote-text">
-              “Melangkah sedikit demi sedikit
-              menuju impianmu.”
+              {t('“Melangkah sedikit demi sedikit menuju impianmu.”', '“Step by step, toward your dreams.”')}
             </div>
 
             <div className="gk-quote-small">

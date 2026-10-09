@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -37,6 +39,7 @@ function HeroBanner() {
 }
 
 export default function PerhotelanPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +68,7 @@ export default function PerhotelanPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +80,7 @@ export default function PerhotelanPage() {
                 maxWidth: 700,
               }}
             >
-              Perhotelan
+              {t("Perhotelan", "Hospitality")}
             </h1>
 
             <p
@@ -89,7 +92,7 @@ export default function PerhotelanPage() {
                 lineHeight: 1.6,
               }}
             >
-              Mencetak profesional muda yang kompeten dan siap terjun ke industri pariwisata dan perhotelan yang dinamis, mulai dari hotel bintang lima, restoran, hingga kapal pesiar.
+              {t("Mencetak profesional muda yang kompeten dan siap terjun ke industri pariwisata dan perhotelan yang dinamis, mulai dari hotel bintang lima, restoran, hingga kapal pesiar.", "Shaping competent young professionals ready to enter the dynamic tourism and hospitality industry, from five-star hotels and restaurants to cruise ships.")}
             </p>
           </div>
         </section>
@@ -117,7 +120,7 @@ export default function PerhotelanPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu Perhotelan
+              {t("Apa itu Perhotelan", "What is Hospitality?")}
             </h2>
 
             <p
@@ -128,7 +131,7 @@ export default function PerhotelanPage() {
                 marginBottom: 40,
               }}
             >
-              Program Keahlian Perhotelan adalah program pendidikan yang dirancang untuk mencetak para profesional muda yang kompeten dan siap terjun ke dalam industri pariwisata dan perhotelan yang dinamis. Program ini membekali siswa dengan pengetahuan, keterampilan, dan sikap (attitude) yang dibutuhkan untuk memberikan pelayanan prima (excellent service) di berbagai sektor, mulai dari hotel bintang lima, restoran, hingga kapal pesiar. Fokusnya adalah menghasilkan lulusan yang andal dalam praktik, memiliki etika profesi yang kuat, serta mampu beradaptasi dengan tren industri global.
+              {t("Program Keahlian Perhotelan adalah program pendidikan yang dirancang untuk mencetak para profesional muda yang kompeten dan siap terjun ke dalam industri pariwisata dan perhotelan yang dinamis. Program ini membekali siswa dengan pengetahuan, keterampilan, dan sikap (attitude) yang dibutuhkan untuk memberikan pelayanan prima (excellent service) di berbagai sektor, mulai dari hotel bintang lima, restoran, hingga kapal pesiar. Fokusnya adalah menghasilkan lulusan yang andal dalam praktik, memiliki etika profesi yang kuat, serta mampu beradaptasi dengan tren industri global.", "The Hospitality program is designed to shape competent young professionals ready to enter the dynamic tourism and hospitality industry. It equips students with the knowledge, skills, and attitude needed to deliver excellent service across many sectors, from five-star hotels and restaurants to cruise ships. The focus is on producing graduates who are skilled in practice, hold strong professional ethics, and can adapt to global industry trends.")}
             </p>
 
             {/* Materi */}
@@ -140,7 +143,7 @@ export default function PerhotelanPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t('Apa yang akan kamu pelajari?', 'What will you learn?')}
             </h2>
 
             <div
@@ -154,31 +157,45 @@ export default function PerhotelanPage() {
               {[
                 {
                   label: 'Front Office (Kantor Depan)',
+                  labelEn: 'Front Office',
                   desc: 'Alur kerja di garda terdepan hotel, termasuk proses reservasi, prosedur check-in dan check-out, penanganan telepon, serta komunikasi dan melayani keluhan tamu secara profesional.',
+                  descEn: 'The workflow at a hotel\'s front line, including reservations, check-in and check-out procedures, handling phone calls, and communicating with and resolving guest complaints professionally.',
                 },
                 {
                   label: 'Housekeeping (Tata Graha)',
+                  labelEn: 'Housekeeping',
                   desc: 'Standar kebersihan dan kerapian area hotel, teknik membersihkan kamar tamu (room attendant), area publik (public area), serta manajemen laundry.',
+                  descEn: 'Cleanliness and tidiness standards for hotel areas, techniques for cleaning guest rooms (room attendant) and public areas, and laundry management.',
                 },
                 {
                   label: 'Food & Beverage Service (Tata Hidang)',
+                  labelEn: 'Food & Beverage Service',
                   desc: 'Seni melayani makanan dan minuman, mencakup pengetahuan menu, teknik penyajian, penataan meja (table setting), hingga keterampilan dasar sebagai waiter/waitress, barista, dan bartender.',
+                  descEn: 'The art of serving food and drinks, covering menu knowledge, serving techniques, table setting, and the basic skills of a waiter/waitress, barista, and bartender.',
                 },
                 {
                   label: 'Food & Beverage Production (Produksi Makanan & Minuman)',
+                  labelEn: 'Food & Beverage Production',
                   desc: 'Dasar-dasar pengolahan makanan di dapur (kitchen), mulai dari pengenalan bahan, teknik memasak dasar, hingga basic cookery dan patisserie.',
+                  descEn: 'Kitchen fundamentals, from getting to know ingredients and basic cooking techniques to basic cookery and patisserie.',
                 },
                 {
                   label: 'Komunikasi Industri & Bahasa Asing',
+                  labelEn: 'Industry Communication & Foreign Languages',
                   desc: 'Kemampuan komunikasi yang efektif, baik dalam Bahasa Indonesia maupun Bahasa Inggris sebagai bahasa internasional utama di industri pariwisata.',
+                  descEn: 'Effective communication skills in both Indonesian and English, the main international language of the tourism industry.',
                 },
                 {
                   label: 'Sanitasi, Higiene, dan Keselamatan Kerja',
+                  labelEn: 'Sanitation, Hygiene & Occupational Safety',
                   desc: 'Standar kebersihan dan keselamatan kerja (K3) di lingkungan hotel untuk menjamin kesehatan tamu dan karyawan.',
+                  descEn: 'Hygiene and occupational health & safety standards in hotels to protect the health of guests and staff.',
                 },
                 {
                   label: 'Kewirausahaan',
+                  labelEn: 'Entrepreneurship',
                   desc: 'Jiwa wirausaha agar mampu menciptakan peluang bisnis mandiri di bidang perhotelan dan pariwisata, seperti membuka kafe, layanan katering, atau penginapan.',
+                  descEn: 'An entrepreneurial mindset to create independent business opportunities in hospitality and tourism, such as opening a café, catering service, or guesthouse.',
                 },
               ].map((m) => (
                 <div
@@ -211,9 +228,9 @@ export default function PerhotelanPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -228,7 +245,7 @@ export default function PerhotelanPage() {
                 marginBottom: 20,
               }}
             >
-              Prospek Karir lulusan Perhotelan
+              {t("Prospek Karir lulusan Perhotelan", "Career prospects for Hospitality graduates")}
             </h2>
 
             <div
@@ -239,7 +256,7 @@ export default function PerhotelanPage() {
                 marginBottom: 40,
               }}
             >
-              {[
+              {t([
                 'Resepsionis / Front Desk Agent',
                 'Room Attendant / Staf Housekeeping',
                 'Waiter / Waitress',
@@ -252,7 +269,20 @@ export default function PerhotelanPage() {
                 'Pemandu Wisata (Tour Guide)',
                 'Event Organizer',
                 'Wirausaha Kuliner & Penginapan',
-              ].map((p) => (
+              ], [
+                'Receptionist / Front Desk Agent',
+                'Room Attendant / Housekeeping Staff',
+                'Waiter / Waitress',
+                'Barista / Bartender',
+                'Commis Chef',
+                'Concierge / Bellboy',
+                'Restaurant & Catering Staff',
+                'Cruise Ship Crew',
+                'Travel Agency Staff',
+                'Tour Guide',
+                'Event Organizer',
+                'Culinary & Lodging Entrepreneur',
+              ]).map((p) => (
                 <div
                   key={p}
                   style={{
@@ -294,11 +324,11 @@ export default function PerhotelanPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan Perhotelan?
+                {t("Tertarik bergabung dengan jurusan Perhotelan?", "Interested in joining Hospitality?")}
               </p>
 
               <Link
-                href="/spmb"
+                href={SPMB_URL}
                 style={{
                   display: 'inline-block',
                   background: GOLD,
@@ -310,7 +340,7 @@ export default function PerhotelanPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t('Daftar Sekarang', 'Apply Now')}
               </Link>
             </div>
           </div>

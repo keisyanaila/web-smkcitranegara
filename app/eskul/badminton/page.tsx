@@ -5,42 +5,43 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2011', label: 'Tahun Berdiri' },
-  { angka: '26+',  label: 'Anggota Aktif' },
-  { angka: '18',   label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Semangat' },
+  { angka: '2011', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '26+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '18',   label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Semangat', labelEn: 'Spirit' },
 ];
 
 const TUJUAN = [
   {
     icon: '🏸',
-    judul: 'Kelincahan & Refleks',
+    judul: 'Kelincahan & Refleks', judulEn: 'Agility & Reflexes',
     deskripsi:
-      'Latihan footwork, pukulan, dan reaksi cepat melatih kelincahan, keseimbangan, serta refleks siswa di setiap sesi.',
+      'Latihan footwork, pukulan, dan reaksi cepat melatih kelincahan, keseimbangan, serta refleks siswa di setiap sesi.', deskripsiEn: 'Footwork, stroke, and quick-reaction drills train agility, balance, and reflexes in every session.',
   },
   {
     icon: '💪',
-    judul: 'Kebugaran & Stamina',
+    judul: 'Kebugaran & Stamina', judulEn: 'Fitness & Stamina',
     deskripsi:
-      'Rally panjang dan drill intensitas tinggi membangun daya tahan kardio, kekuatan kaki, dan kontrol napas.',
+      'Rally panjang dan drill intensitas tinggi membangun daya tahan kardio, kekuatan kaki, dan kontrol napas.', deskripsiEn: 'Long rallies and high-intensity drills build cardio endurance, leg strength, and breath control.',
   },
   {
     icon: '🎯',
-    judul: 'Fokus & Sportivitas',
+    judul: 'Fokus & Sportivitas', judulEn: 'Focus & Sportsmanship',
     deskripsi:
-      'Bulu tangkis menuntut konsentrasi penuh dan sikap jujur — belajar menang dengan rendah hati dan kalah dengan lapang dada.',
+      'Bulu tangkis menuntut konsentrasi penuh dan sikap jujur — belajar menang dengan rendah hati dan kalah dengan lapang dada.', deskripsiEn: 'Badminton demands full concentration and honesty — learning to win with humility and lose with grace.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Teknik Dasar', detail: 'Grip, servis, clear, drop shot, netting, dan smash.' },
-  { no: '02', nama: 'Latihan Footwork',     detail: 'Pola langkah 6 titik dan perpindahan cepat di lapangan.' },
-  { no: '03', nama: 'Drill & Rally',        detail: 'Multi-shuttle, rally terkontrol, dan ketahanan pukulan.' },
-  { no: '04', nama: 'Simulasi Pertandingan',detail: 'Tunggal & ganda dengan sistem skor rally point.' },
-  { no: '05', nama: 'Fisik & Kelenturan',   detail: 'Skipping, plyometric, core, dan peregangan.' },
-  { no: '06', nama: 'Turnamen',             detail: 'Kompetisi internal sekolah dan antar-sekolah.' },
+  { no: '01', nama: 'Latihan Teknik Dasar', namaEn: 'Basic Technique Training', detail: 'Grip, servis, clear, drop shot, netting, dan smash.', detailEn: 'Grip, serve, clear, drop shot, net play, and smash.' },
+  { no: '02', nama: 'Latihan Footwork', namaEn: 'Footwork Training',     detail: 'Pola langkah 6 titik dan perpindahan cepat di lapangan.', detailEn: '6-corner footwork patterns and quick court movement.' },
+  { no: '03', nama: 'Drill & Rally', namaEn: 'Drills & Rallies',        detail: 'Multi-shuttle, rally terkontrol, dan ketahanan pukulan.', detailEn: 'Multi-shuttle feeding, controlled rallies, and stroke endurance.' },
+  { no: '04', nama: 'Simulasi Pertandingan', namaEn: 'Match Simulation',detail: 'Tunggal & ganda dengan sistem skor rally point.', detailEn: 'Singles & doubles using rally-point scoring.' },
+  { no: '05', nama: 'Fisik & Kelenturan', namaEn: 'Fitness & Flexibility',   detail: 'Skipping, plyometric, core, dan peregangan.', detailEn: 'Skipping, plyometrics, core work, and stretching.' },
+  { no: '06', nama: 'Turnamen', namaEn: 'Tournaments',             detail: 'Kompetisi internal sekolah dan antar-sekolah.', detailEn: 'Internal school and inter-school competitions.' },
 ];
 
 /* ── glyph kok / shuttlecock, motif berulang di halaman ini ── */
@@ -120,6 +121,7 @@ function Reveal({ children, delay = 0, className = '' }: { children: React.React
 export default function BadmintonPage() {
   const [statsRef, statsInView] = useInView<HTMLDivElement>(0.4);
   const [hit, setHit] = useState(false);
+  const { t } = useLang();
 
   const smash = () => {
     setHit(true);
@@ -316,15 +318,14 @@ export default function BadmintonPage() {
             </div>
             <div className="bdm-hero-content">
               <div className="bdm-hero-text">
-                <div className="bdm-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="bdm-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="bdm-title">
                   {'BADMINTON'.split('').map((ch, i) => (
                     <span key={i} className={`bdm-letter ${i >= 3 ? 'bdm-letter-accent' : ''}`} style={{ animationDelay: `${i * 70}ms` }}>{ch}</span>
                   ))}
                 </h1>
                 <p className="bdm-subtitle">
-                  Cepat, presisi, dan penuh strategi. Ekstrakurikuler bulu tangkis melatih kelincahan,
-                  stamina, dan mental bertanding lewat rally seru di setiap latihan.
+                  {t('Cepat, presisi, dan penuh strategi. Ekstrakurikuler bulu tangkis melatih kelincahan, stamina, dan mental bertanding lewat rally seru di setiap latihan.', 'Fast, precise, and full of strategy. The badminton club trains agility, stamina, and a competitive mindset through exciting rallies at every practice.')}
                 </p>
               </div>
               <div className="bdm-rally-zone" aria-hidden="true">
@@ -337,21 +338,21 @@ export default function BadmintonPage() {
           <div className="bdm-scoreboard">
             <div className="bdm-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 110} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 110} />
               ))}
             </div>
           </div>
 
           {/* Tujuan */}
           <section className="bdm-section">
-            <Reveal><div className="bdm-section-label">Mengapa Badminton</div></Reveal>
-            <Reveal delay={60}><h2 className="bdm-section-heading">TUJUAN KAMI</h2></Reveal>
+            <Reveal><div className="bdm-section-label">{t('Mengapa Badminton', 'Why Badminton')}</div></Reveal>
+            <Reveal delay={60}><h2 className="bdm-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2></Reveal>
             <div className="bdm-grid-3">
-              {TUJUAN.map((t, i) => (
-                <Reveal key={t.judul} delay={i * 120} className="bdm-card">
-                  <span className="bdm-card-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="bdm-card-title">{t.judul}</div>
-                  <p className="bdm-card-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj, i) => (
+                <Reveal key={tj.judul} delay={i * 120} className="bdm-card">
+                  <span className="bdm-card-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="bdm-card-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="bdm-card-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </Reveal>
               ))}
             </div>
@@ -361,15 +362,15 @@ export default function BadmintonPage() {
 
           {/* Kegiatan */}
           <section className="bdm-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }}>
-            <Reveal><div className="bdm-section-label">Program Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="bdm-section-heading">KEGIATAN RUTIN</h2></Reveal>
+            <Reveal><div className="bdm-section-label">{t('Program Latihan', 'Training Program')}</div></Reveal>
+            <Reveal delay={60}><h2 className="bdm-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2></Reveal>
             <div className="bdm-keg-grid">
               {KEGIATAN.map((k, i) => (
                 <Reveal key={k.no} delay={i * 80} className="bdm-keg-item">
                   <div className="bdm-keg-no">{k.no}</div>
                   <div>
-                    <div className="bdm-keg-nama">{k.nama}</div>
-                    <div className="bdm-keg-detail">{k.detail}</div>
+                    <div className="bdm-keg-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="bdm-keg-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </Reveal>
               ))}
@@ -378,15 +379,14 @@ export default function BadmintonPage() {
 
           {/* Join */}
           <section className="bdm-join">
-            <div className="bdm-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
-            <h2 className="bdm-join-heading">SIAP <span>SMASH</span> PERTAMA?</h2>
+            <div className="bdm-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
+            <h2 className="bdm-join-heading">{t('SIAP', 'READY FOR YOUR')} <span>{t('SMASH', 'FIRST')}</span> {t('PERTAMA?', 'SMASH?')}</h2>
             <p className="bdm-join-copy">
-              Nggak harus jago dulu — yang penting mau belajar dan konsisten latihan. Hubungi pembina
-              ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Nggak harus jago dulu — yang penting mau belajar dan konsisten latihan. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'You don’t have to be good yet — what matters is wanting to learn and practicing consistently. Contact the club advisor at school for registration info.')}
             </p>
-            <button type="button" className={`bdm-join-motif${hit ? ' hit' : ''}`} onClick={smash} aria-label="Coba servis kok">
+            <button type="button" className={`bdm-join-motif${hit ? ' hit' : ''}`} onClick={smash} aria-label={t('Coba servis kok', 'Try serving the shuttlecock')}>
               <span className="bdm-join-ripple"><Shuttle size={78} /></span>
-              <span className="bdm-join-hint">ketuk buat servis</span>
+              <span className="bdm-join-hint">{t('ketuk buat servis', 'tap to serve')}</span>
             </button>
           </section>
         </main>

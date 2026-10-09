@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -37,6 +39,7 @@ function HeroBanner() {
 }
 
 export default function MplbPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +68,7 @@ export default function MplbPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +80,7 @@ export default function MplbPage() {
                 maxWidth: 700,
               }}
             >
-              Manajemen Perkantoran dan Layanan Bisnis
+              {t("Manajemen Perkantoran dan Layanan Bisnis", "Office Management & Business Services")}
             </h1>
 
             <p
@@ -89,7 +92,7 @@ export default function MplbPage() {
                 lineHeight: 1.6,
               }}
             >
-              Membekali siswa dengan pengetahuan dan keterampilan praktis dalam mengelola administrasi perkantoran dan memberikan layanan bisnis yang efektif agar siap kerja di berbagai sektor.
+              {t("Membekali siswa dengan pengetahuan dan keterampilan praktis dalam mengelola administrasi perkantoran dan memberikan layanan bisnis yang efektif agar siap kerja di berbagai sektor.", "Equipping students with practical knowledge and skills to manage office administration and deliver effective business services, ready to work across many sectors.")}
             </p>
           </div>
         </section>
@@ -117,7 +120,7 @@ export default function MplbPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu MPLB
+              {t("Apa itu MPLB", "What is MPLB?")}
             </h2>
 
             <p
@@ -128,7 +131,7 @@ export default function MplbPage() {
                 marginBottom: 40,
               }}
             >
-              Bidang studi Manajemen Perkantoran dan Layanan Bisnis adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam mengelola administrasi perkantoran dan memberikan layanan bisnis yang efektif. Program ini bertujuan untuk menghasilkan lulusan yang siap kerja di berbagai jenis perusahaan dan organisasi, baik di sektor publik maupun swasta.
+              {t("Bidang studi Manajemen Perkantoran dan Layanan Bisnis adalah program pendidikan yang dirancang untuk mempersiapkan siswa dengan pengetahuan dan keterampilan praktis dalam mengelola administrasi perkantoran dan memberikan layanan bisnis yang efektif. Program ini bertujuan untuk menghasilkan lulusan yang siap kerja di berbagai jenis perusahaan dan organisasi, baik di sektor publik maupun swasta.", "Office Management and Business Services (MPLB) is a study program designed to equip students with practical knowledge and skills in managing office administration and delivering effective business services. It aims to produce graduates who are ready to work in all kinds of companies and organizations, in both the public and private sectors.")}
             </p>
 
             {/* Materi */}
@@ -140,7 +143,7 @@ export default function MplbPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t('Apa yang akan kamu pelajari?', 'What will you learn?')}
             </h2>
 
             <div
@@ -154,35 +157,51 @@ export default function MplbPage() {
               {[
                 {
                   label: 'Dasar-dasar Manajemen Perkantoran',
+                  labelEn: 'Office Management Fundamentals',
                   desc: 'Prinsip-prinsip dasar manajemen dan administrasi perkantoran, serta struktur organisasi dan fungsi manajemen.',
+                  descEn: 'Basic principles of office management and administration, organizational structure, and management functions.',
                 },
                 {
                   label: 'Administrasi Perkantoran',
+                  labelEn: 'Office Administration',
                   desc: 'Teknik dan prosedur administrasi perkantoran, pengelolaan surat-menyurat, pengarsipan, dan dokumentasi.',
+                  descEn: 'Office administration techniques and procedures, handling correspondence, filing, and documentation.',
                 },
                 {
                   label: 'Teknologi Perkantoran',
+                  labelEn: 'Office Technology',
                   desc: 'Penggunaan perangkat lunak perkantoran seperti Microsoft Office (Word, Excel, PowerPoint), pengelolaan basis data dan sistem informasi manajemen.',
+                  descEn: 'Using office software such as Microsoft Office (Word, Excel, PowerPoint), managing databases, and management information systems.',
                 },
                 {
                   label: 'Komunikasi Bisnis',
+                  labelEn: 'Business Communication',
                   desc: 'Teknik komunikasi yang efektif dalam lingkungan bisnis, penulisan laporan bisnis, memo, dan korespondensi profesional.',
+                  descEn: 'Effective communication in a business environment, writing business reports, memos, and professional correspondence.',
                 },
                 {
                   label: 'Layanan Pelanggan',
+                  labelEn: 'Customer Service',
                   desc: 'Prinsip-prinsip layanan pelanggan yang baik, serta teknik menangani keluhan dan meningkatkan kepuasan pelanggan.',
+                  descEn: 'Principles of good customer service, handling complaints, and improving customer satisfaction.',
                 },
                 {
                   label: 'Manajemen Waktu dan Produktivitas',
+                  labelEn: 'Time Management & Productivity',
                   desc: 'Teknik manajemen waktu dan pengaturan prioritas kerja, serta penggunaan alat bantu seperti kalender digital dan aplikasi to-do list.',
+                  descEn: 'Time management and prioritizing work, and using tools such as digital calendars and to-do list apps.',
                 },
                 {
                   label: 'Keuangan dan Akuntansi Dasar',
+                  labelEn: 'Basic Finance & Accounting',
                   desc: 'Pengantar dasar akuntansi dan pengelolaan keuangan, pembuatan dan pengelolaan anggaran, serta pelaporan keuangan sederhana.',
+                  descEn: 'Introduction to accounting and financial management, creating and managing budgets, and simple financial reporting.',
                 },
                 {
                   label: 'Sumber Daya Manusia',
+                  labelEn: 'Human Resources',
                   desc: 'Pengelolaan sumber daya manusia termasuk rekrutmen, seleksi, dan pengembangan karyawan, serta prinsip-prinsip dasar manajemen SDM.',
+                  descEn: 'Managing human resources, including recruitment, selection, and employee development, plus the basics of HR management.',
                 },
               ].map((m) => (
                 <div
@@ -215,9 +234,9 @@ export default function MplbPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -232,7 +251,7 @@ export default function MplbPage() {
                 marginBottom: 20,
               }}
             >
-              Prospek Karir lulusan MPLB
+              {t("Prospek Karir lulusan MPLB", "Career prospects for MPLB graduates")}
             </h2>
 
             <div
@@ -243,14 +262,21 @@ export default function MplbPage() {
                 marginBottom: 40,
               }}
             >
-              {[
+              {t([
                 'Staf Administrasi',
                 'Sekretaris',
                 'Resepsionis',
                 'Staf Layanan Pelanggan',
                 'Asisten Manajer',
                 'Staf Pengarsipan',
-              ].map((p) => (
+              ], [
+                'Administrative Staff',
+                'Secretary',
+                'Receptionist',
+                'Customer Service Staff',
+                'Assistant Manager',
+                'Records & Filing Staff',
+              ]).map((p) => (
                 <div
                   key={p}
                   style={{
@@ -292,11 +318,11 @@ export default function MplbPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan MPLB?
+                {t("Tertarik bergabung dengan jurusan MPLB?", "Interested in joining MPLB?")}
               </p>
 
               <Link
-                href="/spmb"
+                href={SPMB_URL}
                 style={{
                   display: 'inline-block',
                   background: GOLD,
@@ -308,7 +334,7 @@ export default function MplbPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t('Daftar Sekarang', 'Apply Now')}
               </Link>
             </div>
           </div>

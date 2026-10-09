@@ -25,6 +25,16 @@ interface Props {
 
 type Row = Record<string, unknown>;
 
+/** Baca body respons sebagai JSON; kalau server membalas HTML/teks (mis. error 500), jangan crash. */
+async function readBody(res: Response): Promise<{ error?: string } & Record<string, unknown>> {
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 export default function ResourceManager({
   title, singular, endpoint, fields, columns, emptyRow, rowKey = 'id',
 }: Props) {
@@ -36,6 +46,9 @@ export default function ResourceManager({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState<string | null>(null);
+  const [listError, setListError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [deleting, setDeleting] = useState<string | null>(null);
   const formTop = useRef<HTMLDivElement>(null);
 
   const handle401 = useCallback((res: Response) => {
@@ -51,10 +64,12 @@ export default function ResourceManager({
     try {
       const res = await fetch(endpoint, { cache: 'no-store' });
       if (handle401(res)) return;
-      const data = await res.json();
+      const data = await readBody(res);
+      if (!res.ok) throw new Error(data.error || `Gagal memuat data (kode ${res.status}).`);
       setRows(Array.isArray(data) ? data : []);
-    } catch {
-      setError('Gagal memuat data.');
+      setListError('');
+    } catch (e) {
+      setListError(e instanceof Error ? e.message : 'Gagal memuat data.');
     } finally {
       setLoading(false);
     }
@@ -63,6 +78,7 @@ export default function ResourceManager({
   useEffect(() => { load(); }, [load]);
 
   const startCreate = () => {
+    setNotice('');
     setEditingId(null);
     setForm({ ...emptyRow });
     setError('');
@@ -70,6 +86,7 @@ export default function ResourceManager({
   };
 
   const startEdit = (row: Row) => {
+    setNotice('');
     setEditingId(String(row[rowKey]));
     setForm({ ...emptyRow, ...row });
     setError('');
@@ -89,8 +106,8 @@ export default function ResourceManager({
       fd.append('file', file);
       const res = await fetch('/api/admin/media', { method: 'POST', body: fd });
       if (handle401(res)) return;
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Upload gagal');
+      const data = await readBody(res);
+      if (!res.ok) throw new Error(data.error || `Upload gagal (kode ${res.status}).`);
       setField(name, data.url);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload gagal');
@@ -110,9 +127,11 @@ export default function ResourceManager({
         body: JSON.stringify(form),
       });
       if (handle401(res)) return;
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Gagal menyimpan');
+      const data = await readBody(res);
+      if (!res.ok) throw new Error(data.error || `Gagal menyimpan (kode ${res.status}).`);
+      const wasEditing = !!editingId;
       cancel();
+      setNotice(wasEditing ? 'Perubahan tersimpan.' : `${singular[0].toUpperCase()}${singular.slice(1)} baru tersimpan.`);
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Gagal menyimpan');
@@ -123,9 +142,23 @@ export default function ResourceManager({
 
   const remove = async (row: Row) => {
     if (!confirm(`Hapus "${String(row[columns[0].name] ?? '')}"?`)) return;
-    const res = await fetch(`${endpoint}/${row[rowKey]}`, { method: 'DELETE' });
-    if (handle401(res)) return;
-    await load();
+    const id = String(row[rowKey]);
+    setDeleting(id);
+    setListError('');
+    setNotice('');
+    try {
+      const res = await fetch(`${endpoint}/${id}`, { method: 'DELETE' });
+      if (handle401(res)) return;
+      const data = await readBody(res);
+      if (!res.ok) throw new Error(data.error || `Gagal menghapus (kode ${res.status}).`);
+      if (editingId === id) cancel();
+      setNotice('Data terhapus.');
+      await load();
+    } catch (e) {
+      setListError(e instanceof Error ? e.message : 'Gagal menghapus.');
+    } finally {
+      setDeleting(null);
+    }
   };
 
   const formTitle = useMemo(
@@ -141,6 +174,9 @@ export default function ResourceManager({
           <button className="adm-btn adm-btn-primary" onClick={startCreate}>+ Tambah {singular}</button>
         )}
       </div>
+
+      {notice && <div className="adm-notice">{notice}</div>}
+      {listError && <div className="adm-error">{listError}</div>}
 
       <div ref={formTop} />
 
@@ -241,7 +277,7 @@ export default function ResourceManager({
                       />
                     </label>
                     {form[f.name] ? (
-                      <button className="adm-btn adm-btn-ghost" onClick={() => setField(f.name, '')}>Hapus gambar</button>
+                      <button type="button" className="adm-btn adm-btn-ghost" onClick={() => setField(f.name, '')}>Hapus gambar</button>
                     ) : null}
                   </div>
                   <input
@@ -294,7 +330,9 @@ export default function ResourceManager({
                     ))}
                     <td className="adm-row-actions">
                       <button className="adm-btn adm-btn-ghost" onClick={() => startEdit(row)}>Edit</button>
-                      <button className="adm-btn adm-btn-danger" onClick={() => remove(row)}>Hapus</button>
+                      <button className="adm-btn adm-btn-danger" onClick={() => remove(row)} disabled={deleting === String(row[rowKey])}>
+                        {deleting === String(row[rowKey]) ? 'Menghapus…' : 'Hapus'}
+                      </button>
                     </td>
                   </tr>
                 ))}

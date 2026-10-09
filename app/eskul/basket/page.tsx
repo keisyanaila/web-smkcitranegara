@@ -5,50 +5,51 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2025', label: 'Tahun Berdiri' },
-  { angka: '30+',  label: 'Anggota Aktif' },
-  { angka: '8',    label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Semangat' },
+  { angka: '2025', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '30+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '8',    label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Semangat', labelEn: 'Spirit' },
 ];
 
 const TUJUAN = [
   {
     icon: '🏀',
-    judul: 'Kebugaran Fisik',
+    judul: 'Kebugaran Fisik', judulEn: 'Physical Fitness',
     deskripsi:
-      'Melalui latihan dan pertandingan rutin, basket membantu meningkatkan kebugaran, kekuatan otot, dan ketahanan fisik siswa secara menyeluruh.',
+      'Melalui latihan dan pertandingan rutin, basket membantu meningkatkan kebugaran, kekuatan otot, dan ketahanan fisik siswa secara menyeluruh.', deskripsiEn: 'Through regular practice and matches, basketball improves students’ overall fitness, muscle strength, and endurance.',
   },
   {
     icon: '🤝',
-    judul: 'Kerjasama Tim',
+    judul: 'Kerjasama Tim', judulEn: 'Teamwork',
     deskripsi:
-      'Basket adalah olahraga tim yang mengajarkan pentingnya komunikasi, koordinasi, dan strategi bersama untuk meraih kemenangan.',
+      'Basket adalah olahraga tim yang mengajarkan pentingnya komunikasi, koordinasi, dan strategi bersama untuk meraih kemenangan.', deskripsiEn: 'Basketball is a team sport that teaches the importance of communication, coordination, and shared strategy to win.',
   },
   {
     icon: '🏆',
-    judul: 'Sportivitas',
+    judul: 'Sportivitas', judulEn: 'Sportsmanship',
     deskripsi:
-      'Siswa belajar tentang fair play, cara menghadapi kemenangan maupun kekalahan dengan sikap positif dan mental yang tangguh.',
+      'Siswa belajar tentang fair play, cara menghadapi kemenangan maupun kekalahan dengan sikap positif dan mental yang tangguh.', deskripsiEn: 'Students learn fair play and how to handle both wins and losses with a positive attitude and a tough mindset.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Teknik Dasar', detail: 'Dribbling, passing, shooting, dan lay-up.', kategori: 'fundamental' },
-  { no: '02', nama: 'Latihan Fisik', detail: 'Lari, jumping, dan strength training.', kategori: 'fundamental' },
-  { no: '03', nama: 'Simulasi Pertandingan', detail: 'Strategi dan taktik permainan tim.', kategori: 'strategi' },
-  { no: '04', nama: 'Turnamen Internal', detail: 'Kompetisi antar kelas di dalam sekolah.', kategori: 'kompetisi' },
-  { no: '05', nama: 'Turnamen Eksternal', detail: 'Mewakili sekolah di luar lingkungan sekolah.', kategori: 'kompetisi' },
-  { no: '06', nama: 'Pengembangan Mentalitas', detail: 'Mental pemenang dan kerja keras tanpa henti.', kategori: 'strategi' },
-  { no: '07', nama: 'Offensive & Defensive Plays', detail: 'Strategi menyerang dan bertahan terstruktur.', kategori: 'strategi' },
+  { no: '01', nama: 'Latihan Teknik Dasar', namaEn: 'Basic Skills Training', detail: 'Dribbling, passing, shooting, dan lay-up.', detailEn: 'Dribbling, passing, shooting, and lay-ups.', kategori: 'fundamental' },
+  { no: '02', nama: 'Latihan Fisik', namaEn: 'Conditioning', detail: 'Lari, jumping, dan strength training.', detailEn: 'Running, jumping, and strength training.', kategori: 'fundamental' },
+  { no: '03', nama: 'Simulasi Pertandingan', namaEn: 'Match Simulation', detail: 'Strategi dan taktik permainan tim.', detailEn: 'Team strategy and game tactics.', kategori: 'strategi' },
+  { no: '04', nama: 'Turnamen Internal', namaEn: 'Internal Tournament', detail: 'Kompetisi antar kelas di dalam sekolah.', detailEn: 'Inter-class competition within the school.', kategori: 'kompetisi' },
+  { no: '05', nama: 'Turnamen Eksternal', namaEn: 'External Tournaments', detail: 'Mewakili sekolah di luar lingkungan sekolah.', detailEn: 'Representing the school in outside competitions.', kategori: 'kompetisi' },
+  { no: '06', nama: 'Pengembangan Mentalitas', namaEn: 'Mindset Development', detail: 'Mental pemenang dan kerja keras tanpa henti.', detailEn: 'A winning mentality and relentless hard work.', kategori: 'strategi' },
+  { no: '07', nama: 'Offensive & Defensive Plays', namaEn: 'Offensive & Defensive Plays', detail: 'Strategi menyerang dan bertahan terstruktur.', detailEn: 'Structured offensive and defensive strategies.', kategori: 'strategi' },
 ];
 
 const FILTERS = [
-  { key: 'semua', label: 'Semua' },
-  { key: 'fundamental', label: 'Fundamental' },
-  { key: 'strategi', label: 'Strategi' },
-  { key: 'kompetisi', label: 'Kompetisi' },
+  { key: 'semua', label: 'Semua', labelEn: 'All' },
+  { key: 'fundamental', label: 'Fundamental', labelEn: 'Fundamentals' },
+  { key: 'strategi', label: 'Strategi', labelEn: 'Strategy' },
+  { key: 'kompetisi', label: 'Kompetisi', labelEn: 'Competition' },
 ];
 
 /* ── reusable basketball glyph, used as the page's recurring motif ── */
@@ -131,6 +132,7 @@ function StatCounter({ angka, label, inView, delay }: { angka: string; label: st
 export default function BasketPage() {
   const [filter, setFilter] = useState('semua');
   const [ballHit, setBallHit] = useState(false);
+  const { t } = useLang();
   const [statsRef, statsInView] = useInView(0.4);
   const [tujuanRef, tujuanInView] = useInView(0.15);
   const [kegiatanRef, kegiatanInView] = useInView(0.1);
@@ -674,18 +676,18 @@ export default function BasketPage() {
             </div>
 
             <div className="psk-scroll-cue">
-              <span>GULIR</span>
+              <span>{t('GULIR', 'SCROLL')}</span>
               <div className="psk-scroll-line" />
             </div>
 
             <div className="psk-hero-content">
               <div className="psk-hero-text">
-                <div className="psk-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="psk-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="psk-title">
                   BAS<span>KET</span>
                 </h1>
                 <p className="psk-subtitle">
-                  Lebih dari sekadar olahraga — basket adalah ruang membangun karakter, melatih kerja sama, dan mencetak atlet berprestasi dari SMK Citra Negara.
+                  {t('Lebih dari sekadar olahraga — basket adalah ruang membangun karakter, melatih kerja sama, dan mencetak atlet berprestasi dari SMK Citra Negara.', 'More than just a sport — basketball is a place to build character, practice teamwork, and develop outstanding athletes at SMK Citra Negara.')}
                 </p>
               </div>
 
@@ -705,7 +707,7 @@ export default function BasketPage() {
                 <span key={rep} style={{ display: 'inline-flex' }}>
                   {STATS.map((s) => (
                     <span key={s.label + rep}>
-                      🏀 <b>{s.angka}</b> {s.label}
+                      🏀 <b>{s.angka}</b> {t(s.label, s.labelEn)}
                     </span>
                   ))}
                 </span>
@@ -717,21 +719,21 @@ export default function BasketPage() {
           <div className="psk-scoreboard">
             <div className="psk-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 120} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 120} />
               ))}
             </div>
           </div>
 
           {/* ══ Tujuan ══ */}
           <section className="psk-section">
-            <div className="psk-section-label">Mengapa Basket</div>
-            <h2 className="psk-section-heading">TUJUAN KAMI</h2>
+            <div className="psk-section-label">{t('Mengapa Basket', 'Why Basketball')}</div>
+            <h2 className="psk-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2>
             <div className="psk-tujuan-grid" ref={tujuanRef}>
-              {TUJUAN.map((t) => (
-                <div key={t.judul} className={`psk-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
-                  <span className="psk-tujuan-icon">{t.icon}</span>
-                  <div className="psk-tujuan-title">{t.judul}</div>
-                  <p className="psk-tujuan-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj) => (
+                <div key={tj.judul} className={`psk-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
+                  <span className="psk-tujuan-icon">{tj.icon}</span>
+                  <div className="psk-tujuan-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="psk-tujuan-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </div>
               ))}
             </div>
@@ -745,17 +747,17 @@ export default function BasketPage() {
 
           {/* ══ Kegiatan ══ */}
           <section className="psk-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }} ref={kegiatanRef}>
-            <div className="psk-section-label">Program Latihan</div>
-            <h2 className="psk-section-heading">KEGIATAN RUTIN</h2>
+            <div className="psk-section-label">{t('Program Latihan', 'Training Program')}</div>
+            <h2 className="psk-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2>
 
-            <div className="psk-filters" role="group" aria-label="Filter kegiatan">
+            <div className="psk-filters" role="group" aria-label={t('Filter kegiatan', 'Filter activities')}>
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
                   className={`psk-chip${filter === f.key ? ' active' : ''}`}
                   onClick={() => setFilter(f.key)}
                 >
-                  {f.label}
+                  {t(f.label, f.labelEn)}
                 </button>
               ))}
             </div>
@@ -765,8 +767,8 @@ export default function BasketPage() {
                 <div key={k.no} className="psk-kegiatan-item" style={{ animationDelay: `${i * 0.06}s` }}>
                   <div className="psk-kegiatan-no">{k.no}</div>
                   <div>
-                    <div className="psk-kegiatan-nama">{k.nama}</div>
-                    <div className="psk-kegiatan-detail">{k.detail}</div>
+                    <div className="psk-kegiatan-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="psk-kegiatan-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </div>
               ))}
@@ -775,18 +777,18 @@ export default function BasketPage() {
 
           {/* ══ Join ══ */}
           <section className="psk-join">
-            <div className="psk-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
+            <div className="psk-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
             <h2 className="psk-join-heading">
-              SIAP <span>NGGABUNG</span> SKUAD?
+              {t('SIAP', 'READY TO')} <span>{t('NGGABUNG', 'JOIN')}</span> {t('SKUAD?', 'THE SQUAD?')}
             </h2>
             <p className="psk-join-copy">
-              Basket bukan cuma soal skor akhir — ini soal proses jadi versi terbaik diri kamu bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Basket bukan cuma soal skor akhir — ini soal proses jadi versi terbaik diri kamu bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'Basketball isn’t just about the final score — it’s about becoming the best version of yourself with your team. Contact the club advisor at school for registration info.')}
             </p>
-            <button className={`psk-join-ball${ballHit ? ' hit' : ''}`} onClick={handleBallClick} aria-label="Ketuk bola">
+            <button className={`psk-join-ball${ballHit ? ' hit' : ''}`} onClick={handleBallClick} aria-label={t('Ketuk bola', 'Tap the ball')}>
               <span className="psk-join-ripple">
                 <Basketball size={76} />
               </span>
-              <span className="psk-join-hint">coba ketuk bolanya</span>
+              <span className="psk-join-hint">{t('coba ketuk bolanya', 'try tapping the ball')}</span>
             </button>
           </section>
         </main>

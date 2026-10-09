@@ -5,45 +5,47 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2011', label: 'Tahun Berdiri' },
-  { angka: '35+', label: 'Anggota Aktif' },
-  { angka: '18', label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '2011', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '35+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '18', label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
   {
     icon: '🥋',
-    judul: 'Kedisiplinan',
+    judul: 'Kedisiplinan', judulEn: 'Discipline',
     deskripsi:
-      'Taekwondo mengajarkan disiplin tinggi melalui latihan terstruktur dan aturan yang membentuk karakter kuat.',
+      'Taekwondo mengajarkan disiplin tinggi melalui latihan terstruktur dan aturan yang membentuk karakter kuat.', deskripsiEn: 'Taekwondo teaches strong discipline through structured training and rules that build solid character.',
   },
   {
     icon: '💪',
-    judul: 'Kebugaran & Bela Diri',
+    judul: 'Kebugaran & Bela Diri', judulEn: 'Fitness & Self-Defense',
     deskripsi:
-      'Latihan meningkatkan kekuatan, kelincahan, keseimbangan, dan kemampuan bela diri.',
+      'Latihan meningkatkan kekuatan, kelincahan, keseimbangan, dan kemampuan bela diri.', deskripsiEn: 'Training improves strength, agility, balance, and self-defense skills.',
   },
   {
     icon: '🏅',
-    judul: 'Karakter Positif',
+    judul: 'Karakter Positif', judulEn: 'Positive Character',
     deskripsi:
-      'Menanamkan kepercayaan diri, rasa hormat, keberanian, dan sportivitas.',
+      'Menanamkan kepercayaan diri, rasa hormat, keberanian, dan sportivitas.', deskripsiEn: 'Instilling confidence, respect, courage, and sportsmanship.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Teknik Dasar', detail: 'Tendangan, pukulan, blok, dan teknik dasar.' },
-  { no: '02', nama: 'Poomsae', detail: 'Rangkaian gerakan teknik secara terstruktur.' },
-  { no: '03', nama: 'Sparring', detail: 'Latihan pertarungan dengan teknik yang aman.' },
-  { no: '04', nama: 'Latihan Fisik', detail: 'Latihan kekuatan, stamina, kelincahan, dan keseimbangan.' },
-  { no: '05', nama: 'Kenaikan Tingkat', detail: 'Ujian sabuk sebagai evaluasi kemampuan.' },
-  { no: '06', nama: 'Kejuaraan', detail: 'Mengikuti kompetisi tingkat lokal hingga regional.' },
+  { no: '01', nama: 'Latihan Teknik Dasar', namaEn: 'Basic Technique Training', detail: 'Tendangan, pukulan, blok, dan teknik dasar.', detailEn: 'Kicks, punches, blocks, and basic techniques.' },
+  { no: '02', nama: 'Poomsae', namaEn: 'Poomsae (Forms)', detail: 'Rangkaian gerakan teknik secara terstruktur.', detailEn: 'Structured sequences of technical movements.' },
+  { no: '03', nama: 'Sparring', namaEn: 'Sparring', detail: 'Latihan pertarungan dengan teknik yang aman.', detailEn: 'Fight practice using safe techniques.' },
+  { no: '04', nama: 'Latihan Fisik', namaEn: 'Conditioning', detail: 'Latihan kekuatan, stamina, kelincahan, dan keseimbangan.', detailEn: 'Strength, stamina, agility, and balance training.' },
+  { no: '05', nama: 'Kenaikan Tingkat', namaEn: 'Belt Promotion', detail: 'Ujian sabuk sebagai evaluasi kemampuan.', detailEn: 'Belt tests to evaluate progress.' },
+  { no: '06', nama: 'Kejuaraan', namaEn: 'Championships', detail: 'Mengikuti kompetisi tingkat lokal hingga regional.', detailEn: 'Competing at local to regional levels.' },
 ];
 
 export default function TaekwondoPage() {
+  const { t } = useLang();
   return (
     <>
       <style>{`
@@ -578,7 +580,7 @@ export default function TaekwondoPage() {
 
             <div className="tkw-hero-content">
               <div className="tkw-eyebrow">
-                Ekstrakurikuler SMK Citra Negara
+                {t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}
               </div>
 
               <h1 className="tkw-title">
@@ -586,8 +588,7 @@ export default function TaekwondoPage() {
               </h1>
 
               <p className="tkw-subtitle">
-                Taekwondo menawarkan lebih dari sekadar keterampilan bela diri.
-                Kami membentuk siswa yang disiplin, tangguh, dan berkarakter.
+                {t('Taekwondo menawarkan lebih dari sekadar keterampilan bela diri. Kami membentuk siswa yang disiplin, tangguh, dan berkarakter.', 'Taekwondo offers more than martial arts skills. We shape students who are disciplined, resilient, and of strong character.')}
               </p>
             </div>
           </section>
@@ -597,7 +598,7 @@ export default function TaekwondoPage() {
             {STATS.map((s) => (
               <div key={s.label} className="tkw-stat">
                 <div className="tkw-stat-num">{s.angka}</div>
-                <div className="tkw-stat-label">{s.label}</div>
+                <div className="tkw-stat-label">{t(s.label, s.labelEn)}</div>
               </div>
             ))}
           </div>
@@ -605,29 +606,29 @@ export default function TaekwondoPage() {
           {/* TUJUAN */}
           <section className="tkw-section">
             <div className="tkw-section-label">
-              Mengapa Taekwondo
+              {t('Mengapa Taekwondo', 'Why Taekwondo')}
             </div>
 
             <h2 className="tkw-section-heading">
-              TUJUAN KAMI
+              {t('TUJUAN KAMI', 'OUR GOALS')}
             </h2>
 
             <div className="tkw-tujuan-grid">
-              {TUJUAN.map((t) => (
+              {TUJUAN.map((tj) => (
                 <div
-                  key={t.judul}
+                  key={tj.judul}
                   className="tkw-tujuan-card"
                 >
                   <span className="tkw-tujuan-icon">
-                    {t.icon}
+                    {tj.icon}
                   </span>
 
                   <div className="tkw-tujuan-title">
-                    {t.judul}
+                    {t(tj.judul, tj.judulEn)}
                   </div>
 
                   <p className="tkw-tujuan-desc">
-                    {t.deskripsi}
+                    {t(tj.deskripsi, tj.deskripsiEn)}
                   </p>
                 </div>
               ))}
@@ -646,11 +647,11 @@ export default function TaekwondoPage() {
             }}
           >
             <div className="tkw-section-label">
-              Program Latihan
+              {t('Program Latihan', 'Training Program')}
             </div>
 
             <h2 className="tkw-section-heading">
-              KEGIATAN RUTIN
+              {t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}
             </h2>
 
             <div className="tkw-kegiatan-grid">
@@ -665,11 +666,11 @@ export default function TaekwondoPage() {
 
                   <div>
                     <div className="tkw-kegiatan-nama">
-                      {k.nama}
+                      {t(k.nama, k.namaEn)}
                     </div>
 
                     <div className="tkw-kegiatan-detail">
-                      {k.detail}
+                      {t(k.detail, k.detailEn)}
                     </div>
                   </div>
                 </div>

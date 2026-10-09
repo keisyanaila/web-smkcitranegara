@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLang, LangSwitch } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -167,8 +168,6 @@ const CSS = `
   }
   .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(214,166,61,.28); filter: saturate(1.05); }
 
-  .nav-login { white-space: nowrap; color: rgba(255,255,255,.76); text-decoration: none; font-size: 13px; font-weight: 600; padding: 9px 10px; border-radius: 999px; transition: .2s ease; }
-  .nav-login:hover { color: #fff; background: rgba(255,255,255,.06); }
 
   .drop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
   .eskul-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px 10px; }
@@ -681,7 +680,6 @@ export default function Navbar() {
 
               <NavLink href="/prestasi">{t('Prestasi', 'Achievements')}</NavLink>
               <NavLink href="/berita">{t('Berita', 'News')}</NavLink>
-              <NavLink href="/spmb">SPMB</NavLink>
             </div>
 
             {/* ── Auth Buttons (Desktop) ── */}
@@ -705,8 +703,7 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="nav-login">{t('Masuk', 'Log In')}</Link>
-                  <Link href="/register" className="nav-cta">{t('Daftar Sekarang', 'Apply Now')}</Link>
+                  <Link href={SPMB_URL} className="nav-cta">{t('Daftar Sekarang', 'Apply Now')}</Link>
                 </>
               )}
             </div>
@@ -797,7 +794,6 @@ export default function Navbar() {
 
               <Link href="/prestasi" onClick={closeMobile} className="mnav-link">{t('Prestasi', 'Achievements')}</Link>
               <Link href="/berita" onClick={closeMobile} className="mnav-link">{t('Berita', 'News')}</Link>
-              <Link href="/spmb" onClick={closeMobile} className="mnav-link">SPMB</Link>
             </div>
 
             <div className="mnav-foot">
@@ -821,9 +817,8 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link href="/login" onClick={closeMobile} className="mnav-btn-outline">{t('Masuk', 'Log In')}</Link>
                   <Link
-                    href="/register"
+                    href={SPMB_URL}
                     onClick={closeMobile}
                     className="mnav-btn-primary"
                   >

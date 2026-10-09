@@ -4,49 +4,50 @@ import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2023', label: 'Tahun Berdiri' },
-  { angka: '20+',  label: 'Anggota Aktif' },
-  { angka: '6',    label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Passion' },
+  { angka: '2023', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '20+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '6',    label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Passion', labelEn: 'Passion' },
 ];
 
 const TUJUAN = [
   {
     icon: '🎸',
-    judul: 'Keterampilan Musik',
+    judul: 'Keterampilan Musik', judulEn: 'Musical Skills',
     deskripsi:
-      'Meningkatkan kemampuan siswa dalam memainkan berbagai alat musik dan memahami teori musik secara lebih mendalam.',
+      'Meningkatkan kemampuan siswa dalam memainkan berbagai alat musik dan memahami teori musik secara lebih mendalam.', deskripsiEn: 'Improving students’ ability to play various instruments and understand music theory more deeply.',
   },
   {
     icon: '🎨',
-    judul: 'Kreativitas & Ekspresi',
+    judul: 'Kreativitas & Ekspresi', judulEn: 'Creativity & Expression',
     deskripsi:
-      'Mendorong siswa mengekspresikan diri melalui musik dan menginspirasi mereka untuk menciptakan karya original.',
+      'Mendorong siswa mengekspresikan diri melalui musik dan menginspirasi mereka untuk menciptakan karya original.', deskripsiEn: 'Encouraging students to express themselves through music and inspiring them to create original works.',
   },
   {
     icon: '💪',
-    judul: 'Disiplin & Kepercayaan Diri',
+    judul: 'Disiplin & Kepercayaan Diri', judulEn: 'Discipline & Confidence',
     deskripsi:
-      'Membangun disiplin latihan, komitmen terhadap grup, dan keberanian tampil di depan umum dengan penuh percaya diri.',
+      'Membangun disiplin latihan, komitmen terhadap grup, dan keberanian tampil di depan umum dengan penuh percaya diri.', deskripsiEn: 'Building practice discipline, commitment to the group, and the courage to perform confidently in public.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Rutin Mingguan',    detail: 'Teknik bermain dan harmoni seluruh anggota band.', kategori: 'latihan' },
-  { no: '02', nama: 'Workshop & Masterclass',    detail: 'Musisi profesional berbagi teknik dan pengalaman.', kategori: 'latihan' },
-  { no: '03', nama: 'Konser & Penampilan',        detail: 'Pentas seni, festival, dan kompetisi antar sekolah.', kategori: 'penampilan' },
-  { no: '04', nama: 'Rekaman Musik',              detail: 'Proses produksi dan teknik rekaman di studio.', kategori: 'produksi' },
-  { no: '05', nama: 'Pembuatan Lagu & Aransemen', detail: 'Kolaborasi menciptakan karya-karya original.', kategori: 'produksi' },
-  { no: '06', nama: 'Jam Session',                detail: 'Improvisasi dadakan untuk melatih kreativitas.', kategori: 'latihan' },
+  { no: '01', nama: 'Latihan Rutin Mingguan', namaEn: 'Weekly Rehearsals',    detail: 'Teknik bermain dan harmoni seluruh anggota band.', detailEn: 'Playing technique and harmony across the whole band.', kategori: 'latihan' },
+  { no: '02', nama: 'Workshop & Masterclass', namaEn: 'Workshops & Masterclasses',    detail: 'Musisi profesional berbagi teknik dan pengalaman.', detailEn: 'Professional musicians share their techniques and experience.', kategori: 'latihan' },
+  { no: '03', nama: 'Konser & Penampilan', namaEn: 'Concerts & Performances',        detail: 'Pentas seni, festival, dan kompetisi antar sekolah.', detailEn: 'Art shows, festivals, and inter-school competitions.', kategori: 'penampilan' },
+  { no: '04', nama: 'Rekaman Musik', namaEn: 'Music Recording',              detail: 'Proses produksi dan teknik rekaman di studio.', detailEn: 'Production process and studio recording techniques.', kategori: 'produksi' },
+  { no: '05', nama: 'Pembuatan Lagu & Aransemen', namaEn: 'Songwriting & Arrangement', detail: 'Kolaborasi menciptakan karya-karya original.', detailEn: 'Collaborating to create original works.', kategori: 'produksi' },
+  { no: '06', nama: 'Jam Session', namaEn: 'Jam Sessions',                detail: 'Improvisasi dadakan untuk melatih kreativitas.', detailEn: 'Spontaneous improvisation to train creativity.', kategori: 'latihan' },
 ];
 
 const FILTERS = [
-  { key: 'semua', label: 'Semua' },
-  { key: 'latihan', label: 'Latihan' },
-  { key: 'produksi', label: 'Produksi' },
-  { key: 'penampilan', label: 'Penampilan' },
+  { key: 'semua', label: 'Semua', labelEn: 'All' },
+  { key: 'latihan', label: 'Latihan', labelEn: 'Practice' },
+  { key: 'produksi', label: 'Produksi', labelEn: 'Production' },
+  { key: 'penampilan', label: 'Penampilan', labelEn: 'Performance' },
 ];
 
 const AUDIO_SRC = '/audio/musikband.mp3';
@@ -135,6 +136,7 @@ export default function BandPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [filter, setFilter] = useState('semua');
   const [vinylHit, setVinylHit] = useState(false);
+  const { t } = useLang();
   const [statsRef, statsInView] = useInView<HTMLDivElement>(0.4);
   const [tujuanRef, tujuanInView] = useInView<HTMLDivElement>(0.15);
 
@@ -754,18 +756,18 @@ export default function BandPage() {
             </div>
 
             <div className="psk-scroll-cue">
-              <span>GULIR</span>
+              <span>{t('GULIR', 'SCROLL')}</span>
               <div className="psk-scroll-line" />
             </div>
 
             <div className="psk-hero-content">
               <div className="psk-hero-text">
-                <div className="psk-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="psk-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="psk-title">
                   BA<span>ND</span>
                 </h1>
                 <p className="psk-subtitle">
-                  Lebih dari sekadar bermusik — ruang berekspresi, berkolaborasi, dan mencetak musisi berbakat dari SMK Citra Negara.
+                  {t('Lebih dari sekadar bermusik — ruang berekspresi, berkolaborasi, dan mencetak musisi berbakat dari SMK Citra Negara.', 'More than just making music — a space to express yourself, collaborate, and grow talented musicians at SMK Citra Negara.')}
                 </p>
               </div>
 
@@ -785,7 +787,7 @@ export default function BandPage() {
                 <span key={rep} style={{ display: 'inline-flex' }}>
                   {STATS.map((s) => (
                     <span key={s.label + rep}>
-                      🎵 <b>{s.angka}</b> {s.label}
+                      🎵 <b>{s.angka}</b> {t(s.label, s.labelEn)}
                     </span>
                   ))}
                 </span>
@@ -797,21 +799,21 @@ export default function BandPage() {
           <div className="psk-scoreboard">
             <div className="psk-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 120} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 120} />
               ))}
             </div>
           </div>
 
           {/* ══ Tujuan ══ */}
           <section className="psk-section">
-            <div className="psk-section-label">Mengapa Band</div>
-            <h2 className="psk-section-heading">TUJUAN KAMI</h2>
+            <div className="psk-section-label">{t('Mengapa Band', 'Why Band')}</div>
+            <h2 className="psk-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2>
             <div className="psk-tujuan-grid" ref={tujuanRef}>
-              {TUJUAN.map((t) => (
-                <div key={t.judul} className={`psk-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
-                  <span className="psk-tujuan-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="psk-tujuan-title">{t.judul}</div>
-                  <p className="psk-tujuan-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj) => (
+                <div key={tj.judul} className={`psk-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
+                  <span className="psk-tujuan-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="psk-tujuan-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="psk-tujuan-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </div>
               ))}
             </div>
@@ -825,10 +827,10 @@ export default function BandPage() {
 
           {/* ══ Kegiatan ══ */}
           <section className="psk-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }}>
-            <div className="psk-section-label">Program Latihan</div>
-            <h2 className="psk-section-heading">KEGIATAN RUTIN</h2>
+            <div className="psk-section-label">{t('Program Latihan', 'Training Program')}</div>
+            <h2 className="psk-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2>
 
-            <div className="psk-filters" role="group" aria-label="Filter kegiatan">
+            <div className="psk-filters" role="group" aria-label={t('Filter kegiatan', 'Filter activities')}>
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
@@ -836,7 +838,7 @@ export default function BandPage() {
                   className={`psk-chip${filter === f.key ? ' active' : ''}`}
                   onClick={() => setFilter(f.key)}
                 >
-                  {f.label}
+                  {t(f.label, f.labelEn)}
                 </button>
               ))}
             </div>
@@ -846,8 +848,8 @@ export default function BandPage() {
                 <div key={k.no} className="psk-kegiatan-item" style={{ animationDelay: `${i * 0.06}s` }}>
                   <div className="psk-kegiatan-no">{k.no}</div>
                   <div>
-                    <div className="psk-kegiatan-nama">{k.nama}</div>
-                    <div className="psk-kegiatan-detail">{k.detail}</div>
+                    <div className="psk-kegiatan-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="psk-kegiatan-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </div>
               ))}
@@ -856,23 +858,23 @@ export default function BandPage() {
 
           {/* ══ Join ══ */}
           <section className="psk-join">
-            <div className="psk-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
+            <div className="psk-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
             <h2 className="psk-join-heading">
-              SIAP <span>NGE-BAND</span> BARENG KAMI?
+              {t('SIAP', 'READY TO')} <span>{t('NGE-BAND', 'JAM')}</span> {t('BARENG KAMI?', 'WITH US?')}
             </h2>
             <p className="psk-join-copy">
-              Band bukan cuma soal panggung — ini soal proses berkarya bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Band bukan cuma soal panggung — ini soal proses berkarya bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'Being in a band isn’t just about the stage — it’s about creating together as a team. Contact the club advisor at school for registration info.')}
             </p>
             <button
               type="button"
               className={`psk-join-motif${vinylHit ? ' hit' : ''}`}
               onClick={handleVinylTap}
-              aria-label={isPlaying ? 'Matikan musik' : 'Ketuk untuk dengar musik'}
+              aria-label={isPlaying ? t('Matikan musik', 'Turn off music') : t('Ketuk untuk dengar musik', 'Tap to hear music')}
             >
               <span className="psk-join-ripple">
                 <Vinyl size={76} />
               </span>
-              <span className="psk-join-hint">{isPlaying ? 'lagi puter musik ~' : 'coba ketuk buat dengerin musik'}</span>
+              <span className="psk-join-hint">{isPlaying ? t('lagi puter musik ~', 'music playing ~') : t('coba ketuk buat dengerin musik', 'tap to listen to music')}</span>
             </button>
           </section>
         </main>
@@ -884,7 +886,7 @@ export default function BandPage() {
           type="button"
           className="psk-audio-fab"
           onClick={toggleAudio}
-          aria-label={isPlaying ? 'Matikan musik' : 'Nyalakan musik'}
+          aria-label={isPlaying ? t('Matikan musik', 'Turn off music') : t('Nyalakan musik', 'Turn on music')}
         >
           <span className="psk-audio-fab-icon" aria-hidden="true">{isPlaying ? '🔊' : '🔇'}</span>
           <span className="psk-audio-fab-label">{isPlaying ? 'Playing' : 'Tap play'}</span>

@@ -24,14 +24,17 @@ const BRAND = "SMK CITRA NEGARA";
 // 7 maskot. File ada di folder: public/images/maskot/
 // PENTING: path di web TIDAK pakai "/public" — file public/images/maskot/x.png diakses sebagai "/images/maskot/x.png"
 // `besar: true` -> maskot ini dirender lebih besar dari yang lain.
+// Pakai versi .webp kecil (lebar 240px, ~15 KB) — PNG aslinya 2–18 MB per file dan
+// bikin splash sangat berat di HP. Kalau maskot diganti, buat ulang .webp-nya
+// (lebar 240px) dari PNG baru, lalu sesuaikan width/height di bawah.
 const MASKOT = [
-  { src: "/images/maskot/PPLGMASKOT.png", alt: "Maskot PPLG" },
-  { src: "/images/maskot/TJKTMASKOT.png", alt: "Maskot TJKT" },
-  { src: "/images/maskot/DKVMASKOT.png", alt: "Maskot DKV" },
-  { src: "/images/maskot/MASKOTCITRANEGARA.png", alt: "Maskot Citra Negara", besar: true },
-  { src: "/images/maskot/PMMASKOT.png", alt: "Maskot PM" },
-  { src: "/images/maskot/MPLBMASKOT.png", alt: "Maskot MPLB" },
-  { src: "/images/maskot/PHMASKOT.png", alt: "Maskot PH" },
+  { src: "/images/maskot/PPLGMASKOT.webp", alt: "Maskot PPLG", w: 240, h: 300 },
+  { src: "/images/maskot/TJKTMASKOT.webp", alt: "Maskot TJKT", w: 240, h: 300 },
+  { src: "/images/maskot/DKVMASKOT.webp", alt: "Maskot DKV", w: 240, h: 300 },
+  { src: "/images/maskot/MASKOTCITRANEGARA.webp", alt: "Maskot Citra Negara", w: 240, h: 339, besar: true },
+  { src: "/images/maskot/PMMASKOT.webp", alt: "Maskot PM", w: 240, h: 300 },
+  { src: "/images/maskot/MPLBMASKOT.webp", alt: "Maskot MPLB", w: 240, h: 300 },
+  { src: "/images/maskot/PHMASKOT.webp", alt: "Maskot PH", w: 240, h: 360 },
 ];
 // SHOW_ONCE = true  -> splash hanya tampil sekali pas pertama masuk web (per sesi browser).
 // SHOW_ONCE = false -> splash tampil tiap kali halaman di-refresh (dipakai buat ngetes desain).
@@ -115,6 +118,9 @@ useEffect(() => {
               key={i}
               src={m.src}
               alt={m.alt}
+              width={m.w}
+              height={m.h}
+              decoding="async"
               className={`${styles.maskot} ${m.besar ? styles.maskotBig : ""}`}
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).style.visibility = "hidden";

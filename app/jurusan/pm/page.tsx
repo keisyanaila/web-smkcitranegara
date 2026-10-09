@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -37,6 +39,7 @@ function HeroBanner() {
 }
 
 export default function PemasaranPage() {
+  const { t } = useLang();
   return (
     <>
       <Navbar />
@@ -65,7 +68,7 @@ export default function PemasaranPage() {
                 marginBottom: 24,
               }}
             >
-              <ArrowLeft size={16} /> Kembali
+              <ArrowLeft size={16} /> {t('Kembali', 'Back')}
             </Link>
 
             <h1
@@ -77,7 +80,7 @@ export default function PemasaranPage() {
                 maxWidth: 700,
               }}
             >
-              BISNIS DIGITAL DAN RETAIL
+              {t("BISNIS DIGITAL DAN RETAIL", "DIGITAL BUSINESS & RETAIL")}
             </h1>
 
             <p
@@ -89,7 +92,7 @@ export default function PemasaranPage() {
                 lineHeight: 1.6,
               }}
             >
-              Mengembangkan keterampilan dalam bidang pemasaran dan penjualan, mulai dari riset pasar, strategi pemasaran, hingga teknik penjualan dan pelayanan pelanggan.
+              {t("Mengembangkan keterampilan dalam bidang pemasaran dan penjualan, mulai dari riset pasar, strategi pemasaran, hingga teknik penjualan dan pelayanan pelanggan.", "Building skills in marketing and sales, from market research and marketing strategy to sales techniques and customer service.")}
             </p>
           </div>
         </section>
@@ -117,7 +120,7 @@ export default function PemasaranPage() {
                 marginBottom: 16,
               }}
             >
-              Apa itu BDR
+              {t("Apa itu BDR", "What is BDR?")}
             </h2>
 
             <p
@@ -128,7 +131,7 @@ export default function PemasaranPage() {
                 marginBottom: 40,
               }}
             >
-              Bidang studi bisnis digital dan retail adalah program pendidikan yang fokus pada pengembangan keterampilan dalam bidang pemasaran dan penjualan. Program ini mencakup berbagai aspek pemasaran, mulai dari riset pasar, strategi pemasaran, hingga teknik penjualan dan pelayanan pelanggan, dengan tujuan menghasilkan lulusan yang siap bekerja di berbagai sektor industri.
+              {t("Bidang studi bisnis digital dan retail adalah program pendidikan yang fokus pada pengembangan keterampilan dalam bidang pemasaran dan penjualan. Program ini mencakup berbagai aspek pemasaran, mulai dari riset pasar, strategi pemasaran, hingga teknik penjualan dan pelayanan pelanggan, dengan tujuan menghasilkan lulusan yang siap bekerja di berbagai sektor industri.", "Digital Business and Retail (BDR) is a study program focused on developing skills in marketing and sales. It covers many aspects of marketing, from market research and marketing strategy to sales techniques and customer service, with the goal of producing graduates ready to work across many industries.")}
             </p>
 
             {/* Materi */}
@@ -140,7 +143,7 @@ export default function PemasaranPage() {
                 marginBottom: 20,
               }}
             >
-              Apa yang akan kamu pelajari?
+              {t('Apa yang akan kamu pelajari?', 'What will you learn?')}
             </h2>
 
             <div
@@ -154,35 +157,51 @@ export default function PemasaranPage() {
               {[
                 {
                   label: 'Dasar-dasar Pemasaran',
+                  labelEn: 'Marketing Fundamentals',
                   desc: 'Prinsip-prinsip dasar pemasaran dan konsep-konsep utama seperti kebutuhan, keinginan, dan permintaan, serta elemen-elemen pemasaran (4P: Produk, Harga, Tempat, Promosi).',
+                  descEn: 'Basic marketing principles and key concepts such as needs, wants, and demand, plus the marketing mix (4P: Product, Price, Place, Promotion).',
                 },
                 {
                   label: 'Riset Pasar',
+                  labelEn: 'Market Research',
                   desc: 'Metode riset pasar untuk mengumpulkan dan menganalisis data, serta teknik survei, wawancara, dan observasi untuk memahami perilaku konsumen.',
+                  descEn: 'Market research methods for collecting and analyzing data, and survey, interview, and observation techniques to understand consumer behavior.',
                 },
                 {
                   label: 'Strategi Pemasaran',
+                  labelEn: 'Marketing Strategy',
                   desc: 'Pengembangan strategi pemasaran yang efektif, analisis SWOT (Strengths, Weaknesses, Opportunities, Threats), dan segmentasi pasar.',
+                  descEn: 'Developing effective marketing strategies, SWOT analysis (Strengths, Weaknesses, Opportunities, Threats), and market segmentation.',
                 },
                 {
                   label: 'Promosi dan Periklanan',
+                  labelEn: 'Promotion & Advertising',
                   desc: 'Teknik promosi dan pembuatan kampanye periklanan, serta penggunaan media cetak, media digital, dan media sosial untuk promosi.',
+                  descEn: 'Promotion techniques and creating advertising campaigns, using print, digital, and social media for promotion.',
                 },
                 {
                   label: 'Penjualan dan Negosiasi',
+                  labelEn: 'Sales & Negotiation',
                   desc: 'Teknik penjualan dan strategi untuk meningkatkan penjualan, serta keterampilan negosiasi dan penanganan keberatan pelanggan.',
+                  descEn: 'Sales techniques and strategies to grow sales, plus negotiation skills and handling customer objections.',
                 },
                 {
                   label: 'Pelayanan Pelanggan',
+                  labelEn: 'Customer Service',
                   desc: 'Prinsip-prinsip pelayanan pelanggan yang baik, serta teknik menangani keluhan dan meningkatkan kepuasan pelanggan.',
+                  descEn: 'Principles of good customer service, handling complaints, and improving customer satisfaction.',
                 },
                 {
                   label: 'E-commerce dan Pemasaran Digital',
+                  labelEn: 'E-commerce & Digital Marketing',
                   desc: 'Dasar-dasar e-commerce dan pemasaran digital, serta penggunaan platform online untuk menjual produk dan layanan.',
+                  descEn: 'E-commerce and digital marketing basics, and using online platforms to sell products and services.',
                 },
                 {
                   label: 'Komunikasi Bisnis',
+                  labelEn: 'Business Communication',
                   desc: 'Teknik komunikasi yang efektif dalam lingkungan bisnis, serta penulisan laporan bisnis, email, dan korespondensi profesional.',
+                  descEn: 'Effective communication in a business environment, plus writing business reports, emails, and professional correspondence.',
                 },
               ].map((m) => (
                 <div
@@ -215,9 +234,9 @@ export default function PemasaranPage() {
                         color: NAVY,
                       }}
                     >
-                      {m.label}:
+                      {t(m.label, m.labelEn)}:
                     </span>{' '}
-                    {m.desc}
+                    {t(m.desc, m.descEn)}
                   </p>
                 </div>
               ))}
@@ -232,7 +251,7 @@ export default function PemasaranPage() {
                 marginBottom: 20,
               }}
             >
-              Prospek Karir lulusan BDR
+              {t("Prospek Karir lulusan BDR", "Career prospects for BDR graduates")}
             </h2>
 
             <div
@@ -243,14 +262,21 @@ export default function PemasaranPage() {
                 marginBottom: 40,
               }}
             >
-              {[
+              {t([
                 'Staf Pemasaran',
                 'Sales Representative',
                 'Customer Service Representative',
                 'Market Research Analyst',
                 'Digital Marketing Specialist',
                 'Event Coordinator',
-              ].map((p) => (
+              ], [
+                'Marketing Staff',
+                'Sales Representative',
+                'Customer Service Representative',
+                'Market Research Analyst',
+                'Digital Marketing Specialist',
+                'Event Coordinator',
+              ]).map((p) => (
                 <div
                   key={p}
                   style={{
@@ -292,11 +318,11 @@ export default function PemasaranPage() {
                   marginBottom: 20,
                 }}
               >
-                Tertarik bergabung dengan jurusan Pemasaran?
+                {t("Tertarik bergabung dengan jurusan Pemasaran?", "Interested in joining Digital Business & Retail?")}
               </p>
 
               <Link
-                href="/spmb"
+                href={SPMB_URL}
                 style={{
                   display: 'inline-block',
                   background: GOLD,
@@ -308,7 +334,7 @@ export default function PemasaranPage() {
                   textDecoration: 'none',
                 }}
               >
-                Daftar Sekarang
+                {t('Daftar Sekarang', 'Apply Now')}
               </Link>
             </div>
           </div>

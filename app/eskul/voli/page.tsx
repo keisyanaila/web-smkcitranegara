@@ -5,51 +5,52 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2012', label: 'Tahun Berdiri' },
-  { angka: '30+',  label: 'Anggota Aktif' },
-  { angka: '14',   label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '2012', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '30+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '14',   label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
   {
     icon: '🏐',
-    judul: 'Kebugaran Fisik',
+    judul: 'Kebugaran Fisik', judulEn: 'Physical Fitness',
     deskripsi:
-      'Latihan dan pertandingan voli membantu meningkatkan kekuatan, kelincahan, dan daya tahan tubuh secara menyeluruh.',
+      'Latihan dan pertandingan voli membantu meningkatkan kekuatan, kelincahan, dan daya tahan tubuh secara menyeluruh.', deskripsiEn: 'Volleyball practice and matches improve overall strength, agility, and endurance.',
   },
   {
     icon: '🤝',
-    judul: 'Kerjasama Tim',
+    judul: 'Kerjasama Tim', judulEn: 'Teamwork',
     deskripsi:
-      'Voli adalah olahraga tim yang mengajarkan pentingnya kerja sama, komunikasi efektif, dan strategi bersama di lapangan.',
+      'Voli adalah olahraga tim yang mengajarkan pentingnya kerja sama, komunikasi efektif, dan strategi bersama di lapangan.', deskripsiEn: 'Volleyball is a team sport that teaches cooperation, effective communication, and shared strategy on the court.',
   },
   {
     icon: '🏆',
-    judul: 'Sportivitas',
+    judul: 'Sportivitas', judulEn: 'Sportsmanship',
     deskripsi:
-      'Siswa belajar tentang sportivitas, fair play, dan cara menghadapi kemenangan maupun kekalahan dengan sikap positif.',
+      'Siswa belajar tentang sportivitas, fair play, dan cara menghadapi kemenangan maupun kekalahan dengan sikap positif.', deskripsiEn: 'Students learn sportsmanship, fair play, and how to handle wins and losses with a positive attitude.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Teknik Dasar',          detail: 'Servis, passing, setting, dan smashing.' },
-  { no: '02', nama: 'Latihan Fisik',                  detail: 'Lari, jumping, dan strength training.' },
-  { no: '03', nama: 'Simulasi Pertandingan',          detail: 'Praktik strategi dan taktik tim di lapangan.' },
-  { no: '04', nama: 'Turnamen Internal & Eksternal',  detail: 'Kompetisi di dalam dan luar sekolah.' },
-  { no: '05', nama: 'Pengembangan Mentalitas',        detail: 'Mental pemenang, fokus di bawah tekanan.' },
-  { no: '06', nama: 'Strategi & Taktik',              detail: 'Formasi serangan dan pertahanan tim.' },
+  { no: '01', nama: 'Latihan Teknik Dasar', namaEn: 'Basic Technique Training',          detail: 'Servis, passing, setting, dan smashing.', detailEn: 'Serving, passing, setting, and spiking.' },
+  { no: '02', nama: 'Latihan Fisik', namaEn: 'Conditioning',                  detail: 'Lari, jumping, dan strength training.', detailEn: 'Running, jumping, and strength training.' },
+  { no: '03', nama: 'Simulasi Pertandingan', namaEn: 'Match Simulation',          detail: 'Praktik strategi dan taktik tim di lapangan.', detailEn: 'Practicing team strategy and tactics on the court.' },
+  { no: '04', nama: 'Turnamen Internal & Eksternal', namaEn: 'Internal & External Tournaments',  detail: 'Kompetisi di dalam dan luar sekolah.', detailEn: 'Competitions inside and outside the school.' },
+  { no: '05', nama: 'Pengembangan Mentalitas', namaEn: 'Mindset Development',        detail: 'Mental pemenang, fokus di bawah tekanan.', detailEn: 'A winning mentality and focus under pressure.' },
+  { no: '06', nama: 'Strategi & Taktik', namaEn: 'Strategy & Tactics',              detail: 'Formasi serangan dan pertahanan tim.', detailEn: 'Team attacking and defensive formations.' },
 ];
 
 const TEKNIK = [
-  { nama: 'Servis',  tip: 'Pukulan pembuka dari garis belakang untuk memulai reli.' },
-  { nama: 'Passing', tip: 'Menerima dan mengarahkan bola dengan lengan bawah (bump).' },
-  { nama: 'Set',     tip: 'Umpan lambung akurat dari tosser untuk disambut smasher.' },
-  { nama: 'Smash',   tip: 'Serangan keras dari atas net — poin utama tim.' },
-  { nama: 'Block',   tip: 'Membendung smash lawan di depan net dengan lompatan.' },
-  { nama: 'Dig',     tip: 'Penyelamatan bola rendah dan cepat sebelum menyentuh lantai.' },
+  { nama: 'Servis', namaEn: 'Serve',  tip: 'Pukulan pembuka dari garis belakang untuk memulai reli.', tipEn: 'The opening hit from the back line to start the rally.' },
+  { nama: 'Passing', tip: 'Menerima dan mengarahkan bola dengan lengan bawah (bump).', tipEn: 'Receiving and directing the ball with the forearms (bump).' },
+  { nama: 'Set',     tip: 'Umpan lambung akurat dari tosser untuk disambut smasher.', tipEn: 'An accurate high set from the setter for the hitter to attack.' },
+  { nama: 'Smash',   tip: 'Serangan keras dari atas net — poin utama tim.', tipEn: 'A powerful attack from above the net — the team’s main point-scorer.' },
+  { nama: 'Block',   tip: 'Membendung smash lawan di depan net dengan lompatan.', tipEn: 'Jumping at the net to stop the opponent’s spike.' },
+  { nama: 'Dig',     tip: 'Penyelamatan bola rendah dan cepat sebelum menyentuh lantai.', tipEn: 'A quick, low save before the ball hits the floor.' },
 ];
 
 const MARQUEE = ['SERVE!', 'BUMP · SET · SPIKE', 'DIG IT', 'ACE!', 'BLOCK PARTY', 'GAME POINT', 'RALLY ON'];
@@ -150,6 +151,7 @@ export default function VoliPage() {
   const [smashCount, setSmashCount] = useState(0);
   const [balls, setBalls] = useState<{ id: number; x: number }[]>([]);
   const ballId = useRef(0);
+  const { t } = useLang();
 
   useEffect(() => {
     const el = heroRef.current;
@@ -512,9 +514,9 @@ export default function VoliPage() {
             </div>
             <div className="vli-hero-content">
               <div className="vli-hero-text">
-                <div className="vli-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="vli-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="vli-title">
-                  {'VOLI'.split('').map((ch, i) => (
+                  {t('VOLI', 'VOLLEY').split('').map((ch, i) => (
                     <span
                       key={i}
                       className={`vli-letter ${i >= 2 ? 'vli-letter-accent' : ''}`}
@@ -525,9 +527,7 @@ export default function VoliPage() {
                   ))}
                 </h1>
                 <p className="vli-subtitle">
-                  Voli adalah olahraga yang digemari banyak pelajar. Tidak hanya melatih fisik,
-                  voli membangun kerjasama tim, kedisiplinan, dan mentalitas juara yang tangguh
-                  di setiap sesi latihan.
+                  {t('Voli adalah olahraga yang digemari banyak pelajar. Tidak hanya melatih fisik, voli membangun kerjasama tim, kedisiplinan, dan mentalitas juara yang tangguh di setiap sesi latihan.', 'Volleyball is a favorite sport among students. Beyond physical training, it builds teamwork, discipline, and a tough champion’s mindset in every practice.')}
                 </p>
               </div>
 
@@ -551,19 +551,19 @@ export default function VoliPage() {
           <div className="vli-scoreboard">
             <div className="vli-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 110} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 110} />
               ))}
             </div>
           </div>
 
           {/* ── Tujuan ── */}
           <section className="vli-section">
-            <Reveal><div className="vli-section-label">Mengapa Voli</div></Reveal>
-            <Reveal delay={60}><h2 className="vli-section-heading">TUJUAN KAMI</h2></Reveal>
+            <Reveal><div className="vli-section-label">{t('Mengapa Voli', 'Why Volleyball')}</div></Reveal>
+            <Reveal delay={60}><h2 className="vli-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2></Reveal>
             <div className="vli-tujuan-grid">
-              {TUJUAN.map((t, i) => (
+              {TUJUAN.map((tj, i) => (
                 <Reveal
-                  key={t.judul}
+                  key={tj.judul}
                   delay={i * 120}
                   className="vli-tujuan-card"
                   onMouseMove={(e) => {
@@ -572,9 +572,9 @@ export default function VoliPage() {
                     e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
                   }}
                 >
-                  <span className="vli-tujuan-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="vli-tujuan-title">{t.judul}</div>
-                  <p className="vli-tujuan-desc">{t.deskripsi}</p>
+                  <span className="vli-tujuan-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="vli-tujuan-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="vli-tujuan-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </Reveal>
               ))}
             </div>
@@ -582,14 +582,14 @@ export default function VoliPage() {
 
           {/* ── 6 Teknik Dasar ── */}
           <section className="vli-section" style={{ paddingTop: 'clamp(20px, 3vw, 40px)' }}>
-            <Reveal><div className="vli-section-label">Kamus Lapangan</div></Reveal>
-            <Reveal delay={60}><h2 className="vli-section-heading">6 TEKNIK DASAR</h2></Reveal>
+            <Reveal><div className="vli-section-label">{t('Kamus Lapangan', 'Court Glossary')}</div></Reveal>
+            <Reveal delay={60}><h2 className="vli-section-heading">{t('6 TEKNIK DASAR', '6 BASIC TECHNIQUES')}</h2></Reveal>
             <div className="vli-teknik-grid">
               {TEKNIK.map((tk, i) => (
                 <Reveal key={tk.nama} delay={i * 70} className="vli-teknik">
                   <div className="vli-teknik-inner" tabIndex={0}>
-                    <div className="vli-teknik-face vli-teknik-front"><span>{tk.nama}</span></div>
-                    <div className="vli-teknik-face vli-teknik-back">{tk.tip}</div>
+                    <div className="vli-teknik-face vli-teknik-front"><span>{t(tk.nama, tk.namaEn ?? tk.nama)}</span></div>
+                    <div className="vli-teknik-face vli-teknik-back">{t(tk.tip, tk.tipEn)}</div>
                   </div>
                 </Reveal>
               ))}
@@ -610,15 +610,15 @@ export default function VoliPage() {
 
           {/* ── Kegiatan ── */}
           <section className="vli-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }}>
-            <Reveal><div className="vli-section-label">Program Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="vli-section-heading">KEGIATAN RUTIN</h2></Reveal>
+            <Reveal><div className="vli-section-label">{t('Program Latihan', 'Training Program')}</div></Reveal>
+            <Reveal delay={60}><h2 className="vli-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2></Reveal>
             <div className="vli-kegiatan-grid">
               {KEGIATAN.map((k, i) => (
                 <Reveal key={k.no} delay={i * 80} className="vli-kegiatan-item">
                   <div className="vli-kegiatan-no">{k.no}</div>
                   <div>
-                    <div className="vli-kegiatan-nama">{k.nama}</div>
-                    <div className="vli-kegiatan-detail">{k.detail}</div>
+                    <div className="vli-kegiatan-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="vli-kegiatan-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </Reveal>
               ))}
@@ -627,25 +627,25 @@ export default function VoliPage() {
 
           {/* ── Join / CTA interaktif ── */}
           <section className="vli-join">
-            <div className="vli-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
+            <div className="vli-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
             <h2 className="vli-join-heading">
-              SIAP <span>SMASH</span> BARENG KAMI?
+              {t('SIAP', 'READY TO')} <span>SMASH</span> {t('BARENG KAMI?', 'WITH US?')}
             </h2>
             <p className="vli-join-copy">
-              Voli bukan cuma soal poin akhir — ini soal kekompakan tim dan kerja keras di setiap latihan. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Voli bukan cuma soal poin akhir — ini soal kekompakan tim dan kerja keras di setiap latihan. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'Volleyball isn’t just about the final score — it’s about team chemistry and hard work at every practice. Contact the club advisor at school for registration info.')}
             </p>
             <button
               type="button"
               className={`vli-join-motif${smashHit ? ' hit' : ''}`}
               onClick={handleSmash}
-              aria-label="Coba smash bolanya"
+              aria-label={t('Coba smash bolanya', 'Try spiking the ball')}
             >
               <span className="vli-join-ripple">
                 <VolleyBall size={76} />
               </span>
-              <span className="vli-join-hint">coba ketuk buat smash</span>
+              <span className="vli-join-hint">{t('coba ketuk buat smash', 'tap to spike')}</span>
             </button>
-            <span className="vli-join-count">{smashCount > 0 ? `${smashCount} smash` : 'belum ada smash'}</span>
+            <span className="vli-join-count">{smashCount > 0 ? t(`${smashCount} smash`, `${smashCount} spike${smashCount > 1 ? 's' : ''}`) : t('belum ada smash', 'no spikes yet')}</span>
             {balls.map((b) => (
               <span key={b.id} className="vli-smash-fly" style={{ left: `${b.x}%` }}>🏐</span>
             ))}

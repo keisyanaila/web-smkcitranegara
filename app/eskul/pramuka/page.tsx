@@ -5,42 +5,43 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '1961', label: 'Tahun Berdiri' },
-  { angka: '40+',  label: 'Anggota Aktif' },
-  { angka: '10',   label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '1961', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '40+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '10',   label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
   {
     icon: '⛺',
-    judul: 'Kedisiplinan',
+    judul: 'Kedisiplinan', judulEn: 'Discipline',
     deskripsi:
-      'Pramuka mengajarkan pentingnya kedisiplinan melalui berbagai kegiatan terstruktur dan aturan yang membentuk karakter kuat.',
+      'Pramuka mengajarkan pentingnya kedisiplinan melalui berbagai kegiatan terstruktur dan aturan yang membentuk karakter kuat.', deskripsiEn: 'Scouting teaches the importance of discipline through structured activities and rules that build strong character.',
   },
   {
     icon: '🌿',
-    judul: 'Cinta Alam',
+    judul: 'Cinta Alam', judulEn: 'Love of Nature',
     deskripsi:
-      'Melalui kegiatan di alam terbuka, Pramuka menumbuhkan kesadaran untuk menjaga dan menghargai lingkungan sekitar.',
+      'Melalui kegiatan di alam terbuka, Pramuka menumbuhkan kesadaran untuk menjaga dan menghargai lingkungan sekitar.', deskripsiEn: 'Through outdoor activities, Scouting grows awareness to protect and appreciate the environment.',
   },
   {
     icon: '👑',
-    judul: 'Karakter & Kepemimpinan',
+    judul: 'Karakter & Kepemimpinan', judulEn: 'Character & Leadership',
     deskripsi:
-      'Menanamkan nilai kepemimpinan, tanggung jawab, kerjasama, dan kepedulian terhadap sesama dalam setiap kegiatan.',
+      'Menanamkan nilai kepemimpinan, tanggung jawab, kerjasama, dan kepedulian terhadap sesama dalam setiap kegiatan.', deskripsiEn: 'Instilling leadership, responsibility, teamwork, and care for others in every activity.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Rutin',              detail: 'Tali-temali, mendirikan tenda, dan api unggun.' },
-  { no: '02', nama: 'Kegiatan Kemah',             detail: 'Hiking, penjelajahan, dan permainan menantang.' },
-  { no: '03', nama: 'Lomba & Kompetisi',          detail: 'Tingkat sekolah, daerah, hingga nasional.' },
-  { no: '04', nama: 'Pengabdian Masyarakat',      detail: 'Bakti sosial, penanaman pohon, dan lingkungan.' },
-  { no: '05', nama: 'Kegiatan Kepemimpinan',      detail: 'Ketua regu, pemimpin upacara, dan peran aktif.' },
-  { no: '06', nama: 'Pelatihan & Kursus',         detail: 'Pertolongan pertama, navigasi, dan survival.' },
+  { no: '01', nama: 'Latihan Rutin', namaEn: 'Regular Training',              detail: 'Tali-temali, mendirikan tenda, dan api unggun.', detailEn: 'Knot tying, pitching tents, and campfires.' },
+  { no: '02', nama: 'Kegiatan Kemah', namaEn: 'Camping',             detail: 'Hiking, penjelajahan, dan permainan menantang.', detailEn: 'Hiking, exploring, and challenging games.' },
+  { no: '03', nama: 'Lomba & Kompetisi', namaEn: 'Contests & Competitions',          detail: 'Tingkat sekolah, daerah, hingga nasional.', detailEn: 'At school, regional, and national levels.' },
+  { no: '04', nama: 'Pengabdian Masyarakat', namaEn: 'Community Service',      detail: 'Bakti sosial, penanaman pohon, dan lingkungan.', detailEn: 'Social service, tree planting, and environmental care.' },
+  { no: '05', nama: 'Kegiatan Kepemimpinan', namaEn: 'Leadership Activities',      detail: 'Ketua regu, pemimpin upacara, dan peran aktif.', detailEn: 'Patrol leaders, ceremony leaders, and active roles.' },
+  { no: '06', nama: 'Pelatihan & Kursus', namaEn: 'Training & Courses',         detail: 'Pertolongan pertama, navigasi, dan survival.', detailEn: 'First aid, navigation, and survival.' },
 ];
 
 /* ── glyph kompas, motif berulang di halaman ini ── */
@@ -141,6 +142,7 @@ function Reveal({
 export default function PramukaPage() {
   const [statsRef, statsInView] = useInView<HTMLDivElement>(0.4);
   const [compassSpun, setCompassSpun] = useState(false);
+  const { t } = useLang();
 
   const handleCompassTap = () => {
     setCompassSpun(true);
@@ -412,9 +414,9 @@ export default function PramukaPage() {
             </div>
             <div className="psk-hero-content">
               <div className="psk-hero-text">
-                <div className="psk-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="psk-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="psk-title">
-                  {'PRAMUKA'.split('').map((ch, i) => (
+                  {t('PRAMUKA', 'SCOUTS').split('').map((ch, i) => (
                     <span
                       key={i}
                       className={`psk-letter ${i >= 3 ? 'psk-letter-accent' : ''}`}
@@ -425,7 +427,7 @@ export default function PramukaPage() {
                   ))}
                 </h1>
                 <p className="psk-subtitle">
-                  Lebih dari sekadar kegiatan alam — Pramuka adalah tempat menempa karakter, kedisiplinan, dan jiwa pengabdian sejati untuk bangsa dan lingkungan.
+                  {t('Lebih dari sekadar kegiatan alam — Pramuka adalah tempat menempa karakter, kedisiplinan, dan jiwa pengabdian sejati untuk bangsa dan lingkungan.', 'More than just outdoor activities — Scouting is where character, discipline, and a true spirit of service to the nation and the environment are forged.')}
                 </p>
               </div>
 
@@ -441,21 +443,21 @@ export default function PramukaPage() {
           <div className="psk-scoreboard">
             <div className="psk-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 110} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 110} />
               ))}
             </div>
           </div>
 
           {/* ── Tujuan ── */}
           <section className="psk-section">
-            <Reveal><div className="psk-section-label">Mengapa Pramuka</div></Reveal>
-            <Reveal delay={60}><h2 className="psk-section-heading">TUJUAN KAMI</h2></Reveal>
+            <Reveal><div className="psk-section-label">{t('Mengapa Pramuka', 'Why Scouts')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psk-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2></Reveal>
             <div className="psk-tujuan-grid">
-              {TUJUAN.map((t, i) => (
-                <Reveal key={t.judul} delay={i * 120} className="psk-tujuan-card">
-                  <span className="psk-tujuan-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="psk-tujuan-title">{t.judul}</div>
-                  <p className="psk-tujuan-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj, i) => (
+                <Reveal key={tj.judul} delay={i * 120} className="psk-tujuan-card">
+                  <span className="psk-tujuan-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="psk-tujuan-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="psk-tujuan-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </Reveal>
               ))}
             </div>
@@ -477,15 +479,15 @@ export default function PramukaPage() {
 
           {/* ── Kegiatan ── */}
           <section className="psk-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }}>
-            <Reveal><div className="psk-section-label">Program Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="psk-section-heading">KEGIATAN RUTIN</h2></Reveal>
+            <Reveal><div className="psk-section-label">{t('Program Latihan', 'Training Program')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psk-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2></Reveal>
             <div className="psk-kegiatan-grid">
               {KEGIATAN.map((k, i) => (
                 <Reveal key={k.no} delay={i * 80} className="psk-kegiatan-item">
                   <div className="psk-kegiatan-no">{k.no}</div>
                   <div>
-                    <div className="psk-kegiatan-nama">{k.nama}</div>
-                    <div className="psk-kegiatan-detail">{k.detail}</div>
+                    <div className="psk-kegiatan-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="psk-kegiatan-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </Reveal>
               ))}
@@ -494,21 +496,21 @@ export default function PramukaPage() {
 
           {/* ── Join / CTA interaktif ── */}
           <section className="psk-join">
-            <div className="psk-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
+            <div className="psk-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
             <h2 className="psk-join-heading">
-              SIAP <span>MENJELAJAH</span> BARENG KAMI?
+              {t('SIAP', 'READY TO')} <span>{t('MENJELAJAH', 'EXPLORE')}</span> {t('BARENG KAMI?', 'WITH US?')}
             </h2>
             <p className="psk-join-copy">
-              Pramuka bukan cuma soal kemah dan tali-temali — ini soal karakter yang dibawa seumur hidup. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Pramuka bukan cuma soal kemah dan tali-temali — ini soal karakter yang dibawa seumur hidup. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'Scouting isn’t just about camping and knots — it’s about character you carry for life. Contact the club advisor at school for registration info.')}
             </p>
             <button
               type="button"
               className={`psk-join-motif${compassSpun ? ' spun' : ''}`}
               onClick={handleCompassTap}
-              aria-label="Putar kompas"
+              aria-label={t('Putar kompas', 'Spin the compass')}
             >
               <Compass size={76} />
-              <span className="psk-join-hint">coba ketuk kompasnya</span>
+              <span className="psk-join-hint">{t('coba ketuk kompasnya', 'try tapping the compass')}</span>
             </button>
           </section>
         </main>

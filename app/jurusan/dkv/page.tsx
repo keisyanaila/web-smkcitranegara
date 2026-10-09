@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -345,7 +346,7 @@ export default function DkvPage() {
                 marginBottom: 40,
               }}
             >
-              {[
+              {t([
                 'Desainer Grafis',
                 'Ilustrator',
                 'Fotografer',
@@ -353,7 +354,15 @@ export default function DkvPage() {
                 'Desainer Web',
                 'Videografer / Editor Video',
                 'Desainer Identitas Visual',
-              ].map((p) => (
+              ], [
+                'Graphic Designer',
+                'Illustrator',
+                'Photographer',
+                'Animator',
+                'Web Designer',
+                'Videographer / Video Editor',
+                'Visual Identity Designer',
+              ]).map((p) => (
                 <div
                   key={p}
                   style={{
@@ -399,7 +408,7 @@ export default function DkvPage() {
               </p>
 
               <Link
-                href="/spmb"
+                href={SPMB_URL}
                 style={{
                   display: 'inline-block',
                   background: GOLD,

@@ -5,50 +5,51 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2024', label: 'Tahun Berdiri' },
-  { angka: '30+',  label: 'Anggota Aktif' },
-  { angka: '15',   label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '2024', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '30+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '15',   label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
   {
     icon: '🎮',
-    judul: 'Strategi & Taktik',
+    judul: 'Strategi & Taktik', judulEn: 'Strategy & Tactics',
     deskripsi:
-      'Esports melatih kemampuan pengambilan keputusan yang cepat dan tepat di bawah tekanan, serta kemampuan memecahkan masalah secara kritis.',
+      'Esports melatih kemampuan pengambilan keputusan yang cepat dan tepat di bawah tekanan, serta kemampuan memecahkan masalah secara kritis.', deskripsiEn: 'Esports trains fast, accurate decision-making under pressure, as well as critical problem-solving.',
   },
   {
     icon: '🤝',
-    judul: 'Kerjasama Tim',
+    judul: 'Kerjasama Tim', judulEn: 'Teamwork',
     deskripsi:
-      'Seperti olahraga beregu lainnya, Esports mengajarkan pentingnya komunikasi efektif, pembagian peran, dan kepercayaan antar anggota tim.',
+      'Seperti olahraga beregu lainnya, Esports mengajarkan pentingnya komunikasi efektif, pembagian peran, dan kepercayaan antar anggota tim.', deskripsiEn: 'Like other team sports, Esports teaches effective communication, clear roles, and trust between teammates.',
   },
   {
     icon: '🏆',
-    judul: 'Sportivitas Digital',
+    judul: 'Sportivitas Digital', judulEn: 'Digital Sportsmanship',
     deskripsi:
-      'Siswa belajar etika digital, fair play, menghormati lawan, dan bersikap bijak dalam menghadapi kemenangan maupun kekalahan.',
+      'Siswa belajar etika digital, fair play, menghormati lawan, dan bersikap bijak dalam menghadapi kemenangan maupun kekalahan.', deskripsiEn: 'Students learn digital ethics, fair play, respect for opponents, and how to handle wins and losses wisely.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Latihan Mekanik Dasar', detail: 'Akurasi, pergerakan, dan penguasaan alat kontrol.', kategori: 'mekanik' },
-  { no: '02', nama: 'Analisis Pertandingan', detail: 'Review rekaman untuk evaluasi dan perbaikan strategi.', kategori: 'analisis' },
-  { no: '03', nama: 'Simulasi Pertandingan', detail: 'Scrimmage melawan tim internal maupun eksternal.', kategori: 'kompetisi' },
-  { no: '04', nama: 'Partisipasi Turnamen', detail: 'Kompetisi Esports regional hingga nasional.', kategori: 'kompetisi' },
-  { no: '05', nama: 'Pengembangan Mentalitas', detail: 'Mental tangguh, manajemen emosi, dan fokus kritis.', kategori: 'mental' },
-  { no: '06', nama: 'Penyusunan Strategi', detail: 'Drafting, rotasi peta, dan manajemen sumber daya tim.', kategori: 'analisis' },
+  { no: '01', nama: 'Latihan Mekanik Dasar', namaEn: 'Basic Mechanics Training', detail: 'Akurasi, pergerakan, dan penguasaan alat kontrol.', detailEn: 'Aim, movement, and mastering your controls.', kategori: 'mekanik' },
+  { no: '02', nama: 'Analisis Pertandingan', namaEn: 'Match Analysis', detail: 'Review rekaman untuk evaluasi dan perbaikan strategi.', detailEn: 'Reviewing replays to evaluate and improve strategy.', kategori: 'analisis' },
+  { no: '03', nama: 'Simulasi Pertandingan', namaEn: 'Scrims', detail: 'Scrimmage melawan tim internal maupun eksternal.', detailEn: 'Scrimmages against internal and external teams.', kategori: 'kompetisi' },
+  { no: '04', nama: 'Partisipasi Turnamen', namaEn: 'Tournament Participation', detail: 'Kompetisi Esports regional hingga nasional.', detailEn: 'Regional to national Esports competitions.', kategori: 'kompetisi' },
+  { no: '05', nama: 'Pengembangan Mentalitas', namaEn: 'Mindset Development', detail: 'Mental tangguh, manajemen emosi, dan fokus kritis.', detailEn: 'Mental toughness, emotional control, and sharp focus.', kategori: 'mental' },
+  { no: '06', nama: 'Penyusunan Strategi', namaEn: 'Strategy Building', detail: 'Drafting, rotasi peta, dan manajemen sumber daya tim.', detailEn: 'Drafting, map rotations, and team resource management.', kategori: 'analisis' },
 ];
 
 const FILTERS = [
-  { key: 'semua', label: 'Semua' },
-  { key: 'mekanik', label: 'Mekanik' },
-  { key: 'analisis', label: 'Analisis' },
-  { key: 'kompetisi', label: 'Kompetisi' },
-  { key: 'mental', label: 'Mental' },
+  { key: 'semua', label: 'Semua', labelEn: 'All' },
+  { key: 'mekanik', label: 'Mekanik', labelEn: 'Mechanics' },
+  { key: 'analisis', label: 'Analisis', labelEn: 'Analysis' },
+  { key: 'kompetisi', label: 'Kompetisi', labelEn: 'Competition' },
+  { key: 'mental', label: 'Mental', labelEn: 'Mental' },
 ];
 
 /* ── reusable crosshair glyph, the page's recurring motif ── */
@@ -132,6 +133,7 @@ function StatCounter({ angka, label, inView, delay }: { angka: string; label: st
 export default function EsportPage() {
   const [filter, setFilter] = useState('semua');
   const [locked, setLocked] = useState(false);
+  const { t } = useLang();
   const [statsRef, statsInView] = useInView(0.4);
   const [tujuanRef, tujuanInView] = useInView(0.15);
   const [kegiatanRef, kegiatanInView] = useInView(0.1);
@@ -689,14 +691,14 @@ export default function EsportPage() {
 
             <div className="esp-hero-content">
               <div className="esp-hero-text">
-                <div className="esp-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="esp-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="esp-title">
                   E<span>SPORT</span>
                   <span className="esp-glitch-a" aria-hidden="true">E<span>SPORT</span></span>
                   <span className="esp-glitch-b" aria-hidden="true">E<span>SPORT</span></span>
                 </h1>
                 <p className="esp-subtitle">
-                  Esports (Electronic Sports) adalah salah satu cabang aktivitas yang sangat berkembang di era digital. Ekstrakurikuler Esports tidak hanya menawarkan sarana penyaluran hobi, tetapi juga mengajarkan manajemen strategi, kerjasama tim, dan pengendalian diri.
+                  {t('Esports (Electronic Sports) adalah salah satu cabang aktivitas yang sangat berkembang di era digital. Ekstrakurikuler Esports tidak hanya menawarkan sarana penyaluran hobi, tetapi juga mengajarkan manajemen strategi, kerjasama tim, dan pengendalian diri.', 'Esports (Electronic Sports) is one of the fastest-growing activities of the digital era. The Esports club is not just a place to enjoy a hobby — it also teaches strategic thinking, teamwork, and self-control.')}
                 </p>
               </div>
 
@@ -715,7 +717,7 @@ export default function EsportPage() {
                 <span key={rep} style={{ display: 'inline-flex' }}>
                   {STATS.map((s) => (
                     <span key={s.label + rep}>
-                      🎮 <b>{s.angka}</b> {s.label}
+                      🎮 <b>{s.angka}</b> {t(s.label, s.labelEn)}
                     </span>
                   ))}
                 </span>
@@ -727,21 +729,21 @@ export default function EsportPage() {
           <div className="esp-scoreboard">
             <div className="esp-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 120} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 120} />
               ))}
             </div>
           </div>
 
           {/* ══ Tujuan ══ */}
           <section className="esp-section">
-            <div className="esp-section-label">Mengapa Esport</div>
-            <h2 className="esp-section-heading">TUJUAN KAMI</h2>
+            <div className="esp-section-label">{t('Mengapa Esport', 'Why Esports')}</div>
+            <h2 className="esp-section-heading">{t('TUJUAN KAMI', 'OUR GOALS')}</h2>
             <div className="esp-tujuan-grid" ref={tujuanRef}>
-              {TUJUAN.map((t) => (
-                <div key={t.judul} className={`esp-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
-                  <span className="esp-tujuan-icon">{t.icon}</span>
-                  <div className="esp-tujuan-title">{t.judul}</div>
-                  <p className="esp-tujuan-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj) => (
+                <div key={tj.judul} className={`esp-tujuan-card${tujuanInView ? ' in-view' : ''}`}>
+                  <span className="esp-tujuan-icon">{tj.icon}</span>
+                  <div className="esp-tujuan-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="esp-tujuan-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </div>
               ))}
             </div>
@@ -755,17 +757,17 @@ export default function EsportPage() {
 
           {/* ══ Kegiatan ══ */}
           <section className="esp-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }} ref={kegiatanRef}>
-            <div className="esp-section-label">Program Latihan</div>
-            <h2 className="esp-section-heading">KEGIATAN RUTIN</h2>
+            <div className="esp-section-label">{t('Program Latihan', 'Training Program')}</div>
+            <h2 className="esp-section-heading">{t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}</h2>
 
-            <div className="esp-filters" role="group" aria-label="Filter kegiatan">
+            <div className="esp-filters" role="group" aria-label={t('Filter kegiatan', 'Filter activities')}>
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
                   className={`esp-chip${filter === f.key ? ' active' : ''}`}
                   onClick={() => setFilter(f.key)}
                 >
-                  {f.label}
+                  {t(f.label, f.labelEn)}
                 </button>
               ))}
             </div>
@@ -775,8 +777,8 @@ export default function EsportPage() {
                 <div key={k.no} className="esp-kegiatan-item" style={{ animationDelay: `${i * 0.06}s` }}>
                   <div className="esp-kegiatan-no">{k.no}</div>
                   <div>
-                    <div className="esp-kegiatan-nama">{k.nama}</div>
-                    <div className="esp-kegiatan-detail">{k.detail}</div>
+                    <div className="esp-kegiatan-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="esp-kegiatan-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </div>
               ))}
@@ -785,18 +787,18 @@ export default function EsportPage() {
 
           {/* ══ Join ══ */}
           <section className="esp-join">
-            <div className="esp-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
+            <div className="esp-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
             <h2 className="esp-join-heading">
-              SIAP <span>LOCK IN</span> SKUAD?
+              {t('SIAP', 'READY TO')} <span>LOCK IN</span> {t('SKUAD?', 'WITH THE SQUAD?')}
             </h2>
             <p className="esp-join-copy">
-              Esports bukan cuma soal jam terbang — ini soal proses jadi versi terbaik diri kamu bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.
+              {t('Esports bukan cuma soal jam terbang — ini soal proses jadi versi terbaik diri kamu bareng tim. Hubungi pembina ekstrakurikuler di sekolah untuk info pendaftaran.', 'Esports isn’t just about hours played — it’s about becoming the best version of yourself with your team. Contact the club advisor at school for registration info.')}
             </p>
             <button className={`esp-join-btn${locked ? ' hit' : ''}`} onClick={handleLockOn} aria-label="Lock on">
               <span className="esp-join-ripple">
                 <Crosshair size={76} />
               </span>
-              <span className="esp-join-hint">coba klik target-nya</span>
+              <span className="esp-join-hint">{t('coba klik target-nya', 'try clicking the target')}</span>
             </button>
           </section>
         </main>

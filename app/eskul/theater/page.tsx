@@ -4,37 +4,39 @@ import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2014', label: 'Tahun Berdiri' },
-  { angka: '25+', label: 'Anggota Aktif' },
-  { angka: '11', label: 'Pementasan' },
-  { angka: '100%', label: 'Total Aksi' },
+  { angka: '2014', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '25+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '11', label: 'Pementasan', labelEn: 'Performances' },
+  { angka: '100%', label: 'Total Aksi', labelEn: 'All-Out Acting' },
 ];
 
 const TUJUAN = [
-  { icon: '🎭', judul: 'Kreativitas', deskripsi: 'Mendorong siswa berpikir kreatif dalam menciptakan karakter, alur cerita, dan pertunjukan yang memukau.' },
-  { icon: '🎤', judul: 'Percaya Diri', deskripsi: 'Lewat latihan dialog dan akting, siswa belajar berkomunikasi efektif dan menaklukkan rasa gugup di depan publik.' },
-  { icon: '🌟', judul: 'Apresiasi Seni', deskripsi: 'Memahami setiap aspek produksi panggung dan berkolaborasi lintas peran kreatif.' },
+  { icon: '🎭', judul: 'Kreativitas', judulEn: 'Creativity', deskripsi: 'Mendorong siswa berpikir kreatif dalam menciptakan karakter, alur cerita, dan pertunjukan yang memukau.', deskripsiEn: 'Encouraging students to think creatively in crafting characters, storylines, and captivating performances.' },
+  { icon: '🎤', judul: 'Percaya Diri', judulEn: 'Confidence', deskripsi: 'Lewat latihan dialog dan akting, siswa belajar berkomunikasi efektif dan menaklukkan rasa gugup di depan publik.', deskripsiEn: 'Through dialogue and acting practice, students learn to communicate effectively and overcome stage fright.' },
+  { icon: '🌟', judul: 'Apresiasi Seni', judulEn: 'Art Appreciation', deskripsi: 'Memahami setiap aspek produksi panggung dan berkolaborasi lintas peran kreatif.', deskripsiEn: 'Understanding every aspect of stage production and collaborating across creative roles.' },
 ];
 
 const SCENE = [
-  { no: '01', nama: 'Latihan Akting', detail: 'Ekspresi wajah, gestur tubuh, dan intonasi suara.' },
-  { no: '02', nama: 'Pembacaan Naskah', detail: 'Membedah karakter dan membangun interpretasi peran.' },
-  { no: '03', nama: 'Improvisasi', detail: 'Berpikir cepat dan kreatif dalam situasi tak terduga.' },
-  { no: '04', nama: 'Produksi Pentas', detail: 'Blocking, tata panggung, kostum, hingga hari-H.' },
-  { no: '05', nama: 'Kerja Kolaboratif', detail: 'Sutradara, penulis naskah, dan kru teknis satu napas.' },
-  { no: '06', nama: 'Workshop', detail: 'Menimba ilmu langsung dari praktisi teater.' },
+  { no: '01', nama: 'Latihan Akting', namaEn: 'Acting Practice', detail: 'Ekspresi wajah, gestur tubuh, dan intonasi suara.', detailEn: 'Facial expression, body gestures, and vocal intonation.' },
+  { no: '02', nama: 'Pembacaan Naskah', namaEn: 'Script Reading', detail: 'Membedah karakter dan membangun interpretasi peran.', detailEn: 'Breaking down characters and building role interpretation.' },
+  { no: '03', nama: 'Improvisasi', namaEn: 'Improvisation', detail: 'Berpikir cepat dan kreatif dalam situasi tak terduga.', detailEn: 'Thinking quickly and creatively in unexpected situations.' },
+  { no: '04', nama: 'Produksi Pentas', namaEn: 'Stage Production', detail: 'Blocking, tata panggung, kostum, hingga hari-H.', detailEn: 'Blocking, set design, and costumes, all the way to opening night.' },
+  { no: '05', nama: 'Kerja Kolaboratif', namaEn: 'Collaboration', detail: 'Sutradara, penulis naskah, dan kru teknis satu napas.', detailEn: 'Directors, scriptwriters, and technical crew working as one.' },
+  { no: '06', nama: 'Workshop', namaEn: 'Workshops', detail: 'Menimba ilmu langsung dari praktisi teater.', detailEn: 'Learning directly from theater practitioners.' },
 ];
 
 const MARQUEE = ['NOW PLAYING', 'TEATER SMK CITRA NEGARA', 'ACT I · SCENE I', 'BEHIND THE CURTAIN', 'STANDING OVATION', 'ENCORE!'];
+const MARQUEE_EN = ['NOW PLAYING', 'SMK CITRA NEGARA THEATER', 'ACT I · SCENE I', 'BEHIND THE CURTAIN', 'STANDING OVATION', 'ENCORE!'];
 
 const EMOSI = [
-  { face: '😄', label: 'SENANG', warna: '#F5A524', quote: '“Tawa penonton adalah upah termahal buat pemain di atas panggung.”' },
-  { face: '😠', label: 'MARAH', warna: '#E4572E', quote: '“Amarah yang jujur di panggung lahir dari latihan mengenal emosi sendiri.”' },
-  { face: '😢', label: 'SEDIH', warna: '#4F86C6', quote: '“Air mata yang meyakinkan butuh keberanian untuk benar-benar merasakannya.”' },
-  { face: '😨', label: 'TAKUT', warna: '#7C5CFF', quote: '“Rasa gugup itu wajar — kami ubah jadi energi begitu lampu menyala.”' },
-  { face: '😲', label: 'TERKEJUT', warna: '#2EC4B6', quote: '“Momen kejut yang pas bikin cerita hidup dan penonton terpaku.”' },
+  { face: '😄', label: 'SENANG', labelEn: 'HAPPY', warna: '#F5A524', quote: '“Tawa penonton adalah upah termahal buat pemain di atas panggung.”', quoteEn: '“The audience’s laughter is the most precious reward for a performer on stage.”' },
+  { face: '😠', label: 'MARAH', labelEn: 'ANGRY', warna: '#E4572E', quote: '“Amarah yang jujur di panggung lahir dari latihan mengenal emosi sendiri.”', quoteEn: '“Honest anger on stage comes from practicing to understand your own emotions.”' },
+  { face: '😢', label: 'SEDIH', labelEn: 'SAD', warna: '#4F86C6', quote: '“Air mata yang meyakinkan butuh keberanian untuk benar-benar merasakannya.”', quoteEn: '“Convincing tears take the courage to truly feel them.”' },
+  { face: '😨', label: 'TAKUT', labelEn: 'SCARED', warna: '#7C5CFF', quote: '“Rasa gugup itu wajar — kami ubah jadi energi begitu lampu menyala.”', quoteEn: '“Nerves are natural — we turn them into energy the moment the lights come on.”' },
+  { face: '😲', label: 'TERKEJUT', labelEn: 'SURPRISED', warna: '#2EC4B6', quote: '“Momen kejut yang pas bikin cerita hidup dan penonton terpaku.”', quoteEn: '“A well-timed surprise brings the story to life and keeps the audience spellbound.”' },
 ];
 
 export default function TheaterPage() {
@@ -46,6 +48,7 @@ export default function TheaterPage() {
   const [claps, setClaps] = useState<{ id: number; x: number }[]>([]);
   const [clapCount, setClapCount] = useState(0);
   const clapId = useRef(0);
+  const { t } = useLang();
 
   useEffect(() => {
     const items = document.querySelectorAll('.thr-reveal');
@@ -297,10 +300,10 @@ export default function TheaterPage() {
         </div>
         <div className={`thr-act ${actGone ? 'gone' : ''}`} aria-hidden="true"><span>Act I</span></div>
 
-        <button className={`thr-music ${playing ? 'playing' : ''}`} onClick={toggleMusic} aria-label={playing ? 'Matikan musik' : 'Putar musik teater'}>
+        <button className={`thr-music ${playing ? 'playing' : ''}`} onClick={toggleMusic} aria-label={playing ? t('Matikan musik', 'Turn off music') : t('Putar musik teater', 'Play theater music')}>
           <div className="thr-music-icon">{playing ? '❚❚' : '▶'}</div>
           <div className="thr-eq"><i /><i /><i /><i /></div>
-          <span>{playing ? 'Panggung Hidup' : 'Nyalakan Suasana'}</span>
+          <span>{playing ? t('Panggung Hidup', 'Stage Is Live') : t('Nyalakan Suasana', 'Set the Mood')}</span>
         </button>
 
         <main>
@@ -318,7 +321,7 @@ export default function TheaterPage() {
               <div className="thr-hero-vig" />
             </div>
             <div className="thr-hero-content">
-              <div className="thr-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+              <div className="thr-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
               <h1 className="thr-title">
                 {'THE'.split('').map((ch, i) => <span key={i} className="thr-l" style={{ animationDelay: `${2.3 + i * 0.06}s` }}>{ch}</span>)}
                 <span>
@@ -326,8 +329,7 @@ export default function TheaterPage() {
                 </span>
               </h1>
               <p className="thr-subtitle">
-                Dari akting sampai produksi panggung — kami membentuk seniman muda yang berani, ekspresif, dan percaya diri.
-                Geser kursor di panggung: cari sorot lampunya. ✦
+                {t('Dari akting sampai produksi panggung — kami membentuk seniman muda yang berani, ekspresif, dan percaya diri. Geser kursor di panggung: cari sorot lampunya. ✦', 'From acting to stage production — we shape young artists who are bold, expressive, and confident. Move your cursor over the stage: find the spotlight. ✦')}
               </p>
             </div>
           </section>
@@ -335,7 +337,7 @@ export default function TheaterPage() {
           {/* MARQUEE */}
           <div className="thr-marquee" aria-hidden="true">
             <div className="thr-marquee-track">
-              {[...MARQUEE, ...MARQUEE].map((m, i) => <span key={i}>{m}</span>)}
+              {[...t(MARQUEE, MARQUEE_EN), ...t(MARQUEE, MARQUEE_EN)].map((m, i) => <span key={i}>{m}</span>)}
             </div>
           </div>
 
@@ -344,36 +346,36 @@ export default function TheaterPage() {
             {STATS.map((s, i) => (
               <div key={s.label} className={`thr-ticket thr-reveal thr-d${(i % 3) + 1}`}>
                 <div className="thr-ticket-num">{s.angka}</div>
-                <div className="thr-ticket-label">{s.label}</div>
+                <div className="thr-ticket-label">{t(s.label, s.labelEn)}</div>
               </div>
             ))}
           </div>
 
           {/* EMOSI DASAR */}
           <section className="thr-section">
-            <div className="thr-label thr-reveal">Bahasa Panggung</div>
-            <h2 className="thr-heading thr-reveal">Lima Emosi Dasar</h2>
+            <div className="thr-label thr-reveal">{t('Bahasa Panggung', 'Language of the Stage')}</div>
+            <h2 className="thr-heading thr-reveal">{t('Lima Emosi Dasar', 'Five Basic Emotions')}</h2>
             <div className="thr-mask-wrap">
               <button
                 key={emo}
                 className="thr-face"
                 style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), ${EMOSI[emo].warna})` }}
                 onClick={() => setEmo((e) => (e + 1) % EMOSI.length)}
-                aria-label={`Emosi: ${EMOSI[emo].label}. Ketuk untuk ganti`}
+                aria-label={t(`Emosi: ${EMOSI[emo].label}. Ketuk untuk ganti`, `Emotion: ${EMOSI[emo].labelEn}. Tap to change`)}
               >
                 {EMOSI[emo].face}
               </button>
               <div className="thr-reveal">
                 <span className="thr-mood-tag" style={{ background: EMOSI[emo].warna }}>
-                  {EMOSI[emo].face} {EMOSI[emo].label}
+                  {EMOSI[emo].face} {t(EMOSI[emo].label, EMOSI[emo].labelEn)}
                 </span>
-                <p className="thr-mood-quote">{EMOSI[emo].quote}</p>
+                <p className="thr-mood-quote">{t(EMOSI[emo].quote, EMOSI[emo].quoteEn)}</p>
                 <div className="thr-emo-dots" aria-hidden="true">
                   {EMOSI.map((_, i) => (
                     <span key={i} className={i === emo ? 'on' : ''} />
                   ))}
                 </div>
-                <span className="thr-mood-hint">— ketuk wajahnya untuk mengganti emosi —</span>
+                <span className="thr-mood-hint">{t('— ketuk wajahnya untuk mengganti emosi —', '— tap the face to change the emotion —')}</span>
               </div>
             </div>
           </section>
@@ -382,12 +384,12 @@ export default function TheaterPage() {
 
           {/* TUJUAN */}
           <section className="thr-section" style={{ paddingTop: 'clamp(36px,5vw,60px)' }}>
-            <div className="thr-label thr-reveal">Mengapa Teater</div>
-            <h2 className="thr-heading thr-reveal">Yang Kami Latih</h2>
+            <div className="thr-label thr-reveal">{t('Mengapa Teater', 'Why Theater')}</div>
+            <h2 className="thr-heading thr-reveal">{t('Yang Kami Latih', 'What We Train')}</h2>
             <div className="thr-tujuan-grid">
-              {TUJUAN.map((t, i) => (
+              {TUJUAN.map((tj, i) => (
                 <article
-                  key={t.judul}
+                  key={tj.judul}
                   className={`thr-tcard thr-reveal thr-d${i + 1}`}
                   onMouseMove={(e) => {
                     const r = e.currentTarget.getBoundingClientRect();
@@ -395,9 +397,9 @@ export default function TheaterPage() {
                     e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
                   }}
                 >
-                  <span className="thr-tcard-icon">{t.icon}</span>
-                  <div className="thr-tcard-title">{t.judul}</div>
-                  <p className="thr-tcard-desc">{t.deskripsi}</p>
+                  <span className="thr-tcard-icon">{tj.icon}</span>
+                  <div className="thr-tcard-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="thr-tcard-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </article>
               ))}
             </div>
@@ -405,8 +407,8 @@ export default function TheaterPage() {
 
           {/* SCENE RUNDOWN */}
           <section className="thr-section" style={{ paddingTop: 'clamp(36px,5vw,60px)' }}>
-            <div className="thr-label thr-reveal">Rundown Latihan</div>
-            <h2 className="thr-heading thr-reveal">Adegan Demi Adegan</h2>
+            <div className="thr-label thr-reveal">{t('Rundown Latihan', 'Rehearsal Rundown')}</div>
+            <h2 className="thr-heading thr-reveal">{t('Adegan Demi Adegan', 'Scene by Scene')}</h2>
             <div className="thr-scene-grid">
               {SCENE.map((k, i) => (
                 <div
@@ -420,8 +422,8 @@ export default function TheaterPage() {
                 >
                   <div className="thr-scene-clap" aria-hidden="true"><i /><b /></div>
                   <div>
-                    <div className="thr-scene-nama">{k.nama}</div>
-                    <div className="thr-scene-detail">{k.detail}</div>
+                    <div className="thr-scene-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="thr-scene-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                   <span className="thr-scene-no">SC {k.no}</span>
                 </div>
@@ -431,10 +433,10 @@ export default function TheaterPage() {
 
           {/* APPLAUSE CTA */}
           <section className="thr-cta">
-            <h2>Layak Dapat Standing Ovation</h2>
-            <p>Setiap pementasan lahir dari latihan berbulan-bulan. Beri tepuk tangan buat mereka!</p>
-            <button className="thr-clap-btn" onClick={applause}>👏 Beri Tepuk Tangan</button>
-            <span className="thr-clap-count">{clapCount > 0 ? `${clapCount} tepuk tangan` : 'jadilah yang pertama'}</span>
+            <h2>{t('Layak Dapat Standing Ovation', 'They Deserve a Standing Ovation')}</h2>
+            <p>{t('Setiap pementasan lahir dari latihan berbulan-bulan. Beri tepuk tangan buat mereka!', 'Every performance comes from months of rehearsal. Give them a round of applause!')}</p>
+            <button className="thr-clap-btn" onClick={applause}>{t('👏 Beri Tepuk Tangan', '👏 Give Applause')}</button>
+            <span className="thr-clap-count">{clapCount > 0 ? t(`${clapCount} tepuk tangan`, `${clapCount} applause`) : t('jadilah yang pertama', 'be the first')}</span>
             {claps.map((c) => (
               <span key={c.id} className="thr-clap-fly" style={{ left: `${c.x}%` }}>👏</span>
             ))}

@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 import {
   Shield,
   Dumbbell,
@@ -18,78 +19,79 @@ import {
 } from 'lucide-react';
 
 const STATS = [
-  { angka: '2009', label: 'Tahun Berdiri' },
-  { angka: '40+', label: 'Anggota Aktif' },
-  { angka: '22', label: 'Prestasi Diraih' },
-  { angka: '100%', label: 'Dedikasi' },
+  { angka: '2009', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '40+', label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '22', label: 'Prestasi Diraih', labelEn: 'Achievements' },
+  { angka: '100%', label: 'Dedikasi', labelEn: 'Dedication' },
 ];
 
 const TUJUAN = [
   {
     icon: Dumbbell,
     nomor: '01',
-    judul: 'Bela Diri & Kebugaran',
+    judul: 'Bela Diri & Kebugaran', judulEn: 'Self-Defense & Fitness',
     deskripsi:
-      'Gerakan silat yang dinamis melatih kekuatan, kelenturan, kecepatan, dan daya tahan sekaligus membekali kemampuan bela diri.',
+      'Gerakan silat yang dinamis melatih kekuatan, kelenturan, kecepatan, dan daya tahan sekaligus membekali kemampuan bela diri.', deskripsiEn: 'Dynamic silat movements train strength, flexibility, speed, and endurance while building self-defense skills.',
   },
   {
     icon: Shield,
     nomor: '02',
-    judul: 'Pelestarian Budaya',
+    judul: 'Pelestarian Budaya', judulEn: 'Preserving Culture',
     deskripsi:
-      'Menumbuhkan rasa cinta dan bangga terhadap seni bela diri asli Indonesia di tengah perkembangan zaman.',
+      'Menumbuhkan rasa cinta dan bangga terhadap seni bela diri asli Indonesia di tengah perkembangan zaman.', deskripsiEn: 'Growing love and pride for Indonesia’s native martial art amid changing times.',
   },
   {
     icon: Swords,
     nomor: '03',
-    judul: 'Karakter Pendekar',
+    judul: 'Karakter Pendekar', judulEn: 'A Warrior’s Character',
     deskripsi:
-      'Menanamkan keberanian, kedisiplinan, kejujuran, kerendahan hati, dan pengendalian diri sebagai karakter siswa.',
+      'Menanamkan keberanian, kedisiplinan, kejujuran, kerendahan hati, dan pengendalian diri sebagai karakter siswa.', deskripsiEn: 'Instilling courage, discipline, honesty, humility, and self-control as part of students’ character.',
   },
 ];
 
 const KEGIATAN = [
   {
     no: '01',
-    nama: 'Latihan Teknik Dasar',
+    nama: 'Latihan Teknik Dasar', namaEn: 'Basic Technique Training',
     detail:
-      'Sikap pasang, kuda-kuda, pukulan, tendangan, dan teknik dasar lainnya.',
+      'Sikap pasang, kuda-kuda, pukulan, tendangan, dan teknik dasar lainnya.', detailEn: 'Guard stances, horse stances, punches, kicks, and other basic techniques.',
   },
   {
     no: '02',
-    nama: 'Kategori Tanding',
+    nama: 'Kategori Tanding', namaEn: 'Fighting Category',
     detail:
-      'Strategi serangan, pertahanan, dan penerapan aturan pertandingan.',
+      'Strategi serangan, pertahanan, dan penerapan aturan pertandingan.', detailEn: 'Attack and defense strategies, and applying competition rules.',
   },
   {
     no: '03',
-    nama: 'Kategori Seni',
+    nama: 'Kategori Seni', namaEn: 'Artistic Category',
     detail:
-      'Jurus Tunggal, Ganda, dan Regu dengan teknik serta ekspresi gerak.',
+      'Jurus Tunggal, Ganda, dan Regu dengan teknik serta ekspresi gerak.', detailEn: 'Solo, Duo, and Team forms (jurus) with technique and expressive movement.',
   },
   {
     no: '04',
-    nama: 'Latihan Fisik & Napas',
+    nama: 'Latihan Fisik & Napas', namaEn: 'Conditioning & Breathing',
     detail:
-      'Meningkatkan stamina, keseimbangan, konsentrasi, dan olah napas.',
+      'Meningkatkan stamina, keseimbangan, konsentrasi, dan olah napas.', detailEn: 'Improving stamina, balance, concentration, and breath control.',
   },
   {
     no: '05',
-    nama: 'Uji Tanding',
+    nama: 'Uji Tanding', namaEn: 'Sparring Tests',
     detail:
-      'Simulasi pertandingan internal dan latihan tanding secara terarah.',
+      'Simulasi pertandingan internal dan latihan tanding secara terarah.', detailEn: 'Internal match simulations and guided sparring practice.',
   },
   {
     no: '06',
-    nama: 'Kejuaraan',
+    nama: 'Kejuaraan', namaEn: 'Championships',
     detail:
-      'Mempersiapkan anggota untuk mengikuti berbagai kompetisi pelajar.',
+      'Mempersiapkan anggota untuk mengikuti berbagai kompetisi pelajar.', detailEn: 'Preparing members to compete in various student competitions.',
   },
 ];
 
 export default function SilatPage() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
+  const { t } = useLang();
   const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1762,7 +1764,7 @@ export default function SilatPage() {
             <div className="slt-hero-content">
 
               <div className="slt-eyebrow">
-                Ekstrakurikuler SMK Citra Negara
+                {t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}
               </div>
 
               <h1 className="slt-title">
@@ -1770,11 +1772,7 @@ export default function SilatPage() {
               </h1>
 
               <p className="slt-subtitle">
-                Pencak Silat adalah seni bela diri asli Indonesia
-                yang menjadi bagian dari warisan budaya bangsa.
-                Melalui latihan, kedisiplinan, dan kebersamaan,
-                kami membentuk siswa yang tangguh, berani,
-                dan berkarakter.
+                {t('Pencak Silat adalah seni bela diri asli Indonesia yang menjadi bagian dari warisan budaya bangsa. Melalui latihan, kedisiplinan, dan kebersamaan, kami membentuk siswa yang tangguh, berani, dan berkarakter.', 'Pencak Silat is Indonesia’s native martial art and part of the nation’s cultural heritage. Through training, discipline, and togetherness, we shape students who are tough, brave, and of strong character.')}
               </p>
 
             </div>
@@ -1810,7 +1808,7 @@ export default function SilatPage() {
                 </div>
 
                 <div className="slt-stat-label">
-                  {s.label}
+                  {t(s.label, s.labelEn)}
                 </div>
 
               </div>
@@ -1826,23 +1824,23 @@ export default function SilatPage() {
           <section className="slt-section">
 
             <div className="slt-section-label">
-              Mengapa Pencak Silat
+              {t('Mengapa Pencak Silat', 'Why Pencak Silat')}
             </div>
 
             <h2 className="slt-section-heading">
-              TUJUAN KAMI
+              {t('TUJUAN KAMI', 'OUR GOALS')}
             </h2>
 
             <div className="slt-tujuan-grid">
 
-              {TUJUAN.map((t, index) => {
+              {TUJUAN.map((tj, index) => {
 
-                const Icon = t.icon;
+                const Icon = tj.icon;
 
                 return (
 
                   <div
-                    key={t.judul}
+                    key={tj.judul}
                     className={`slt-tujuan-card ${
                       activeCard === index
                         ? 'active'
@@ -1864,7 +1862,7 @@ export default function SilatPage() {
                   >
 
                     <div className="slt-tujuan-number">
-                      {t.nomor}
+                      {tj.nomor}
                     </div>
 
                     <div className="slt-tujuan-icon-wrap">
@@ -1875,11 +1873,11 @@ export default function SilatPage() {
                     </div>
 
                     <div className="slt-tujuan-title">
-                      {t.judul}
+                      {t(tj.judul, tj.judulEn)}
                     </div>
 
                     <p className="slt-tujuan-desc">
-                      {t.deskripsi}
+                      {t(tj.deskripsi, tj.deskripsiEn)}
                     </p>
 
                   </div>
@@ -1916,11 +1914,11 @@ export default function SilatPage() {
           >
 
             <div className="slt-section-label">
-              Program Latihan
+              {t('Program Latihan', 'Training Program')}
             </div>
 
             <h2 className="slt-section-heading">
-              KEGIATAN RUTIN
+              {t('KEGIATAN RUTIN', 'REGULAR ACTIVITIES')}
             </h2>
 
             <div className="slt-kegiatan-grid">
@@ -1940,7 +1938,7 @@ export default function SilatPage() {
 
                     <div className="slt-kegiatan-nama">
 
-                      {k.nama}
+                      {t(k.nama, k.namaEn)}
 
                       <ChevronRight
                         className="slt-arrow"
@@ -1950,7 +1948,7 @@ export default function SilatPage() {
                     </div>
 
                     <div className="slt-kegiatan-detail">
-                      {k.detail}
+                      {t(k.detail, k.detailEn)}
                     </div>
 
                   </div>
@@ -1978,20 +1976,17 @@ export default function SilatPage() {
 
               <div className="slt-cta-top">
                 <Target size={15} />
-                Semangat Pendekar
+                {t('Semangat Pendekar', 'Warrior Spirit')}
               </div>
 
               <h2 className="slt-cta-title">
-                DISIPLIN. BERANI.
+                {t('DISIPLIN. BERANI.', 'DISCIPLINED. BRAVE.')}
                 <br />
-                BERKARAKTER.
+                {t('BERKARAKTER.', 'STRONG IN CHARACTER.')}
               </h2>
 
               <p className="slt-cta-text">
-                Bukan hanya tentang memenangkan pertandingan.
-                Pencak silat mengajarkan bagaimana mengendalikan
-                diri, menghargai lawan, dan terus berkembang
-                menjadi pribadi yang lebih baik.
+                {t('Bukan hanya tentang memenangkan pertandingan. Pencak silat mengajarkan bagaimana mengendalikan diri, menghargai lawan, dan terus berkembang menjadi pribadi yang lebih baik.', 'It’s not just about winning matches. Pencak silat teaches self-control, respect for opponents, and continuous growth into a better person.')}
               </p>
 
             </div>

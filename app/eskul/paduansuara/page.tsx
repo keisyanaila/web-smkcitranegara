@@ -5,45 +5,47 @@ import Footer from '@/components/layout/Footersmk';
 import EskulFX from '@/components/EskulFX';
 import EskulMusic from '@/components/EskulMusic';
 import Image from 'next/image';
+import { useLang } from '@/lib/i18n';
 
 const STATS = [
-  { angka: '2010', label: 'Tahun Berdiri' },
-  { angka: '40+',  label: 'Anggota Aktif' },
-  { angka: '4',    label: 'Jenis Suara (SATB)' },
-  { angka: '100%', label: 'Harmoni' },
+  { angka: '2010', label: 'Tahun Berdiri', labelEn: 'Year Founded' },
+  { angka: '40+',  label: 'Anggota Aktif', labelEn: 'Active Members' },
+  { angka: '4',    label: 'Jenis Suara (SATB)', labelEn: 'Voice Parts (SATB)' },
+  { angka: '100%', label: 'Harmoni', labelEn: 'Harmony' },
 ];
 
 const TUJUAN = [
   {
     icon: '🎼',
-    judul: 'Musikalitas & Vokal',
+    judul: 'Musikalitas & Vokal', judulEn: 'Musicality & Vocals',
     deskripsi:
-      'Melatih teknik pernapasan, artikulasi, intonasi, dan pembacaan notasi agar setiap anggota mampu bernyanyi dengan tepat dan ekspresif.',
+      'Melatih teknik pernapasan, artikulasi, intonasi, dan pembacaan notasi agar setiap anggota mampu bernyanyi dengan tepat dan ekspresif.', deskripsiEn: 'Training breathing technique, articulation, intonation, and sight-reading so every member can sing accurately and expressively.',
   },
   {
     icon: '🤝',
-    judul: 'Kekompakan & Harmoni',
+    judul: 'Kekompakan & Harmoni', judulEn: 'Unity & Harmony',
     deskripsi:
-      'Paduan suara adalah kerja bersama — belajar mendengarkan, menyatukan suara, dan menjaga keseimbangan antar kelompok suara.',
+      'Paduan suara adalah kerja bersama — belajar mendengarkan, menyatukan suara, dan menjaga keseimbangan antar kelompok suara.', deskripsiEn: 'A choir is teamwork — learning to listen, blend voices, and keep balance between voice sections.',
   },
   {
     icon: '✨',
-    judul: 'Percaya Diri di Panggung',
+    judul: 'Percaya Diri di Panggung', judulEn: 'Stage Confidence',
     deskripsi:
-      'Melalui latihan rutin dan pementasan, siswa terbiasa tampil di depan publik dengan sikap tenang dan penuh percaya diri.',
+      'Melalui latihan rutin dan pementasan, siswa terbiasa tampil di depan publik dengan sikap tenang dan penuh percaya diri.', deskripsiEn: 'Through regular rehearsals and performances, students get used to performing in public calmly and confidently.',
   },
 ];
 
 const KEGIATAN = [
-  { no: '01', nama: 'Pemanasan Vokal', detail: 'Latihan napas, resonansi, dan pelemasan pita suara.' },
-  { no: '02', nama: 'Latihan Seksional', detail: 'Sopran, Alto, Tenor, Bass berlatih part masing-masing.' },
-  { no: '03', nama: 'Latihan Gabungan', detail: 'Menyatukan seluruh suara, dinamika, dan frasering.' },
-  { no: '04', nama: 'Pembacaan Partitur', detail: 'Solmisasi, ritme, dan interpretasi lagu baru.' },
-  { no: '05', nama: 'Gladi & Pementasan', detail: 'Upacara, wisuda, lomba, dan konser sekolah.' },
-  { no: '06', nama: 'Workshop Vokal', detail: 'Kelas bersama pelatih paduan suara profesional.' },
+  { no: '01', nama: 'Pemanasan Vokal', namaEn: 'Vocal Warm-up', detail: 'Latihan napas, resonansi, dan pelemasan pita suara.', detailEn: 'Breathing, resonance, and vocal cord relaxation exercises.' },
+  { no: '02', nama: 'Latihan Seksional', namaEn: 'Sectional Rehearsals', detail: 'Sopran, Alto, Tenor, Bass berlatih part masing-masing.', detailEn: 'Sopranos, altos, tenors, and basses rehearse their own parts.' },
+  { no: '03', nama: 'Latihan Gabungan', namaEn: 'Full Rehearsals', detail: 'Menyatukan seluruh suara, dinamika, dan frasering.', detailEn: 'Bringing all voices together, with dynamics and phrasing.' },
+  { no: '04', nama: 'Pembacaan Partitur', namaEn: 'Score Reading', detail: 'Solmisasi, ritme, dan interpretasi lagu baru.', detailEn: 'Solfège, rhythm, and interpreting new songs.' },
+  { no: '05', nama: 'Gladi & Pementasan', namaEn: 'Dress Rehearsals & Performances', detail: 'Upacara, wisuda, lomba, dan konser sekolah.', detailEn: 'Ceremonies, graduations, competitions, and school concerts.' },
+  { no: '06', nama: 'Workshop Vokal', namaEn: 'Vocal Workshops', detail: 'Kelas bersama pelatih paduan suara profesional.', detailEn: 'Classes with professional choir coaches.' },
 ];
 
 const SUARA = ['Sopran', 'Alto', 'Tenor', 'Bass'];
+const SUARA_EN = ['Soprano', 'Alto', 'Tenor', 'Bass'];
 
 /* ── glyph not balok, motif berulang ── */
 function Note({ size = 56, className = '' }: { size?: number; className?: string }) {
@@ -121,6 +123,7 @@ function Reveal({ children, delay = 0, className = '' }: { children: React.React
 export default function PaduanSuaraPage() {
   const [statsRef, statsInView] = useInView<HTMLDivElement>(0.4);
   const [sing, setSing] = useState(false);
+  const { t } = useLang();
 
   const doSing = () => {
     setSing(true);
@@ -337,9 +340,9 @@ export default function PaduanSuaraPage() {
             </div>
             <div className="psu-hero-content">
               <div className="psu-hero-text">
-                <div className="psu-eyebrow">Ekstrakurikuler SMK Citra Negara</div>
+                <div className="psu-eyebrow">{t('Ekstrakurikuler SMK Citra Negara', 'SMK Citra Negara Extracurricular')}</div>
                 <h1 className="psu-title">
-                  {['PADUAN', 'SUARA'].map((word, wi) => (
+                  {t(['PADUAN', 'SUARA'], ['SCHOOL', 'CHOIR']).map((word, wi) => (
                     <span key={wi} className="psu-word">
                       {word.split('').map((ch, i) => (
                         <span
@@ -355,8 +358,7 @@ export default function PaduanSuaraPage() {
                   ))}
                 </h1>
                 <p className="psu-subtitle">
-                  Satu suara dari banyak hati. Ekstrakurikuler paduan suara melatih teknik vokal,
-                  kepekaan harmoni, dan keberanian tampil — menghadirkan lagu yang menyentuh di setiap panggung.
+                  {t('Satu suara dari banyak hati. Ekstrakurikuler paduan suara melatih teknik vokal, kepekaan harmoni, dan keberanian tampil — menghadirkan lagu yang menyentuh di setiap panggung.', 'One voice from many hearts. The choir trains vocal technique, a feel for harmony, and stage courage — bringing moving songs to every stage.')}
                 </p>
               </div>
               <div className="psu-eq-zone" aria-hidden="true">
@@ -370,26 +372,26 @@ export default function PaduanSuaraPage() {
           <div className="psu-scoreboard">
             <div className="psu-stats" ref={statsRef}>
               {STATS.map((s, i) => (
-                <StatCounter key={s.label} angka={s.angka} label={s.label} inView={statsInView} delay={i * 110} />
+                <StatCounter key={s.label} angka={s.angka} label={t(s.label, s.labelEn)} inView={statsInView} delay={i * 110} />
               ))}
             </div>
           </div>
 
           {/* Tujuan */}
           <section className="psu-section">
-            <Reveal><div className="psu-section-label">Mengapa Paduan Suara</div></Reveal>
-            <Reveal delay={60}><h2 className="psu-section-heading">Menyatukan Suara, Menyentuh Hati</h2></Reveal>
+            <Reveal><div className="psu-section-label">{t('Mengapa Paduan Suara', 'Why Choir')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psu-section-heading">{t('Menyatukan Suara, Menyentuh Hati', 'Uniting Voices, Touching Hearts')}</h2></Reveal>
             <Reveal delay={100}>
               <div className="psu-voices">
-                {SUARA.map((v) => <span key={v} className="psu-voice">{v}</span>)}
+                {t(SUARA, SUARA_EN).map((v) => <span key={v} className="psu-voice">{v}</span>)}
               </div>
             </Reveal>
             <div className="psu-grid-3">
-              {TUJUAN.map((t, i) => (
-                <Reveal key={t.judul} delay={i * 120} className="psu-card">
-                  <span className="psu-card-icon" aria-hidden="true">{t.icon}</span>
-                  <div className="psu-card-title">{t.judul}</div>
-                  <p className="psu-card-desc">{t.deskripsi}</p>
+              {TUJUAN.map((tj, i) => (
+                <Reveal key={tj.judul} delay={i * 120} className="psu-card">
+                  <span className="psu-card-icon" aria-hidden="true">{tj.icon}</span>
+                  <div className="psu-card-title">{t(tj.judul, tj.judulEn)}</div>
+                  <p className="psu-card-desc">{t(tj.deskripsi, tj.deskripsiEn)}</p>
                 </Reveal>
               ))}
             </div>
@@ -410,15 +412,15 @@ export default function PaduanSuaraPage() {
 
           {/* Kegiatan */}
           <section className="psu-section" style={{ paddingTop: 'clamp(40px, 5vw, 64px)' }}>
-            <Reveal><div className="psu-section-label">Jadwal Latihan</div></Reveal>
-            <Reveal delay={60}><h2 className="psu-section-heading">Kegiatan Rutin</h2></Reveal>
+            <Reveal><div className="psu-section-label">{t('Jadwal Latihan', 'Rehearsal Schedule')}</div></Reveal>
+            <Reveal delay={60}><h2 className="psu-section-heading">{t('Kegiatan Rutin', 'Regular Activities')}</h2></Reveal>
             <div className="psu-keg-grid">
               {KEGIATAN.map((k, i) => (
                 <Reveal key={k.no} delay={i * 80} className="psu-keg-item">
                   <div className="psu-keg-no">{k.no}</div>
                   <div>
-                    <div className="psu-keg-nama">{k.nama}</div>
-                    <div className="psu-keg-detail">{k.detail}</div>
+                    <div className="psu-keg-nama">{t(k.nama, k.namaEn)}</div>
+                    <div className="psu-keg-detail">{t(k.detail, k.detailEn)}</div>
                   </div>
                 </Reveal>
               ))}
@@ -427,18 +429,17 @@ export default function PaduanSuaraPage() {
 
           {/* Join */}
           <section className="psu-join">
-            <div className="psu-section-label" style={{ display: 'inline-block' }}>Gabung Yuk</div>
-            <h2 className="psu-join-heading">Punya suara? <span>Bawa ke sini.</span></h2>
+            <div className="psu-section-label" style={{ display: 'inline-block' }}>{t('Gabung Yuk', 'Join Us')}</div>
+            <h2 className="psu-join-heading">{t('Punya suara?', 'Got a voice?')} <span>{t('Bawa ke sini.', 'Bring it here.')}</span></h2>
             <p className="psu-join-copy">
-              Nggak perlu bisa baca not balok dari awal — semua diajarkan bertahap. Hubungi pembina
-              ekstrakurikuler paduan suara di sekolah untuk ikut audisi ringan.
+              {t('Nggak perlu bisa baca not balok dari awal — semua diajarkan bertahap. Hubungi pembina ekstrakurikuler paduan suara di sekolah untuk ikut audisi ringan.', 'You don’t need to read sheet music to start — everything is taught step by step. Contact the choir advisor at school for a casual audition.')}
             </p>
-            <button type="button" className={`psu-join-motif${sing ? ' sing' : ''}`} onClick={doSing} aria-label="Coba bernyanyi">
+            <button type="button" className={`psu-join-motif${sing ? ' sing' : ''}`} onClick={doSing} aria-label={t('Coba bernyanyi', 'Try singing')}>
               <Note size={22} className="psu-join-note n1" />
               <Note size={18} className="psu-join-note n2" />
               <Note size={20} className="psu-join-note n3" />
               <span className="psu-join-bars"><i /><i /><i /><i /><i /></span>
-              <span className="psu-join-hint">ketuk buat bernyanyi</span>
+              <span className="psu-join-hint">{t('ketuk buat bernyanyi', 'tap to sing')}</span>
             </button>
           </section>
         </main>

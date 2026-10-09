@@ -7,7 +7,7 @@ const env = readFileSync(new URL('../.env.local', import.meta.url), 'utf8');
 const m = env.match(/^DATABASE_URL\s*=\s*"?([^"\n]+)"?/m);
 if (!m) { console.error('DATABASE_URL tidak ditemukan di .env.local'); process.exit(1); }
 
-const sql = neon(m[1]);
+const sql = neon(m[1].trim());
 
 const raw = readFileSync(new URL('./seed-prestasi.sql', import.meta.url), 'utf8');
 // buang baris komentar, sisakan statement SQL

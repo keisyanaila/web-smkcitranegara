@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { CheckCircle2, ArrowLeft, Briefcase } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
+import { SPMB_URL } from '@/lib/spmb';
 
 const NAVY = '#0A1628';
 const GOLD = '#C8973A';
@@ -394,7 +395,7 @@ export default function PplgPage() {
               </p>
 
               <Link
-                href="/spmb"
+                href={SPMB_URL}
                 style={{
                   display: 'inline-block',
                   background: GOLD,

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { Search, X, Users } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { JABATAN_EN } from '@/lib/jabatan';
 
 /* ══════════════════════════════════════════
    DATA STAF
@@ -75,6 +77,17 @@ const WARNA_KATEGORI: Record<string, string> = {
 
 const KATEGORI_LIST = ['Semua', ...Array.from(new Set(STAF.map(s => s.kategori)))];
 
+const KATEGORI_EN: Record<string, string> = {
+  Semua: 'All',
+  Pimpinan: 'Leadership',
+  Kurikulum: 'Curriculum',
+  Humas: 'Public Relations',
+  Kesiswaan: 'Student Affairs',
+  IT: 'IT',
+  Keuangan: 'Finance',
+  'Tata Usaha': 'Administration',
+};
+
 function getInisial(nama: string) {
   const kata = nama.split(' ').filter(w => w.length > 1 && !w.includes('.'));
   const dipakai = kata.length >= 2 ? kata.slice(0, 2) : nama.split(' ').slice(0, 2);
@@ -85,6 +98,7 @@ function StafCard({ staf }: { staf: Staf }) {
   const warna = WARNA_KATEGORI[staf.kategori] ?? '#C8973A';
   const [gagalMuat, setGagalMuat] = useState(false);
   const tampilkanFoto = !!staf.foto && !gagalMuat;
+  const { t } = useLang();
 
   return (
     <div className="staf-card" style={{ ['--aksen' as string]: warna }}>
@@ -104,8 +118,8 @@ function StafCard({ staf }: { staf: Staf }) {
         <div className="staf-avatar-ring" />
       </div>
       <div className="staf-nama">{staf.nama}</div>
-      <div className="staf-jabatan">{staf.jabatan}</div>
-      <div className="staf-kategori-pill">{staf.kategori}</div>
+      <div className="staf-jabatan">{t(staf.jabatan, JABATAN_EN[staf.jabatan] ?? staf.jabatan)}</div>
+      <div className="staf-kategori-pill">{t(staf.kategori, KATEGORI_EN[staf.kategori] ?? staf.kategori)}</div>
     </div>
   );
 }
@@ -116,6 +130,8 @@ function StafCard({ staf }: { staf: Staf }) {
 export default function StafPage() {
   const [kategoriAktif, setKategoriAktif] = useState('Semua');
   const [query, setQuery] = useState('');
+  const { t } = useLang();
+  const kat = (k: string) => t(k, KATEGORI_EN[k] ?? k);
 
   const hasil = useMemo(() => {
     return STAF.filter(s => {
@@ -133,9 +149,12 @@ export default function StafPage() {
         <section className="hero-gradient staf-hero">
           <div className="staf-hero-inner">
             <div className="staf-hero-icon"><Users size={22} color="#E8B84B" /></div>
-            <h1 className="font-display staf-hero-title">Tim & Staf Sekolah</h1>
+            <h1 className="font-display staf-hero-title">{t('Tim & Staf Sekolah', 'School Team & Staff')}</h1>
             <p className="staf-hero-desc">
-              Mengenal para pendidik dan tenaga kependidikan yang mendampingi perjalanan belajar siswa/i SMA Citra Negara.
+              {t(
+                'Mengenal para pendidik dan tenaga kependidikan yang mendampingi perjalanan belajar siswa/i SMK Citra Negara.',
+                'Meet the teachers and staff who support the learning journey of SMK Citra Negara students.',
+              )}
             </p>
           </div>
         </section>
@@ -151,7 +170,7 @@ export default function StafPage() {
                   className={`staf-chip ${kategoriAktif === k ? 'staf-chip-aktif' : ''}`}
                   onClick={() => setKategoriAktif(k)}
                 >
-                  {k}
+                  {kat(k)}
                 </button>
               ))}
             </div>
@@ -159,19 +178,19 @@ export default function StafPage() {
               <Search size={16} color="#9CA3AF" />
               <input
                 type="text"
-                placeholder="Cari nama staf..."
+                placeholder={t('Cari nama staf...', 'Search staff name...')}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
               />
               {query && (
-                <button type="button" aria-label="Bersihkan pencarian" onClick={() => setQuery('')} className="staf-search-clear">
+                <button type="button" aria-label={t('Bersihkan pencarian', 'Clear search')} onClick={() => setQuery('')} className="staf-search-clear">
                   <X size={15} color="#9CA3AF" />
                 </button>
               )}
             </div>
           </div>
           <div className="staf-count">
-            Menampilkan <strong>{hasil.length}</strong> dari {STAF.length} staf
+            {t('Menampilkan', 'Showing')} <strong>{hasil.length}</strong> {t('dari', 'of')} {STAF.length} {t('staf', 'staff')}
           </div>
         </section>
 
@@ -184,7 +203,10 @@ export default function StafPage() {
           ) : (
             <div className="staf-empty">
               <Users size={32} color="#D1CBBB" />
-              <p>Tidak ada staf dengan nama &ldquo;{query}&rdquo;{kategoriAktif !== 'Semua' ? ` di bidang ${kategoriAktif}` : ''}.</p>
+              <p>
+                {t('Tidak ada staf dengan nama', 'No staff found named')} &ldquo;{query}&rdquo;
+                {kategoriAktif !== 'Semua' ? t(` di bidang ${kategoriAktif}`, ` in ${kat(kategoriAktif)}`) : ''}.
+              </p>
             </div>
           )}
         </section>

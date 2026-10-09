@@ -3,13 +3,16 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Sumber tunggal jadwal SPMB. Dipakai di homepage (kartu Jadwal SPMB) dan
- * halaman /spmb. Ubah tanggal di sini saja — status (Selesai / Sedang
+ * Sumber tunggal jadwal SPMB. Dipakai di homepage (kartu Jadwal SPMB).
+ * Ubah tanggal di sini saja — status (Selesai / Sedang
  * Berlangsung / Akan Datang) dan gelombang yang di-highlight dihitung otomatis
  * dari tanggal hari ini.
  */
 
 export const TAHUN_AJARAN = '2027/2028';
+
+/** Situs pendaftaran SPMB (eksternal). Semua tombol "Daftar" mengarah ke sini. */
+export const SPMB_URL = 'https://spmb.citranegara.online/spmb';
 
 export const GELOMBANG = [
   { nama: 'Gelombang 1', mulai: '2026-09-01', selesai: '2026-12-01' },

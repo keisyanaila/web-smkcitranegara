@@ -536,6 +536,18 @@
     underlinePulse 2.8s ease-in-out 3.4s infinite;
 }
 
+/* Garis memanjang dari tengah ke lebar penuh (sebelumnya keyframe ini belum ada,
+   jadi garis bawah tidak pernah muncul). */
+@keyframes underlineGrow {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
 @keyframes underlinePulse {
   0%,
   100% {
@@ -821,3 +833,80 @@
   }
 }
 
+
+
+/* =========================================================
+   MODE RINGAN — HP / LAYAR SENTUH
+   Efek di bawah ini berat untuk GPU HP (blur besar yang dianimasikan,
+   blend mode, noise SVG, drop-shadow pada gambar bergerak, blur per huruf).
+   Di layar kecil / sentuh diganti versi ringan; tampilan tetap mirip.
+   ========================================================= */
+
+@media (max-width: 768px), (pointer: coarse) {
+  /* Aurora: gradien radial sudah lembut, jadi tak perlu blur & blend. Diam saja. */
+  .auroraA,
+  .auroraB,
+  .auroraC {
+    filter: none;
+    mix-blend-mode: normal;
+    animation: none;
+    opacity: 0.8;
+  }
+
+  .grain {
+    display: none;
+  }
+
+  .centerGlow {
+    filter: none;
+    animation: none;
+  }
+
+  /* Maskot: cukup animasi muncul, tanpa bayangan & tanpa melayang terus-menerus. */
+  .maskot,
+  .maskotBig {
+    filter: none;
+    animation-name: maskotPop;
+    animation-iteration-count: 1;
+  }
+  .maskot:nth-child(n),
+  .maskotBig {
+    animation-duration: 0.8s;
+  }
+
+  /* Huruf: tanpa blur & rotasi 3D, cukup naik + muncul. */
+  .letter {
+    filter: none;
+    transform: translateY(24px);
+    animation-name: letterRevealLite;
+    animation-duration: 0.7s;
+  }
+
+  .brandText {
+    text-shadow: 0 0 18px rgba(52, 211, 153, 0.35);
+  }
+
+  .underline {
+    box-shadow: 0 0 10px rgba(127, 227, 163, 0.6);
+    animation: underlineGrow 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards 2.25s;
+  }
+
+  .underlineGlow {
+    display: none;
+  }
+
+  .dots span {
+    box-shadow: none;
+  }
+}
+
+@keyframes letterRevealLite {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
