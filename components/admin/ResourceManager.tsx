@@ -322,7 +322,7 @@ export default function ResourceManager({
                               <input
                                 className="adm-input"
                                 style={{ flex: 2, minWidth: 0 }}
-                                placeholder="Nama siswa"
+                                placeholder="contoh : keisya naila azmika"
                                 value={p.nama}
                                 onChange={(e) => setPeople(people.map((x, j) => (j === i ? { ...x, nama: e.target.value } : x)))}
                               />

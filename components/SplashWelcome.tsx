@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./SplashWelcome.module.css";
 
 interface SplashWelcomeProps {
@@ -59,6 +59,20 @@ export default function SplashWelcome({
   const [hiding, setHiding] = useState(false);
   const [instant, setInstant] = useState(false);
   const [done, setDone] = useState(false);
+  // Cegah selesai dua kali (timer otomatis + klik "lewati").
+  const finishing = useRef(false);
+
+  /** Mulai fade-out lalu tutup splash. Dipakai timer otomatis maupun saat diklik. */
+  const finish = useCallback(() => {
+    if (finishing.current) return;
+    finishing.current = true;
+    if (SHOW_ONCE) sessionStorage.setItem(SPLASH_KEY, "true");
+    setHiding(true);
+    setTimeout(() => {
+      setDone(true);
+      onFinish?.();
+    }, fadeOutDuration);
+  }, [fadeOutDuration, onFinish]);
 
 useEffect(() => {
   // Sudah pernah tampil di page-load SEBELUMNYA (sesi ini) → skip, jangan animasi lagi.
@@ -74,21 +88,20 @@ useEffect(() => {
 
   splashStartedThisLoad = true;
 
-  const timer = setTimeout(() => {
-    // Baru tandai "sudah tampil" SETELAH splash benar-benar selesai diputar.
-    if (SHOW_ONCE) sessionStorage.setItem(SPLASH_KEY, "true");
-    setHiding(true);
+  // Baru tandai "sudah tampil" SETELAH splash selesai diputar (atau dilewati).
+  const timer = setTimeout(finish, duration);
 
-    const finishTimer = setTimeout(() => {
-      setDone(true);
-      onFinish?.();
-    }, fadeOutDuration);
+  // Enter / Spasi / Esc juga melewati splash.
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Escape") finish();
+  };
+  window.addEventListener("keydown", onKey);
 
-    return () => clearTimeout(finishTimer);
-  }, duration);
-
-  return () => clearTimeout(timer);
-}, [duration, fadeOutDuration, onFinish]);
+  return () => {
+    clearTimeout(timer);
+    window.removeEventListener("keydown", onKey);
+  };
+}, [duration, finish, onFinish]);
 
   const letters = useMemo(() => BRAND.split(""), []);
 
@@ -103,6 +116,8 @@ useEffect(() => {
       aria-hidden={hiding}
       role="status"
       aria-live="polite"
+      onClick={finish}
+      title="Klik untuk masuk"
     >
       <div className={styles.auroraA} />
       <div className={styles.auroraB} />
@@ -149,6 +164,8 @@ useEffect(() => {
             <span className={styles.underlineGlow} />
           </div>
         </div>
+
+        <div className={styles.skipHint}>Ketuk untuk masuk</div>
 
         <div className={styles.dots}>
           <span />
