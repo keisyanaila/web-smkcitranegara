@@ -1,5 +1,6 @@
 import { adminConfigured } from '@/lib/adminAuth';
 import { sql } from '@/lib/db';
+import { SPMB_DEFAULT, SPMB_KEY, normalizeSpmb, validateSpmb } from '@/lib/spmbData';
 
 /**
  * Cek kesiapan admin: env, koneksi database, dan tabel/kolom yang dibutuhkan.
@@ -17,6 +18,7 @@ const REQUIRED: Record<string, string[]> = {
   berita: ['id', 'slug', 'judul', 'tanggal', 'kategori', 'penulis', 'gambar', 'ringkasan', 'konten', 'published', 'created_at', 'updated_at'],
   prestasi: ['id', 'nama', 'tahun', 'kategori', 'tingkat', 'anggota', 'foto', 'deskripsi', 'published', 'created_at', 'updated_at'],
   media: ['id', 'filename', 'mime', 'data', 'size', 'created_at'],
+  pengaturan: ['kunci', 'nilai', 'updated_at'],
 };
 
 const RUN_SCHEMA = 'Buka Neon → SQL Editor, tempel seluruh isi db/schema.sql, lalu Run (aman diulang).';
@@ -45,7 +47,7 @@ export async function getAdminStatus(): Promise<StatusItem[]> {
     cols = await sql`
       select table_name, column_name
       from information_schema.columns
-      where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media')
+      where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media', 'pengaturan')
     `;
   } catch (e) {
     items.push({
@@ -72,4 +74,44 @@ export async function getAdminStatus(): Promise<StatusItem[]> {
   }
 
   return items;
+}
+
+export interface DashboardSummary {
+  berita: { total: number; draft: number } | null;
+  prestasi: { total: number; draft: number } | null;
+  spmb: { tahunAjaran: string; gelombang: number; aktif: string | null } | null;
+}
+
+/** Angka ringkas untuk kartu dashboard. Bagian yang gagal dibaca bernilai null. */
+export async function getDashboardSummary(): Promise<DashboardSummary> {
+  const out: DashboardSummary = { berita: null, prestasi: null, spmb: null };
+  if (!sql) return out;
+  const db = sql;
+
+  const count = async (table: 'berita' | 'prestasi') => {
+    try {
+      const rows = table === 'berita'
+        ? await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from berita`
+        : await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from prestasi`;
+      return { total: Number(rows[0].total), draft: Number(rows[0].draft) };
+    } catch {
+      return null;
+    }
+  };
+  [out.berita, out.prestasi] = await Promise.all([count('berita'), count('prestasi')]);
+
+  try {
+    const rows = await db`select nilai from pengaturan where kunci = ${SPMB_KEY} limit 1`;
+    let data = SPMB_DEFAULT;
+    if (rows.length) {
+      const n = normalizeSpmb(JSON.parse(String(rows[0].nilai || '{}')));
+      if (validateSpmb(n).length === 0) data = n;
+    }
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Jakarta' }); // YYYY-MM-DD (WIB)
+    const aktif = data.gelombang.find((g) => g.mulai <= today && today <= g.selesai);
+    out.spmb = { tahunAjaran: data.tahunAjaran, gelombang: data.gelombang.length, aktif: aktif?.nama ?? null };
+  } catch {
+    out.spmb = null;
+  }
+  return out;
 }

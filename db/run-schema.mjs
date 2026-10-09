@@ -24,7 +24,7 @@ for (const s of stmts) await sql.query(s);
 const cols = await sql`
   select table_name, count(*)::int as kolom
   from information_schema.columns
-  where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media')
+  where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media', 'pengaturan')
   group by table_name
   order by table_name
 `;

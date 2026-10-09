@@ -8,7 +8,7 @@ import {
   ArrowRight, Monitor, Wifi, BookOpen, Presentation, Camera, Coffee,
   Trophy, Printer, Landmark, Users, Sparkles, CalendarDays, Check, Globe2,
 } from 'lucide-react';
-import { GELOMBANG, SPMB_URL, TAHUN_AJARAN, STATUS_LABEL, STATUS_LABEL_EN, formatTanggalRange, useSpmbGelombang } from '@/lib/spmb';
+import { SPMB_URL, STATUS_LABEL, STATUS_LABEL_EN, formatTanggalRange, useSpmbGelombang } from '@/lib/spmb';
 import { useLang } from '@/lib/i18n';
 
 // Teks dua bahasa: `id` = Indonesia, `en` = English
@@ -62,8 +62,8 @@ const FASILITAS_STATS = [
   { label: { id: 'Alumni', en: 'Alumni' }, val: '5000+', sub: { id: 'Tersebar Nasional', en: 'Across Indonesia' }, bg: '#093b1e', icon: Users },
 ];
 
+// Teks berjalan; item pertama memakai tahun ajaran dari admin (lihat marqueeItems).
 const MARQUEE_ITEMS: Teks[] = [
-  { id: `PPDB ${TAHUN_AJARAN} DIBUKA`, en: `ADMISSIONS ${TAHUN_AJARAN} OPEN` },
   { id: 'GO INTERNASIONAL', en: 'GO INTERNATIONAL' },
   { id: 'INGGRIS · JEPANG · KOREA · JERMAN · TURKI', en: 'UK · JAPAN · KOREA · GERMANY · TURKEY' },
   { id: '6 JURUSAN UNGGULAN', en: '6 TOP PROGRAMS' },
@@ -372,7 +372,11 @@ export default function HomePage() {
   const magneticHero = useMagnetic();
   const magneticTimeline = useMagnetic();
   const magneticCta = useMagnetic();
-  const { list: gelombangList, fokus: gelombangFokus } = useSpmbGelombang();
+  const { list: gelombangList, fokus: gelombangFokus, tahunAjaran, gelombang } = useSpmbGelombang();
+  const marqueeItems: Teks[] = [
+    { id: `PPDB ${tahunAjaran} DIBUKA`, en: `ADMISSIONS ${tahunAjaran} OPEN` },
+    ...MARQUEE_ITEMS,
+  ];
   const { lang, t } = useLang();
 
   function handleHeroMove(e: React.MouseEvent<HTMLElement>) {
@@ -422,7 +426,7 @@ export default function HomePage() {
             <div className="hero-enter">
               <div className="hero-badge">
                 <span className="badge-dot" />
-                {t('PENERIMAAN PESERTA DIDIK BARU', 'NEW STUDENT ADMISSIONS')} {TAHUN_AJARAN}
+                {t('PENERIMAAN PESERTA DIDIK BARU', 'NEW STUDENT ADMISSIONS')} {tahunAjaran}
               </div>
               <h1 className="font-display hero-title">
                 {/* key={lang}: ganti bahasa → rotasi mulai lagi dari bahasa situs */}
@@ -468,8 +472,8 @@ export default function HomePage() {
                 <div className="spmb-card-head">
                   <div className="spmb-cal"><CalendarDays size={20} /></div>
                   <div>
-                    <h3 className="font-display spmb-card-title">{t('Jadwal SPMB', 'Admission Schedule')} {GELOMBANG[0].mulai.slice(0, 4)}</h3>
-                    <p className="spmb-card-sub">{t('Tahun Ajaran', 'Academic Year')} {TAHUN_AJARAN}</p>
+                    <h3 className="font-display spmb-card-title">{t('Jadwal SPMB', 'Admission Schedule')} {gelombang[0].mulai.slice(0, 4)}</h3>
+                    <p className="spmb-card-sub">{t('Tahun Ajaran', 'Academic Year')} {tahunAjaran}</p>
                   </div>
                 </div>
 
@@ -510,7 +514,7 @@ export default function HomePage() {
         {/* MARQUEE */}
         <div className="marquee-strip">
           <div className="marquee-track">
-            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((m, i) => (
+            {[...marqueeItems, ...marqueeItems].map((m, i) => (
               <span key={i}><Sparkles size={13} /> {m[lang]}</span>
             ))}
           </div>
@@ -556,8 +560,8 @@ export default function HomePage() {
             <h2 className="font-display cta-title">{t('Siap Bergabung?', 'Ready to Join Us?')}</h2>
             <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, lineHeight: 1.7, marginBottom: 36 }}>
               {t(
-                `Pendaftaran Peserta Didik Baru tahun ajaran ${TAHUN_AJARAN} sudah dibuka. Jangan lewatkan kesempatan ini!`,
-                `New student admissions for the ${TAHUN_AJARAN} academic year are now open. Don't miss this opportunity!`,
+                `Pendaftaran Peserta Didik Baru tahun ajaran ${tahunAjaran} sudah dibuka. Jangan lewatkan kesempatan ini!`,
+                `New student admissions for the ${tahunAjaran} academic year are now open. Don't miss this opportunity!`,
               )}
             </p>
             <div className="cta-btn-row">

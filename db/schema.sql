@@ -43,6 +43,13 @@ create table if not exists prestasi (
   updated_at  timestamptz not null default now()
 );
 
+-- ── Pengaturan (mis. jadwal SPMB dari /admin/spmb; kunci = 'spmb', nilai = JSON) ──
+create table if not exists pengaturan (
+  kunci       text        primary key,
+  nilai       text        not null default '{}',
+  updated_at  timestamptz not null default now()
+);
+
 -- ── Perbaikan tabel lama ──
 -- Kalau tabel sudah ada dari versi sebelumnya, "create table if not exists" di atas
 -- tidak menambah kolom yang kurang. Baris di bawah melengkapinya (aman diulang).
