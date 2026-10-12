@@ -83,7 +83,7 @@ export default function EskulMusic({
 
   return (
     <>
-      <audio ref={audioRef} src={src} loop preload="auto" />
+      <audio ref={audioRef} src={src} loop preload="none" />
 
       <button
         type="button"

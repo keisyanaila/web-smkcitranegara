@@ -733,7 +733,7 @@ export default function BandPage() {
       `}</style>
 
       <div className="psk-root">
-        <audio ref={audioRef} src={AUDIO_SRC} loop preload="auto" />
+        <audio ref={audioRef} src={AUDIO_SRC} loop preload="none" />
 
         <Navbar />
 
