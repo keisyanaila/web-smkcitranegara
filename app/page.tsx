@@ -1,9 +1,10 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import SplashWelcome from '@/components/SplashWelcome';
+import SpmbPromo from '@/components/SpmbPromo';
 import {
   ArrowRight, Monitor, Wifi, BookOpen, Presentation, Camera, Coffee,
   Trophy, Printer, Landmark, Users, Sparkles, CalendarDays, Check, Globe2,
@@ -378,6 +379,9 @@ export default function HomePage() {
     ...MARQUEE_ITEMS,
   ];
   const { lang, t } = useLang();
+  // Notifikasi daftar SPMB muncul setelah splash selesai (atau dilewati).
+  const [splashDone, setSplashDone] = useState(false);
+  const onSplashFinish = useCallback(() => setSplashDone(true), []);
 
   function handleHeroMove(e: React.MouseEvent<HTMLElement>) {
     const el = heroRef.current;
@@ -400,7 +404,8 @@ export default function HomePage() {
 
   return (
     <>
-      <SplashWelcome />
+      <SplashWelcome onFinish={onSplashFinish} />
+      <SpmbPromo show={splashDone} />
       <ScrollProgressBar />
       <CustomCursor />
       <Navbar />
