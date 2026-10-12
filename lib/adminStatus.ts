@@ -19,6 +19,7 @@ const REQUIRED: Record<string, string[]> = {
   prestasi: ['id', 'nama', 'tahun', 'kategori', 'tingkat', 'anggota', 'foto', 'deskripsi', 'published', 'created_at', 'updated_at'],
   media: ['id', 'filename', 'mime', 'data', 'size', 'created_at'],
   pengaturan: ['kunci', 'nilai', 'updated_at'],
+  staf: ['id', 'nama', 'jabatan', 'kategori', 'foto', 'urutan', 'published', 'created_at', 'updated_at'],
 };
 
 const RUN_SCHEMA = 'Buka Neon → SQL Editor, tempel seluruh isi db/schema.sql, lalu Run (aman diulang).';
@@ -47,7 +48,7 @@ export async function getAdminStatus(): Promise<StatusItem[]> {
     cols = await sql`
       select table_name, column_name
       from information_schema.columns
-      where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media', 'pengaturan')
+      where table_schema = 'public' and table_name in ('berita', 'prestasi', 'media', 'pengaturan', 'staf')
     `;
   } catch (e) {
     items.push({
@@ -79,26 +80,29 @@ export async function getAdminStatus(): Promise<StatusItem[]> {
 export interface DashboardSummary {
   berita: { total: number; draft: number } | null;
   prestasi: { total: number; draft: number } | null;
+  staf: { total: number; draft: number } | null;
   spmb: { tahunAjaran: string; gelombang: number; aktif: string | null } | null;
 }
 
 /** Angka ringkas untuk kartu dashboard. Bagian yang gagal dibaca bernilai null. */
 export async function getDashboardSummary(): Promise<DashboardSummary> {
-  const out: DashboardSummary = { berita: null, prestasi: null, spmb: null };
+  const out: DashboardSummary = { berita: null, prestasi: null, staf: null, spmb: null };
   if (!sql) return out;
   const db = sql;
 
-  const count = async (table: 'berita' | 'prestasi') => {
+  const count = async (table: 'berita' | 'prestasi' | 'staf') => {
     try {
       const rows = table === 'berita'
         ? await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from berita`
-        : await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from prestasi`;
+        : table === 'prestasi'
+          ? await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from prestasi`
+          : await db`select count(*)::int as total, count(*) filter (where published = false)::int as draft from staf`;
       return { total: Number(rows[0].total), draft: Number(rows[0].draft) };
     } catch {
       return null;
     }
   };
-  [out.berita, out.prestasi] = await Promise.all([count('berita'), count('prestasi')]);
+  [out.berita, out.prestasi, out.staf] = await Promise.all([count('berita'), count('prestasi'), count('staf')]);
 
   try {
     const rows = await db`select nilai from pengaturan where kunci = ${SPMB_KEY} limit 1`;

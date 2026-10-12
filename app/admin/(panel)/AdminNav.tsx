@@ -3,12 +3,13 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Newspaper, Trophy, CalendarDays, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, Newspaper, Trophy, Users, CalendarDays, ExternalLink } from 'lucide-react';
 
 const LINKS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/berita', label: 'Berita', icon: Newspaper },
   { href: '/admin/prestasi', label: 'Prestasi', icon: Trophy },
+  { href: '/admin/staf', label: 'Guru & Staf', icon: Users },
   { href: '/admin/spmb', label: 'Jadwal SPMB', icon: CalendarDays },
 ];
 

@@ -1,91 +1,26 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import { Search, X, Users } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { JABATAN_EN } from '@/lib/jabatan';
+import { KATEGORI_STAF, KATEGORI_STAF_EN as KATEGORI_EN, STAF_DEFAULT, type Staf } from '@/lib/staf';
 
-/* ══════════════════════════════════════════
-   DATA STAF
-   Isi "foto" dengan path file di /public/images/staf/, mis. "/images/staf/dedi-suandi.jpg"
-   Kosongkan / hapus baris "foto" kalau belum ada fotonya — otomatis pakai avatar inisial.
-══════════════════════════════════════════ */
-type Staf = { nama: string; jabatan: string; kategori: string; foto?: string };
-
-const STAF: Staf[] = [
-  // Pimpinan
-  { nama: 'Abdul Kodir Zaelani, S.Pd.I', jabatan: 'Kepala SMK Citra Negara', kategori: 'Pimpinan', foto: '/images/kosong.jpg' },
-
-  // Kurikulum
-  { nama: 'Endang Eva Yurita, MM', jabatan: 'Waka Kurikulum', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Tubagus Soca, S.Kom', jabatan: 'Kaprog TJKT', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Nurhakim Wirasena, S.IKom', jabatan: 'Kaprog DKV', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Nurul Pratiwi', jabatan: 'Kaprog PM', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Satria Yudha, S.Kom', jabatan: 'Kaprog PPLG & BKK', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Ebon Sunarti, S.Pd', jabatan: 'Kaprog MPLB', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-  { nama: 'Salmah, S.Pd', jabatan: 'BK & Piket Gedung A', kategori: 'Kurikulum', foto: '/images/kosong.jpg' },
-
-  // Humas
-  { nama: 'Ir. Lukman Kharis, M.Pd', jabatan: 'Waka Humas', kategori: 'Humas', foto: '/images/kosong.jpg' },
-  { nama: 'Rista Bagus H. Handoko, S.Pd', jabatan: 'Pembina Kedisiplinan Siswa', kategori: 'Humas', foto: '/images/kosong.jpg' },
-  { nama: 'Fikri Zaenurihal, S.Pd', jabatan: 'Pembina IRMA', kategori: 'Humas', foto: '/images/kosong.jpg' },
-  { nama: 'Helmi Fathurrahman, S.Pd', jabatan: 'BK & Piket Gedung C', kategori: 'Humas', foto: '/images/kosong.jpg' },
-
-  // Kesiswaan
-  { nama: 'M. Djunaedi Lubis, S.Sn', jabatan: 'Waka Kesiswaan', kategori: 'Kesiswaan', foto: '/images/kosong.jpg' },
-  { nama: 'Moh. Aries S.Hum, M.Pd', jabatan: 'Pembina OSIS', kategori: 'Kesiswaan', foto: '/images/kosong.jpg' },
-  { nama: 'Rustandi, M.Pd', jabatan: 'SARPRAS', kategori: 'Kesiswaan', foto: '/images/kosong.jpg' },
-  { nama: 'Zahara Maharani, S.Pd', jabatan: 'BK & Piket Gedung D & E', kategori: 'Kesiswaan', foto: '/images/kosong.jpg' },
-
-  // IT
-  { nama: 'Decky Ryansyah, M.Kom', jabatan: 'Kepala IT', kategori: 'IT', foto: '/images/kosong.jpg' },
-  { nama: 'Hari Suryanto, A.Md', jabatan: 'Medsos', kategori: 'IT', foto: '/images/kosong.jpg' },
-  { nama: 'Dita Aprilya SP', jabatan: 'Media Kreatif', kategori: 'IT', foto: '/images/kosong.jpg' },
-  { nama: 'Alvino Andina Rahman, S.Pd', jabatan: 'Desain Grafis', kategori: 'IT', foto: '/images/kosong.jpg' },
-  { nama: 'Nazwan', jabatan: 'Server', kategori: 'IT', foto: '/images/kosong.jpg' },
-  { nama: 'M. Nugraha', jabatan: 'Teknisi', kategori: 'IT', foto: '/images/kosong.jpg' },
-
-  // Keuangan
-  { nama: 'Dina Sundari Wijaya, SE', jabatan: 'KA TU Keuangan', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-  { nama: 'Andi Septiani Nabillah', jabatan: 'Staff TU Keuangan', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-  { nama: 'Siti Afifah N, S.Pd', jabatan: 'Staff TU Keuangan', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-  { nama: 'Nindi Tiara, S.Pd', jabatan: 'Admin Kurikulum & Keuangan', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-  { nama: 'Naviyanti, S.Pd', jabatan: 'Admin Kurikulum & Keuangan', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-  { nama: 'Imam Suzzai, S.IKom', jabatan: 'Bendahara BOS', kategori: 'Keuangan', foto: '/images/kosong.jpg' },
-
-  // Tata Usaha
-  { nama: 'Rohmat', jabatan: 'Kepala TU & DAPODIK', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Seta Fitriana, A.Md', jabatan: 'Logistik', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Yeni Herawati, S.Kom', jabatan: 'Admin Keguruan', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Lia Lestari', jabatan: 'Admin Kesiswaan', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Fitri Yanti', jabatan: 'Perpustakaan', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Nandhita D.H, S.Pd', jabatan: 'Seragam, BTBA & Piket Gedung D', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-  { nama: 'Putri Irmawati', jabatan: 'Seragam, BTBA & Piket Gedung E', kategori: 'Tata Usaha', foto: '/images/kosong.jpg' },
-];
+/* Data guru & staf diatur dari admin (/admin/staf) dan diambil lewat /api/staf.
+   Daftar bawaan (kalau database belum siap) ada di lib/staf.ts. */
 
 const WARNA_KATEGORI: Record<string, string> = {
   Pimpinan: '#0A1628',
   Kurikulum: '#C8973A',
+  'Kepala Program': '#1E3A5F',
   Humas: '#17713b',
   Kesiswaan: '#8a5a2b',
   IT: '#0A1628',
   Keuangan: '#C8973A',
   'Tata Usaha': '#17713b',
-};
-
-const KATEGORI_LIST = ['Semua', ...Array.from(new Set(STAF.map(s => s.kategori)))];
-
-const KATEGORI_EN: Record<string, string> = {
-  Semua: 'All',
-  Pimpinan: 'Leadership',
-  Kurikulum: 'Curriculum',
-  Humas: 'Public Relations',
-  Kesiswaan: 'Student Affairs',
-  IT: 'IT',
-  Keuangan: 'Finance',
-  'Tata Usaha': 'Administration',
+  Guru: '#8a5a2b',
 };
 
 function getInisial(nama: string) {
@@ -106,6 +41,7 @@ function StafCard({ staf }: { staf: Staf }) {
         {tampilkanFoto ? (
           <Image
             src={staf.foto as string}
+            unoptimized={/^https?:/.test(staf.foto as string)}
             alt={staf.nama}
             fill
             sizes="(max-width: 640px) 45vw, 190px"
@@ -130,6 +66,25 @@ function StafCard({ staf }: { staf: Staf }) {
 export default function StafPage() {
   const [kategoriAktif, setKategoriAktif] = useState('Semua');
   const [query, setQuery] = useState('');
+  const [STAF, setStaf] = useState<Staf[]>(STAF_DEFAULT);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/staf', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && Array.isArray(d)) setStaf([...d].sort((a: Staf, b: Staf) => a.nama.localeCompare(b.nama, 'id')));
+      })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, []);
+
+  // Tombol filter: kategori yang ada datanya, urut sesuai KATEGORI_STAF.
+  const KATEGORI_LIST = useMemo(() => {
+    const ada = new Set(STAF.map((s) => s.kategori));
+    const urut = [...KATEGORI_STAF.filter((k) => ada.has(k)), ...[...ada].filter((k) => !KATEGORI_STAF.includes(k))];
+    return ['Semua', ...urut];
+  }, [STAF]);
   const { t } = useLang();
   const kat = (k: string) => t(k, KATEGORI_EN[k] ?? k);
 
@@ -139,7 +94,7 @@ export default function StafPage() {
       const cocokQuery = s.nama.toLowerCase().includes(query.trim().toLowerCase());
       return cocokKategori && cocokQuery;
     });
-  }, [kategoriAktif, query]);
+  }, [STAF, kategoriAktif, query]);
 
   return (
     <>

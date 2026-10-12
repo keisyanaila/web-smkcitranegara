@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarDays, CheckCircle2, Newspaper, Trophy } from 'lucide-react';
+import { CalendarDays, CheckCircle2, Newspaper, Trophy, Users } from 'lucide-react';
 import { getAdminStatus, getDashboardSummary } from '@/lib/adminStatus';
 
 export default async function AdminDashboard() {
@@ -74,6 +74,19 @@ export default async function AdminDashboard() {
           )}
           <p>Kelola daftar prestasi yang tampil di halaman /prestasi.</p>
           <span className="adm-dash-link">Kelola prestasi →</span>
+        </Link>
+
+        <Link href="/admin/staf" className="adm-dash-card">
+          <span className="adm-dash-icon"><Users size={20} aria-hidden="true" /></span>
+          <h3>Guru &amp; Staf</h3>
+          {sum.staf && (
+            <div className="adm-dash-num">
+              {sum.staf.total}
+              <small>orang{sum.staf.draft ? ` · ${sum.staf.draft} disembunyikan` : ''}</small>
+            </div>
+          )}
+          <p>Kelola nama, jabatan, dan foto yang tampil di halaman Guru &amp; Staf.</p>
+          <span className="adm-dash-link">Kelola guru &amp; staf →</span>
         </Link>
 
         <Link href="/admin/spmb" className="adm-dash-card">

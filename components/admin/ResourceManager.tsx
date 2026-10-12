@@ -489,7 +489,7 @@ export default function ResourceManager({
                         </div>
                       </td>
                       {restCols.map((c) => (
-                        <td key={c.name} data-label={c.label} className={c.name === 'published' || c.name === 'kategori' || c.name === 'tanggal' ? 'adm-td-inline' : ''}>
+                        <td key={c.name} data-label={c.label} className={['published', 'kategori', 'tanggal', 'urutan'].includes(c.name) ? 'adm-td-inline' : ''}>
                           {c.name === 'published'
                             ? (row[c.name] === false
                               ? <span className="adm-tag adm-tag-off">Draft</span>

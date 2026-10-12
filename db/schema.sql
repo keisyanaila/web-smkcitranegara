@@ -50,6 +50,52 @@ create table if not exists pengaturan (
   updated_at  timestamptz not null default now()
 );
 
+-- ── Guru & Staf (diatur dari /admin/staf) ──
+create table if not exists staf (
+  id          uuid primary key default gen_random_uuid(),
+  nama        text        not null,
+  jabatan     text        not null default '',
+  kategori    text        not null default 'Guru',
+  foto        text        not null default '',
+  urutan      integer     not null default 100,      -- kecil = tampil lebih dulu
+  published   boolean     not null default true,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+-- Isi awal sesuai bagan struktur. Hanya dijalankan kalau tabel staf masih kosong.
+insert into staf (nama, jabatan, kategori, urutan)
+select v.nama, v.jabatan, v.kategori, v.urutan
+from (values
+  ('Abdul Kodir Zaelani, S.Pd.I', 'Kepala Sekolah SMK Citra Negara', 'Pimpinan', 10),
+  ('Noviyanti, S.Pd', 'Komite Sekolah', 'Pimpinan', 20),
+  ('Deni Romandono, ST', 'Waka Kurikulum', 'Kurikulum', 30),
+  ('Hari Suryanto, A.Md', 'Kepala BKK & PKL', 'Kurikulum', 40),
+  ('Ibnu Purbani Lantib, S.Ds', 'Kaprog DKV', 'Kepala Program', 50),
+  ('Aulia Fitri, S.Kom', 'Kaprog TJKT', 'Kepala Program', 60),
+  ('Ayu Budi, S.Kom', 'Kaprog PPLG', 'Kepala Program', 70),
+  ('Lenna Octasari, S.Pd', 'Kaprog MPLB', 'Kepala Program', 80),
+  ('Alvino A. Rahman, S.Pd', 'Kaprog PM', 'Kepala Program', 90),
+  ('Pamungkas Paksi J., SS', 'Kaprog PHTL', 'Kepala Program', 100),
+  ('M. Aris, S.Hum, M.Pd', 'Waka Humas', 'Humas', 110),
+  ('M. Djunaedi Lubis, S.Sn', 'Waka Kesiswaan', 'Kesiswaan', 120),
+  ('Rustandi, M.Pd', 'SARPRAS & PPPK', 'Kesiswaan', 130),
+  ('R. Bagus H. Handoko, S.Pd', 'Kedisiplinan', 'Kesiswaan', 140),
+  ('Salmah, S.Pd', 'Koord. BK, BKK & Piket', 'Kesiswaan', 150),
+  ('Zahra Maharani, S.Pd', 'BK, Piket & Seragam', 'Kesiswaan', 160),
+  ('Dina Sundari Wijaya, SE', 'KA TU Keuangan', 'Keuangan', 170),
+  ('Faisal Akbar Tionas', 'TU Keuangan', 'Keuangan', 180),
+  ('Andi Septiani Nabillah', 'TU Keuangan', 'Keuangan', 190),
+  ('Siti Afifah N, S.Pd', 'TU Keuangan', 'Keuangan', 200),
+  ('Ananda Putri Berliana, S.E', 'TU Keuangan', 'Keuangan', 210),
+  ('Rohmat', 'KA TU & Dapodik', 'Tata Usaha', 220),
+  ('Imam Suzzai, S.IKom', 'Bendahara BOS', 'Tata Usaha', 230),
+  ('Yeni Herawati, S.Kom', 'TU Administrasi', 'Tata Usaha', 240),
+  ('Ulya Aqila Haura', 'TU Administrasi', 'Tata Usaha', 250),
+  ('Seta Fitriana, A.Md', 'Perpustakaan', 'Tata Usaha', 260)
+) as v(nama, jabatan, kategori, urutan)
+where not exists (select 1 from staf);
+
 -- ── Perbaikan tabel lama ──
 -- Kalau tabel sudah ada dari versi sebelumnya, "create table if not exists" di atas
 -- tidak menambah kolom yang kurang. Baris di bawah melengkapinya (aman diulang).
@@ -81,5 +127,6 @@ alter table prestasi add column if not exists created_at timestamptz not null de
 alter table prestasi add column if not exists updated_at timestamptz not null default now();
 
 -- ── Index (dibuat setelah kolom dipastikan ada) ──
+create index if not exists staf_urutan_idx on staf (urutan, nama);
 create index if not exists berita_tanggal_idx on berita (tanggal desc);
 create index if not exists prestasi_created_idx on prestasi (created_at desc);

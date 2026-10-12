@@ -366,106 +366,82 @@ function StrukturDiagram() {
           {t('← Geser untuk melihat struktur lengkap →', '← Swipe to see the full structure →')}
         </p>
         <div className="struktur-tree" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* Pimpinan yayasan & sekolah (sesuai bagan "Struktur SMK CITRA NEGARA") */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Box name="Dr. M. Rizki Darmaguna Hasan, S.Tr., M.Pd" label="Ketua BPH" variant="gold" wide />
+            <Box name="Dr. M. Rizki Darmaguna Hasan, S.Tr, M.Pd" label="Ketua YATKJ" variant="gold" wide />
             <HLine w={40} />
-            <Box name="Hj. Mutiah, S.Pd., MM" label="Advisor BPH" />
+            <Box name="Hj. Mutiah, S.Pd, M.M" label="Penasihat BPH" />
           </div>
           <VLine />
-          <Box name="Agustin Wijayanti, S.H., MM" label="Wakil Ketua BPH" />
+          <Box name="Dr. Agustin Wijayanti, S.H., M.M" label="Ketua BPH YATKJ" variant="gold" wide />
           <VLine />
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Box name="Mursyid Waskito, MT" label="Ketua Komite" variant="cream" />
+            <Box name="Abdul Kodir Zaelani, S.Pd.I" label="Kepala Sekolah SMK Citra Negara" variant="dark" wide />
             <HLine w={32} />
-            <Box name="Abdul Kodir Zaelani, S.Pd.I" label="Kepala SMK Citra Negara" variant="dark" wide />
+            <Box name="Noviyanti, S.Pd" label="Komite Sekolah" variant="cream" />
           </div>
           <VLine h={24} />
           <div style={{ display: 'flex', alignItems: 'flex-start', width: '100%', justifyContent: 'space-between', position: 'relative' }}>
             <div style={{ position: 'absolute', top: 0, left: '8%', right: '8%', height: 2, background: '#C8973A' }} />
             <VCol>
               <VLine h={16} />
-              <Box name="Endang Eva Yurita, MM" label="Waka Kurikulum" />
+              <Box name="Hari Suryanto, A.Md" label="Kepala BKK & PKL" />
               <VLine />
-              <div style={{ display: 'flex', gap: 8 }}>
-                <VCol>
-                  <Box name="Tubagus Soca, S.Kom" label="Kaprog TJKT" variant="cream" />
-                  <VLine h={10} />
-                  <Box name="Nurhakim Wirasena, S.IKom" label="Kaprog DKV" variant="cream" />
-                  <VLine h={10} />
-                  <Box name="Nurul Pratiwi" label="Kaprog PM" variant="cream" />
-                </VCol>
-                <VCol>
-                  <Box name="Satria Yudha, S.Kom" label="Kaprog PPLG & BKK" variant="cream" />
-                  <VLine h={10} />
-                  <Box name="Ebon Sunarti, S.Pd" label="Kaprog MPLB" variant="cream" />
-                </VCol>
-              </div>
+              <Box name="Ibnu Purbani Lantib, S.Ds" label="Kaprog DKV" variant="cream" />
               <VLine h={10} />
-              <Box name="Salmah, S.Pd" label="BK & Piket Gedung A" variant="cream" />
+              <Box name="Aulia Fitri, S.Kom" label="Kaprog TJKT" variant="cream" />
+              <VLine h={10} />
+              <Box name="Ayu Budi, S.Kom" label="Kaprog PPLG" variant="cream" />
             </VCol>
             <VCol>
               <VLine h={16} />
-              <Box name="Ir. Lukman Kharis, M.Pd" label="Waka Humas" />
+              <Box name="Deni Romandono, ST" label="Waka Kurikulum" />
               <VLine />
-              <Box name="Rista Bagus H. Handoko, S.Pd" label="Pembina Kedisiplinan Siswa" variant="cream" />
+              <Box name="Lenna Octasari, S.Pd" label="Kaprog MPLB" variant="cream" />
               <VLine h={10} />
-              <Box name="Fikri Zaenurihal, S.Pd" label="Pembina IRMA" variant="cream" />
+              <Box name="Alvino A. Rahman, S.Pd" label="Kaprog PM" variant="cream" />
               <VLine h={10} />
-              <Box name="Helmi Fathurrahman, S.Pd" label="BK & Piket Gedung C" variant="cream" />
+              <Box name="Pamungkas Paksi J., SS" label="Kaprog PHTL" variant="cream" />
+            </VCol>
+            <VCol>
+              <VLine h={16} />
+              <Box name="M. Aris, S.Hum, M.Pd" label="Waka Humas" />
             </VCol>
             <VCol>
               <VLine h={16} />
               <Box name="M. Djunaedi Lubis, S.Sn" label="Waka Kesiswaan" />
               <VLine />
-              <Box name="Moh. Aries S.Hum, M.Pd" label="Pembina OSIS" variant="cream" />
+              <Box name="Rustandi, M.Pd" label="SARPRAS & PPPK" variant="cream" />
               <VLine h={10} />
-              <Box name="Rustandi, M.Pd" label="SARPRAS" variant="cream" />
+              <Box name="R. Bagus H. Handoko, S.Pd" label="Kedisiplinan" variant="cream" />
               <VLine h={10} />
-              <Box name="Zahara Maharani, S.Pd" label="BK & Piket Gedung D & E" variant="cream" />
-            </VCol>
-            <VCol>
-              <VLine h={16} />
-              <Box name="Decky Ryansyah, M.Kom" label="Kepala IT" />
-              <VLine />
-              <Box name="Hari Suryanto, A.Md" label="Medsos" variant="cream" />
+              <Box name="Salmah, S.Pd" label="Koord. BK, BKK & Piket" variant="cream" />
               <VLine h={10} />
-              <Box name="Dita Aprilya SP" label="Media Kreatif" variant="cream" />
-              <VLine h={10} />
-              <Box name="Alvino Andina Rahman, S.Pd" label="Desain Grafis" variant="cream" />
-              <VLine h={10} />
-              <Box name="Nazwan" label="Server" variant="cream" />
-              <VLine h={10} />
-              <Box name="M. Nugraha" label="Teknisi" variant="cream" />
+              <Box name="Zahra Maharani, S.Pd" label="BK, Piket & Seragam" variant="cream" />
             </VCol>
             <VCol>
               <VLine h={16} />
               <Box name="Dina Sundari Wijaya, SE" label="KA TU Keuangan" />
               <VLine />
-              <Box name="Andi Septiani Nabillah" label="Staff TU Keuangan" variant="cream" />
+              <Box name="Faisal Akbar Tionas" label="TU Keuangan" variant="cream" />
               <VLine h={10} />
-              <Box name="Siti Afifah N, S.Pd" label="Staff TU Keuangan" variant="cream" />
+              <Box name="Andi Septiani Nabillah" label="TU Keuangan" variant="cream" />
               <VLine h={10} />
-              <Box name="Nindi Tiara, S.Pd" label="Admin Kurikulum & Keuangan" variant="cream" />
+              <Box name="Siti Afifah N, S.Pd" label="TU Keuangan" variant="cream" />
               <VLine h={10} />
-              <Box name="Naviyanti, S.Pd" label="Admin Kurikulum & Keuangan" variant="cream" />
-              <VLine h={10} />
-              <Box name="Imam Suzzai, S.IKom" label="Bendahara BOS" variant="cream" />
+              <Box name="Ananda Putri Berliana, S.E" label="TU Keuangan" variant="cream" />
             </VCol>
             <VCol>
               <VLine h={16} />
-              <Box name="Rohmat" label="Kepala TU & DAPODIK" />
+              <Box name="Rohmat" label="KA TU & Dapodik" />
               <VLine />
-              <Box name="Seta Fitriana, A.Md" label="Logistik" variant="cream" />
+              <Box name="Imam Suzzai, S.IKom" label="Bendahara BOS" variant="cream" />
               <VLine h={10} />
-              <Box name="Yeni Herawati, S.Kom" label="Admin Keguruan" variant="cream" />
+              <Box name="Yeni Herawati, S.Kom" label="TU Administrasi" variant="cream" />
               <VLine h={10} />
-              <Box name="Lia Lestari" label="Admin Kesiswaan" variant="cream" />
+              <Box name="Ulya Aqila Haura" label="TU Administrasi" variant="cream" />
               <VLine h={10} />
-              <Box name="Fitri Yanti" label="Perpustakaan" variant="cream" />
-              <VLine h={10} />
-              <Box name="Nandhita D.H, S.Pd" label="Seragam, BTBA & Piket Gedung D" variant="cream" />
-              <VLine h={10} />
-              <Box name="Putri Irmawati" label="Seragam, BTBA & Piket Gedung E" variant="cream" />
+              <Box name="Seta Fitriana, A.Md" label="Perpustakaan" variant="cream" />
             </VCol>
           </div>
           <VLine h={24} />
