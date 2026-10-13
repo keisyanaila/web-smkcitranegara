@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import Image from 'next/image';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
@@ -66,18 +67,11 @@ function StafCard({ staf }: { staf: Staf }) {
 export default function StafPage() {
   const [kategoriAktif, setKategoriAktif] = useState('Semua');
   const [query, setQuery] = useState('');
-  const [STAF, setStaf] = useState<Staf[]>(STAF_DEFAULT);
-
-  useEffect(() => {
-    let alive = true;
-    fetch('/api/staf', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && Array.isArray(d)) setStaf([...d].sort((a: Staf, b: Staf) => a.nama.localeCompare(b.nama, 'id')));
-      })
-      .catch(() => {});
-    return () => { alive = false; };
-  }, []);
+  const res = useCachedJson<Staf[]>('/api/staf');
+  const STAF = useMemo(
+    () => (Array.isArray(res.data) ? [...res.data].sort((a, b) => a.nama.localeCompare(b.nama, 'id')) : STAF_DEFAULT),
+    [res.data],
+  );
 
   // Tombol filter: kategori yang ada datanya, urut sesuai KATEGORI_STAF.
   const KATEGORI_LIST = useMemo(() => {

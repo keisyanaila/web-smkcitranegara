@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
@@ -318,7 +319,7 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
       onMouseLeave={resetTilt}
     >
       <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-        <img src={j.img} alt={j.kode} style={{ width: 70, height: 70, objectFit: 'contain' }} />
+        <Image src={j.img} alt={j.kode} width={70} height={70} style={{ width: 70, height: 70, objectFit: 'contain' }} />
         <div style={{ background: '#C8973A', color: 'white', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 4 }}>{j.kode}</div>
       </div>
       <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 8, lineHeight: 1.3 }}>{j.nama[lang]}</h3>

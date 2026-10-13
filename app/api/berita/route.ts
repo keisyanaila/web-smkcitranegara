@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { publicJson } from '@/lib/publicCache';
 import { getBeritaTerbaru } from '@/lib/berita';
 
 // Daftar berita untuk halaman publik /berita.
@@ -15,13 +16,13 @@ export async function GET() {
         where published = true
         order by tanggal desc, created_at desc
       `;
-      return NextResponse.json(rows.map(toBerita));
+      return publicJson(rows.map(toBerita));
     } catch (e) {
       console.error('GET /api/berita', e);
-      return NextResponse.json([], { status: 200 });
+      return NextResponse.json({ error: 'Database sedang tidak bisa diakses' }, { status: 503 });
     }
   }
-  return NextResponse.json(getBeritaTerbaru());
+  return publicJson(getBeritaTerbaru());
 }
 
 function toBerita(r: Record<string, unknown>) {

@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
@@ -19,18 +20,11 @@ const GRAY = '#6B7280';
 const BORDER = '#F0EBE0';
 
 export default function BeritaPage() {
-  const [semua, setSemua] = useState<Berita[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const res = useCachedJson<Berita[]>('/api/berita');
+  const semua = useMemo(() => (Array.isArray(res.data) ? res.data : []), [res.data]);
+  const loaded = res.status !== 'loading';
   const { lang, t } = useLang();
   const kat = (k: string) => t(k, KATEGORI_BERITA_EN[k] ?? k);
-
-  useEffect(() => {
-    fetch('/api/berita', { cache: 'no-store' })
-      .then((r) => r.json())
-      .then((d) => { if (Array.isArray(d)) setSemua(d); })
-      .catch(() => {})
-      .finally(() => setLoaded(true));
-  }, []);
 
   const kategoriList = useMemo(
     () => ['Semua', ...Array.from(new Set(semua.map((b) => b.kategori)))],

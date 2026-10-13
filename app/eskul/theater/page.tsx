@@ -310,7 +310,7 @@ export default function TheaterPage() {
           {/* HERO */}
           <section className="thr-hero" ref={heroRef}>
             <div className="thr-hero-img">
-              <Image src="/images/eskul/eskultheater.jpg" alt="Teater SMK Citra Negara" fill priority />
+              <Image src="/images/eskul/eskultheater.jpg" alt="Teater SMK Citra Negara" fill priority sizes="100vw" />
               <div className="thr-dust" aria-hidden="true">
                 {Array.from({ length: 14 }).map((_, i) => (
                   <i key={i} style={{ left: `${(i * 7 + 4) % 100}%`, animationDuration: `${6 + (i % 5) * 2}s`, animationDelay: `${-(i % 7)}s` }} />

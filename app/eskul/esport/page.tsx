@@ -675,7 +675,7 @@ export default function EsportPage() {
           {/* ══ Hero ══ */}
           <section className="esp-hero">
             <div className="esp-hero-img">
-              <Image src="/images/eskul/eskulesport.jpg" alt="Esport SMK Citra Negara" fill priority />
+              <Image src="/images/eskul/eskulesport.jpg" alt="Esport SMK Citra Negara" fill priority sizes="100vw" />
               <div className="esp-hero-overlay" />
               <div className="esp-scanline" />
               <svg className="esp-hud-grid" viewBox="0 0 800 400" preserveAspectRatio="none">

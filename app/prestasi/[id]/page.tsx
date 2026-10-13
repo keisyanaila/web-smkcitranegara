@@ -1,6 +1,7 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { use } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbarsmk';
@@ -16,17 +17,14 @@ const BORDER = '#F0EBE0';
 
 export default function DetailPrestasiPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [data, setData] = useState<Prestasi | null | undefined>(undefined);
   const { t } = useLang();
-
-  useEffect(() => {
-    let alive = true;
-    fetch(`/api/prestasi/${id}`, { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => { if (alive && d && d.nama) setData(d); else if (alive) setData((prev) => prev ?? null); })
-      .catch(() => { if (alive) setData((prev) => prev ?? null); });
-    return () => { alive = false; };
-  }, [id]);
+  const detail = useCachedJson<Prestasi>(`/api/prestasi/${encodeURIComponent(id)}`);
+  const list = useCachedJson<Prestasi[]>('/api/prestasi');
+  // Detail belum datang -> pakai salinan dari daftar prestasi supaya langsung tampil.
+  const data: Prestasi | null | undefined =
+    detail.status === 'notfound' ? null
+      : detail.data?.nama ? detail.data
+      : (Array.isArray(list.data) ? list.data : []).find((p) => String(p.id) === String(id));
 
   if (data === null) notFound();
   if (!data) {

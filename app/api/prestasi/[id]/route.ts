@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { publicJson } from '@/lib/publicCache';
 import { getPrestasiByIdFallback, parseAnggota } from '@/lib/prestasi';
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -18,7 +19,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
         return NextResponse.json({ error: 'not found' }, { status: 404 });
       }
       const r = rows[0];
-      return NextResponse.json({
+      return publicJson({
         id: r.id,
         nama: r.nama,
         tahun: r.tahun,
@@ -36,6 +37,6 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   }
 
   const fallback = getPrestasiByIdFallback(id);
-  if (fallback) return NextResponse.json(fallback);
+  if (fallback) return publicJson(fallback);
   return NextResponse.json({ error: 'not found' }, { status: 404 });
 }

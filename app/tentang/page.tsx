@@ -476,7 +476,7 @@ export default function TentangPage() {
           <div className="hero-inner">
             <div className="flex justify-center mb-6">
               <div className="hero-logo-wrap" style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', margin: '0 auto' }}>
-                <Image src="/images/logo.png" alt="Logo SMK Citra Negara" fill style={{ objectFit: 'contain' }} />
+                <Image src="/images/logo.png" alt="Logo SMK Citra Negara" fill priority sizes="(max-width: 640px) 280px, 420px" style={{ objectFit: 'contain' }} />
               </div>
             </div>
             <h1 className="font-display hero-title" style={{ color: 'white', marginBottom: 16 }}>

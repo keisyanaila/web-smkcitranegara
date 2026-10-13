@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
@@ -22,10 +23,13 @@ function HeroBanner() {
         overflow: 'hidden',
       }}
     >
-      <img
+      <Image
         src={HERO_IMG}
         alt="pplg"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        fill
+        priority
+        sizes="100vw"
+        style={{ objectFit: 'cover' }}
       />
       <div
         style={{

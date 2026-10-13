@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import { SPMB_DEFAULT, normalizeSpmb, validateSpmb, type SpmbJadwal } from '@/lib/spmbData';
 
 /**
@@ -83,23 +84,16 @@ export function useSpmbGelombang(): {
   gelombang: SpmbJadwal['gelombang'];
 } {
   const [now, setNow] = useState<Date | null>(null);
-  const [data, setData] = useState<SpmbJadwal>(SPMB_DEFAULT);
+  const res = useCachedJson<SpmbJadwal>('/api/spmb');
+  const data = useMemo(() => {
+    if (!res.data) return SPMB_DEFAULT;
+    const n = normalizeSpmb(res.data);
+    return validateSpmb(n).length === 0 ? n : SPMB_DEFAULT;
+  }, [res.data]);
 
   useEffect(() => {
-    let alive = true;
     const raf = requestAnimationFrame(() => setNow(new Date()));
-    fetch('/api/spmb', { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (!alive || !d) return;
-        const n = normalizeSpmb(d);
-        if (validateSpmb(n).length === 0) setData(n);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-      cancelAnimationFrame(raf);
-    };
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const ref = now ?? new Date(`${data.gelombang[0].mulai}T00:00:00`);

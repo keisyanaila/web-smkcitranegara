@@ -322,7 +322,7 @@ export default function PaskibraPage() {
           <section className="psk-hero" ref={heroRef}>
             <div className="psk-flag-strip" />
             <div className="psk-hero-img">
-              <Image src="/images/eskul/eskulpaskibra.jpg" alt="Paskibra SMK Citra Negara" fill priority />
+              <Image src="/images/eskul/eskulpaskibra.jpg" alt="Paskibra SMK Citra Negara" fill priority sizes="100vw" />
               <div className="psk-hero-spot" />
               <div className="psk-hero-overlay" />
             </div>

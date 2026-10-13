@@ -35,6 +35,7 @@ export default function Footer() {
                   src="/images/logo.png"
                   alt="Logo SMK Citra Negara"
                   fill
+                  sizes="124px"
                   style={{
                     objectFit: 'contain',
                   }}

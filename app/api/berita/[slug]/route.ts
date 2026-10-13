@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { publicJson } from '@/lib/publicCache';
 import { getBerita } from '@/lib/berita';
 
 export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }> }) {
@@ -19,7 +20,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }
         return NextResponse.json({ error: 'not found' }, { status: 404 });
       }
       const r = rows[0];
-      return NextResponse.json({
+      return publicJson({
         slug: r.slug,
         judul: r.judul,
         tanggal: r.tanggal,
@@ -39,6 +40,6 @@ export async function GET(_req: Request, ctx: { params: Promise<{ slug: string }
   }
 
   const fallback = getBerita(slug);
-  if (fallback) return NextResponse.json(fallback);
+  if (fallback) return publicJson(fallback);
   return NextResponse.json({ error: 'not found' }, { status: 404 });
 }

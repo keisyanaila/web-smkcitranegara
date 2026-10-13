@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { publicJson } from '@/lib/publicCache';
 import { STAF_DEFAULT } from '@/lib/staf';
 
 // Daftar guru & staf untuk halaman publik /gurustaffsmk.
@@ -13,13 +14,15 @@ export async function GET() {
         where published = true
         order by lower(nama)
       `;
-      if (rows.length > 0) return NextResponse.json(rows);
+      if (rows.length > 0) return publicJson(rows);
       // Ada data tapi semuanya Draft -> memang sengaja disembunyikan.
       const any = await sql`select 1 from staf limit 1`;
-      if (any.length > 0) return NextResponse.json([]);
+      if (any.length > 0) return publicJson([]);
     } catch (e) {
       console.error('GET /api/staf', e);
+      // 503 (tidak di-cache): browser tetap memakai data terakhir / data bawaan, lalu mencoba lagi.
+      return NextResponse.json({ error: 'Database sedang tidak bisa diakses' }, { status: 503 });
     }
   }
-  return NextResponse.json(STAF_DEFAULT);
+  return publicJson(STAF_DEFAULT);
 }

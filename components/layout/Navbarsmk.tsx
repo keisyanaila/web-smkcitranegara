@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLang, LangSwitch } from '@/lib/i18n';
 import { SPMB_URL } from '@/lib/spmb';
+import { prefetchJson } from '@/lib/useCachedJson';
 
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -549,7 +550,7 @@ export default function Navbar() {
   const [tentangOpen,    setTentangOpen]    = useState(false);
   const [mobileEskul,    setMobileEskul]    = useState(false);
   const [mobileTentang,  setMobileTentang]  = useState(false);
-  const [session,        setSession]        = useState<Session | null>(null);
+  const [session]                         = useState<Session | null>(null);
   const [mounted,        setMounted]        = useState(false);
   const { lang, t } = useLang();
   const namaItem = (item: { nama: string; en?: string }) => (lang === 'en' && item.en) || item.nama;
@@ -559,17 +560,31 @@ export default function Navbar() {
   const eskulRef   = useRef<HTMLDivElement>(null);
   const tentangRef = useRef<HTMLDivElement>(null);
 
-  // Scroll listener + session fetch
+  // Scroll listener + ambil data lebih awal
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-    fetch('/api/auth/me')
-      .then(r => r.json())
-      .then(d => { if (d.user) setSession(d.user); })
-      .catch(() => {});
+    // Saat browser santai, ambil data halaman lain lebih awal supaya saat dibuka langsung tampil.
+    // Dilewati kalau pengguna menyalakan mode hemat data / koneksi 2G.
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const hemat = conn?.saveData || /2g/.test(conn?.effectiveType || '');
+    const run = () => ['/api/spmb', '/api/berita', '/api/prestasi', '/api/staf'].forEach(prefetchJson);
+    let cancelIdle = () => {};
+    if (!hemat) {
+      if (typeof window.requestIdleCallback === 'function') {
+        const id = window.requestIdleCallback(run, { timeout: 4000 });
+        cancelIdle = () => window.cancelIdleCallback(id);
+      } else {
+        const id = window.setTimeout(run, 2500);
+        cancelIdle = () => window.clearTimeout(id);
+      }
+    }
 
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelIdle();
+    };
   }, []);
 
   // Close dropdowns on outside click
@@ -627,7 +642,7 @@ export default function Navbar() {
             {/* ── Logo ── */}
             <Link href="/" className="brand-wrap">
               <div className="brand-logo">
-                <Image src="/images/logo.png" alt="Logo SMK Citra Negara" width={1200} height={484} />
+                <Image src="/images/logo.png" alt="Logo SMK Citra Negara" width={1200} height={484} sizes="120px" priority />
               </div>
               <div className="brand-text" style={{ minWidth: 0 }}>
                 <div style={{ color: 'white', fontWeight: 800, fontSize: 15, lineHeight: 1.2, whiteSpace: 'nowrap' }}>SMK Citra Negara</div>
@@ -740,7 +755,7 @@ export default function Navbar() {
           >
             <div className="mnav-head">
               <Link href="/" onClick={closeMobile} className="mnav-brand">
-                <Image src="/images/logo.png" alt="" width={1200} height={484} style={{ height: 30, width: 'auto' }} />
+                <Image src="/images/logo.png" alt="" width={1200} height={484} sizes="80px" style={{ height: 30, width: 'auto' }} />
                 <span>SMK Citra Negara</span>
               </Link>
               <LangSwitch className="mnav-lang" />

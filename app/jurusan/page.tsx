@@ -2,6 +2,7 @@
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CheckCircle, Users, Clock, Monitor, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -272,7 +273,7 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
         <div className="jrs-card-top" style={{ background: j.color }}>
           <div className="jrs-card-logo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={j.logo} alt={`Logo ${j.kode}`} width={48} height={48} style={{ objectFit: 'contain', width: 48, height: 48 }} />
+            <Image src={j.logo} alt={`Logo ${j.kode}`} width={48} height={48} style={{ objectFit: 'contain', width: 48, height: 48 }} />
           </div>
           <span className="jrs-card-badge">{j.kode}</span>
         </div>

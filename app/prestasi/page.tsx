@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbarsmk';
 import Footer from '@/components/layout/Footersmk';
@@ -9,16 +10,10 @@ import { useLang } from '@/lib/i18n';
 
 export default function PrestasiPage() {
   const [aktif, setAktif] = useState('Semua');
-  const [PRESTASI, setPrestasi] = useState<Prestasi[]>([]);
+  const res = useCachedJson<Prestasi[]>('/api/prestasi');
+  const PRESTASI = useMemo(() => (Array.isArray(res.data) ? res.data : []), [res.data]);
   const { t } = useLang();
   const kat = (k: string) => t(k, KATEGORI_PRESTASI_EN[k] ?? k);
-
-  useEffect(() => {
-    fetch('/api/prestasi', { cache: 'no-store' })
-      .then((r) => r.json())
-      .then((d) => { if (Array.isArray(d)) setPrestasi(d); })
-      .catch(() => {});
-  }, []);
 
   const ALL_KATEGORI = useMemo(
     () => ['Semua', ...Array.from(new Set(PRESTASI.map((p) => p.kategori)))],

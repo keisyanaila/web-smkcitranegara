@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@/lib/db';
+import { publicJson } from '@/lib/publicCache';
 import { getPrestasiFallback, parseAnggota } from '@/lib/prestasi';
 
 export async function GET() {
@@ -11,7 +12,7 @@ export async function GET() {
         where published = true
         order by created_at desc
       `;
-      return NextResponse.json(
+      return publicJson(
         rows.map((r) => ({
           id: r.id,
           nama: r.nama,
@@ -26,8 +27,8 @@ export async function GET() {
       );
     } catch (e) {
       console.error('GET /api/prestasi', e);
-      return NextResponse.json([], { status: 200 });
+      return NextResponse.json({ error: 'Database sedang tidak bisa diakses' }, { status: 503 });
     }
   }
-  return NextResponse.json(getPrestasiFallback());
+  return publicJson(getPrestasiFallback());
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { use } from 'react';
+import { useCachedJson } from '@/lib/useCachedJson';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Navbar from '@/components/layout/Navbarsmk';
@@ -25,25 +26,16 @@ export default function DetailBeritaPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = use(params);
-  const [berita, setBerita] = useState<Berita | null | undefined>(undefined);
-  const [lainnya, setLainnya] = useState<Berita[]>([]);
   const { lang, t } = useLang();
-
-  useEffect(() => {
-    let alive = true;
-    fetch(`/api/berita/${slug}`, { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => { if (alive) setBerita(d && d.slug ? d : null); })
-      .catch(() => { if (alive) setBerita(null); });
-
-    fetch('/api/berita', { cache: 'no-store' })
-      .then((r) => r.json())
-      .then((d) => {
-        if (alive && Array.isArray(d)) setLainnya(d.filter((b: Berita) => b.slug !== slug).slice(0, 3));
-      })
-      .catch(() => {});
-    return () => { alive = false; };
-  }, [slug]);
+  const detail = useCachedJson<Berita>(`/api/berita/${encodeURIComponent(slug)}`);
+  const list = useCachedJson<Berita[]>('/api/berita');
+  const semua = Array.isArray(list.data) ? list.data : [];
+  const lainnya = semua.filter((b) => b.slug !== slug).slice(0, 3);
+  // Detail belum datang -> pakai salinan dari daftar berita (sudah lengkap) supaya langsung tampil.
+  const berita: Berita | null | undefined =
+    detail.status === 'notfound' ? null
+      : detail.data?.slug ? detail.data
+      : semua.find((b) => b.slug === slug);
 
   if (berita === null) notFound();
   if (!berita) {
