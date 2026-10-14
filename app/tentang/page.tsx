@@ -151,9 +151,9 @@ const CSS = `
   }
   .prog-card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(10,22,40,0.12); }
   .prog-badge {
-    width: 46px; height: 46px; border-radius: 11px; flex-shrink: 0;
+    width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif; font-weight: 700; font-size: 15px; color: #fff;
+    border: 1px solid transparent; overflow: hidden;
   }
   .prog-card b { display: block; color: #0A1628; font-size: 14px; }
   .prog-card span { color: #9CA3AF; font-size: 12px; }
@@ -318,12 +318,12 @@ const VALUES = [
 ];
 
 const PROGRAMS = [
-  { kode: 'PPLG', nama: 'Perangkat Lunak & Gim', namaEn: 'Software & Game Development', color: '#1E3A5F' },
-  { kode: 'TJKT', nama: 'Jaringan & Telekomunikasi', namaEn: 'Networking & Telecommunications', color: '#3a96d0' },
-  { kode: 'DKV', nama: 'Desain Komunikasi Visual', namaEn: 'Visual Communication Design', color: '#DC2626' },
-  { kode: 'PM', nama: 'Pemasaran', namaEn: 'Marketing', color: '#92681A' },
-  { kode: 'MPLB', nama: 'Manajemen Perkantoran', namaEn: 'Office Management', color: '#b59a00' },
-  { kode: 'PH', nama: 'Perhotelan', namaEn: 'Hospitality', color: '#024d20' },
+  { kode: 'PPLG', logo: '/images/logopplg.png', nama: 'Perangkat Lunak & Gim', namaEn: 'Software & Game Development', color: '#1E3A5F' },
+  { kode: 'TJKT', logo: '/images/logotjkt.png', nama: 'Jaringan & Telekomunikasi', namaEn: 'Networking & Telecommunications', color: '#3a96d0' },
+  { kode: 'DKV', logo: '/images/logodkv.png', nama: 'Desain Komunikasi Visual', namaEn: 'Visual Communication Design', color: '#DC2626' },
+  { kode: 'PM', logo: '/images/logopm.png', nama: 'Pemasaran', namaEn: 'Marketing', color: '#92681A' },
+  { kode: 'MPLB', logo: '/images/logomplb.png', nama: 'Manajemen Perkantoran', namaEn: 'Office Management', color: '#b59a00' },
+  { kode: 'PH', logo: '/images/logoph.png', nama: 'Perhotelan', namaEn: 'Hospitality', color: '#024d20' },
 ];
 
 /* ══════════════════════════════════════════
@@ -623,7 +623,9 @@ export default function TentangPage() {
                 href={`/jurusan#${p.kode.toLowerCase()}`}
                 className={`prog-card reveal d${(i % 3) + 1}`}
               >
-                <div className="prog-badge" style={{ background: p.color }}>{p.kode}</div>
+                <div className="prog-badge" style={{ background: `${p.color}14`, borderColor: `${p.color}33` }}>
+                  <Image src={p.logo} alt={`Logo ${p.kode}`} width={40} height={40} style={{ objectFit: 'contain', width: 40, height: 40 }} />
+                </div>
                 <div>
                   <b>{p.kode}</b>
                   <span>{t(p.nama, p.namaEn)}</span>

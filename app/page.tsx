@@ -889,6 +889,9 @@ export default function HomePage() {
         }
 
         @media (max-width: 640px) {
+          /* animasi dekoratif di atas video bikin berat di HP */
+          .hero-blob { animation: none; }
+          .gradient-text { animation: none; }
           .hero-section { padding: 64px 20px 72px; }
           .hero-badge { font-size: 11px; padding: 5px 12px; }
           .hero-title { font-size: 32px; margin-bottom: 16px; }

@@ -133,3 +133,9 @@ body {
 ::-webkit-scrollbar-thumb { background: #C8973A; border-radius: 3px; }
 
 @media print { .no-print { display: none !important; } }
+
+/* Section di luar layar: animasi di-pause (lihat components/PauseOffscreenAnimations.tsx) */
+.anim-offscreen,
+.anim-offscreen *,
+.anim-offscreen *::before,
+.anim-offscreen *::after { animation-play-state: paused !important; }

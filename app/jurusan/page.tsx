@@ -288,12 +288,6 @@ function JurusanCard({ j, index }: { j: (typeof JURUSAN)[number]; index: number 
             ))}
           </div>
 
-          <div className="jrs-card-meta">
-            <span><strong>{j.kuota}</strong> {t('kuota/tahun', 'seats/year')}</span>
-            <span className="jrs-dot">•</span>
-            <span><strong>{j.kelas}</strong> {t('rombel', j.kelas > 1 ? 'classes' : 'class')}</span>
-          </div>
-
           <Link href={j.href} className="jrs-detail-btn" onClick={(e) => e.stopPropagation()}>
             {t('Lihat Detail', 'View Details')} <ArrowRight size={16} />
           </Link>
@@ -546,7 +540,7 @@ export default function JurusanPage() {
         .jrs-card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; position: relative; z-index: 1; }
         .jrs-card-title { font-size: 17px; color: #1a1a1a; line-height: 1.3; margin-bottom: 8px; }
         .jrs-card-desc { font-size: 13px; color: #6b7280; line-height: 1.6; margin-bottom: 14px; }
-        .jrs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+        .jrs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
         .jrs-tag {
           font-size: 11px;
           color: #92681A;
@@ -557,17 +551,6 @@ export default function JurusanPage() {
           transition: background 0.2s ease, color 0.2s ease;
         }
         .jrs-card:hover .jrs-tag { background: #f5e6c4; }
-        .jrs-card-meta {
-          font-size: 12px;
-          color: #6b7280;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 16px;
-        }
-        .jrs-card-meta strong { color: #1a1a1a; }
-        .jrs-dot { color: #d1d5db; }
-
         /* ===== "Lihat Detail" button ===== */
         .jrs-detail-btn {
           margin-top: auto;

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLang, LangSwitch } from '@/lib/i18n';
@@ -412,6 +412,8 @@ const CSS = `
 
   /* Mobile: header hanya brand + hamburger. Auth desktop tidak boleh ikut tampil. */
   @media (max-width: 767px) {
+    /* background sudah hampir solid; blur di atas video hero bikin berat di HP */
+    .site-nav-inner { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgb(9,39,32); }
     .site-nav-inner .nav-desktop-only,
     .site-nav-inner .nav-desktop-only.nav-action,
     .site-nav-inner .nav-action,
@@ -557,6 +559,50 @@ export default function Navbar() {
 
   useEffect(() => { setMounted(true); }, []);
 
+  // Navbar menimpa hero (tanpa strip krem di atasnya): margin-bottom negatif
+  // setinggi navbar, lalu elemen pertama di <main> diberi padding-top tambahan
+  // yang sama supaya isinya tidak ketutup.
+  const navRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const adjusted = new Map<HTMLElement, string>(); // elemen -> padding-top inline aslinya
+    let raf = 0;
+
+    const apply = () => {
+      const h = nav.offsetHeight;
+      nav.style.marginBottom = `-${h}px`;
+      const main = document.querySelector('main');
+      let target = main?.firstElementChild as HTMLElement | null;
+      // elemen sticky/fixed (mis. toggle di halaman Tari) jangan dibesarkan — geser <main>-nya saja
+      if (target && /sticky|fixed/.test(getComputedStyle(target).position)) target = main;
+      adjusted.forEach((orig, el) => {
+        if (el !== target || !el.isConnected) { el.style.paddingTop = orig; adjusted.delete(el); }
+      });
+      if (!target) return;
+      if (!adjusted.has(target)) adjusted.set(target, target.style.paddingTop);
+      target.style.paddingTop = adjusted.get(target)!;
+      const base = parseFloat(getComputedStyle(target).paddingTop) || 0;
+      target.style.paddingTop = `${base + h}px`;
+    };
+    const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(apply); };
+
+    apply();
+    const ro = new ResizeObserver(schedule);
+    ro.observe(nav);
+    const mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('resize', schedule);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      mo.disconnect();
+      window.removeEventListener('resize', schedule);
+      nav.style.marginBottom = '';
+      adjusted.forEach((orig, el) => { el.style.paddingTop = orig; });
+    };
+  }, []);
+
   const eskulRef   = useRef<HTMLDivElement>(null);
   const tentangRef = useRef<HTMLDivElement>(null);
 
@@ -631,7 +677,8 @@ export default function Navbar() {
     <>
       <style>{CSS}</style>
 
-      <nav style={{
+      <nav ref={navRef} style={{
+        display: 'flow-root', // margin-top shell ikut terhitung di tinggi nav
         background: 'transparent',
         position: 'sticky', top: 0, zIndex: 20000,
         transition: 'background 0.3s',
